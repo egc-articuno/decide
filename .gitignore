@@ -86,6 +86,8 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
+decide-ws/
+decideEnv/
 
 # Spyder project settings
 .spyderproject
@@ -101,3 +103,5 @@ ENV/
 .mypy_cache/
 
 .vagrant
+
+.gitmessage.txt
