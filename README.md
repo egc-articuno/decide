@@ -21,20 +21,29 @@ Formato de los Commits
     <footer>
     
 Posibles valores de type:
-- feat (new feature)
-- fix (bug fix)
-- docs (changes to documentation)
-- style (formatting, missing semi colons, etc; no code change)
-- refactor (refactoring production code)
-- test (adding missing tests, refactoring tests; no production -code change)
-- chore (updating grunt tasks etc; no production code change)
+- feat (new feature).
+- fix (bug fix).
+- docs (changes to documentation).
+- style (formatting, missing semi colons, etc; no code change).
+- refactor (refactoring production code).
+- test (adding missing tests, refactoring tests; no production -code change).
+- chore (updating grunt tasks etc; no production code change).
 
-En <module> se incluíran todos los modulos a los que afecte directamente el commit.
+En <module> se incluíran todos los modulos a los que afecte directamente el commit separados por comas.
+Posibles valores de module:
+    - auth      -> Autenticación.
+    - census    -> Censo.
+    - voting    -> Votación.
+    - booth     -> Cabina de votación.
+    - store     -> Almacenamiento de votos (cifrados).
+    - mixnet    -> Recuento / MixNet.
+    - postproc  -> Post-procesado.
+    - visual    -> Visualización de resultados.
 
 En <body> se inluirá una descipción breve con información útil.
 
-En <footer> se referirá a las issues creadas en los tableros de github (si procede)
- Por ejemplo: Closes #234, ó Fix #321
+En <footer> se referirá a las issues creadas en los tableros de github (si procede).
+ Por ejemplo: Closes #234, ó Fix #321.
 
 Todos los commits deben estar escritos enteramente en inglés.
 
