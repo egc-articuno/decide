@@ -75,7 +75,7 @@ MODULES = [
 #BASEURL = 'http://localhost:8000'
 
 #Se elimina la s del https
-BASEURL = 'http://census-practica.herokuapp.com/'
+BASEURL = 'http://census-practica.herokuapp.com'
 
 APIS = {
     'authentication': BASEURL,
@@ -197,5 +197,4 @@ if os.path.exists("config.jsonnet"):
 
 
 INSTALLED_APPS = INSTALLED_APPS + MODULES
-
 django_heroku.settings(locals())
