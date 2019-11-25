@@ -78,15 +78,15 @@ MODULES = [
 BASEURL = 'http://census-practica.herokuapp.com/'
 
 APIS = {
-    'authentication' = BASEURL,
-    'base' = BASEURL,
-    'booth' = BASEURL,
-    'census' = BASEURL,
-    'mixnet' = BASEURL,
-    'postproc' = BASEURL,
-    'store' = BASEURL,
-    'visualizer' = BASEURL,
-    'voting' = BASEURL
+    'authentication': BASEURL,
+    'base': BASEURL,
+    'booth': BASEURL,
+    'census': BASEURL,
+    'mixnet': BASEURL,
+    'postproc': BASEURL,
+    'store': BASEURL,
+    'visualizer': BASEURL,
+    'voting': BASEURL
 }
 
 MIDDLEWARE = [
