@@ -22,7 +22,7 @@ APIS = {
     'postproc': 'http://localhost:8000',
     'store': 'http://localhost:8000',
     'visualizer': 'http://localhost:8000',
-    'voting': 'http://localhost:8000',
+    'voting': 'http://localhost::8000',
 }
 
 BASEURL = 'http://localhost:8000'
