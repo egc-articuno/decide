@@ -104,3 +104,6 @@ decideEnv/
 .vagrant
 
 .gitmessage.txt
+
+#Readme
+README.md
