@@ -104,3 +104,5 @@ decideEnv/
 .vagrant
 
 .gitmessage.txt
+
+/local_settings.py
