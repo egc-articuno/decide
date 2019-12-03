@@ -4,7 +4,12 @@
         {
             "option": "Mayte",
             "number": 1,
-            "votes": 100,
+            "votes": {
+               "41950": 30,
+               "21002": 20,
+               "06005": 10,
+               "41930": 30
+            },
             "gender": true,
             "votesFemale": 40,
             "votesMale": 60,
@@ -13,7 +18,10 @@
         {
             "option": "Rafael",
             "number": 2,
-            "votes": 10,
+            "votes":  {
+                "41950": 5,
+                "41930": 5
+            },
             "gender": false,
             "votesFemale": 5,
             "votesMale": 5,
@@ -22,7 +30,9 @@
         {
             "option": "Pablo",
             "number": 3,
-            "votes": 1,
+            "votes":  {
+                "41950": 1
+            },
             "gender": false,
             "votesFemale": 0,
             "votesMale": 1,
