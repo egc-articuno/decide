@@ -18,11 +18,13 @@ class PostProcView(APIView):
 
     def parity(self, options):
         out = []
+        # Se crea una lista para los candidatos hombres y otra para las mujeres
         outMale = []
         outFemale = []
 
+        # Se añaden a cada lista las opciones, dependiendo del genero
         for opt in options:
-            if (opt['gender'] == 0):
+            if (opt['gender']):
                 outFemale.append({
                     **opt,
                     'postproc': opt['votes'], })
@@ -30,30 +32,32 @@ class PostProcView(APIView):
                 outMale.append({
                     **opt,
                     'postproc': opt['votes'], })
-
+        # Se ordenan ambas listas
         outMale.sort(key=lambda x: -x['postproc'])
         outFemale.sort(key=lambda x: -x['postproc'])
-        size=0
-        sizeSmall = len(outMale)
-        sizeBigger = len(outFemale)
-        if len(outFemale)<len(outMale):
-            size=1
-            sizeSmall=len(outFemale)
-            sizeBigger=len(outMale)
 
-        if outMale[0]['votes']>=outFemale[0]['votes']:
-            for i in range(0, sizeSmall):
-                    out.append(outMale[i])
-                    out.append(outFemale[i])
 
-        else:
-            for i in range(0, sizeSmall):
-                    out.append(outFemale[i])
-                    out.append(outMale[i])
 
-        if size==0:
-            for i in range(sizeSmall, sizeBigger):
-                out.append(outFemale[i])
+
+
+
+
+        while len(outMale)>0 and len(outFemale)>0:
+            aux = []
+            aux.append(outMale[0:3])
+            aux.append(outFemale[0:3])
+            aux.sort(key=lambda x: -x['postproc'])
+            aux.remove(aux[5])
+            out.append(aux)
+            for a in aux:
+                if outMale.__contains__(a):
+                    outMale.remove(a)
+                if outFemale.__contains__(a):
+                    outFemale.remove(a)
+
+        out.append(outFemale)
+        out.append(outMale)
+
         return Response(out)
 
     def post(self, request):
