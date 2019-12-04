@@ -1,9 +1,8 @@
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from django.shortcuts import render
-
-
         
 class PostProcView(APIView):
 
@@ -41,4 +40,7 @@ class PostProcView(APIView):
         return Response({})
 
 def postProcHtml(request):
-    return render(request,"postProcHtml.html",{})
+    #dir_path = os.path.dirname(os.path.realpath("postproc/mock.json"))
+    with open("/mnt/c/Users/danie/Desktop/AII Workspace/Decide/decide/decide/postproc/mock.json") as json_file:
+        data = json.load(json_file)
+    return render(request,"postProcHtml.html",{'options': data})
