@@ -13,7 +13,12 @@
             "gender": true,
             "votesFemale": 40,
             "votesMale": 60,
+<<<<<<< Updated upstream
             "comunity": null
+=======
+            "cp": "41059",
+            "age": 40
+>>>>>>> Stashed changes
         },
         {
             "option": "Rafael",
@@ -25,7 +30,12 @@
             "gender": false,
             "votesFemale": 5,
             "votesMale": 5,
+<<<<<<< Updated upstream
             "comunity": null
+=======
+            "cp": "41059",
+            "age": 45
+>>>>>>> Stashed changes
         },
         {
             "option": "Pablo",
@@ -36,8 +46,18 @@
             "gender": false,
             "votesFemale": 0,
             "votesMale": 1,
+<<<<<<< Updated upstream
             "comunity": null
         }
     ]
 
 }]
+=======
+            "cp": "41059",
+            "age": 23
+        }
+    ]
+
+}]
+
+>>>>>>> Stashed changes
