@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import pgeocode
 
+from django.shortcuts import render
+
 class PostProcView(APIView):
 
     def identity(self, options):
@@ -79,3 +81,6 @@ class PostProcView(APIView):
             return self.county(opts)
 
         return Response({})
+
+def postProcHtml(request):
+    return render(request,"postProcHtml.html",{})

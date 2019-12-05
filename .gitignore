@@ -105,5 +105,13 @@ decideEnv/
 
 .gitmessage.txt
 
+/local_settings.py
+
 #Readme
 README.md
+
+# macOS
+.DS_Store
+
+#node_modules for angular app
+node_modules/
