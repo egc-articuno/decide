@@ -38,9 +38,9 @@ class PostProcView(APIView):
                 county = nomi.query_postal_code(cp)['county_name'] #Hay que comprobar esta linea
 
                 if county in county_votes:
-                    county_votes[county] += opt['votes']
+                    county_votes[county] = county_votes[county] + opt['votes'][cp]
                 else:
-                    county_votes[county] = opt['votes']
+                    county_votes[county] = opt['votes'][cp]
 
         for opt in options:
             result = 0
