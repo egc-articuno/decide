@@ -8,12 +8,12 @@ from base.serializers import KeySerializer, AuthSerializer
 class PartyPresidentCandidateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PartyPresidentCandidate
-        fields = ('number', 'president_candidate')
+        fields = ('number', 'president_candidate', 'gender', 'postal_code')
 
 class PartyCongressCandidateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PartyCongressCandidate
-        fields = ('number', 'congress_candidate')
+        fields = ('number', 'congress_candidate', 'gender', 'postal_code')
 
 class PartySerializer(serializers.HyperlinkedModelSerializer):
     president_candidates = PartyPresidentCandidateSerializer(many=True)

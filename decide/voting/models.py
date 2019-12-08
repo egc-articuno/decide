@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import RegexValidator
 
 from base import mods
 from base.models import Auth, Key
@@ -78,34 +79,41 @@ class Voting(models.Model):
 
     def do_postproc(self):
         tally = self.tally
-        president_candidates = self.party.president_candidates.all()
-        congress_candidates = self.party.congress_candidates.all()
+        parties = self.parties.all()
+        
+        opts = []
+        for pty in parties:
+            for p in pty.president_candidates.all():
+                if isinstance(tally, list):
+                    votes = tally.count(p.number)
+                else:
+                    votes = 0
+                opts.append({
+                    'option': p.president_candidate,
+                    'number': p.number,
+                    'votes': votes,
+                    'gender': p.gender,
+                    'postal_code': p.postal_code,
+                    'candidate_type': 'president',
+                    'party': pty.name
+                })
+            for c in pty.congress_candidates.all():
+                if isinstance(tally, list):
+                    votes = tally.count(c.number)
+                else:
+                    votes = 0
+                opts.append({
+                    'option': c.congress_candidate,
+                    'number': c.number,
+                    'votes': votes,
+                    'gender': c.gender,
+                    'postal_code': c.postal_code,
+                    'candidate_type': 'congress',
+                    'party': pty.name
+                })
 
-        p_candidates = []
-        for p in president_candidates:
-            if isinstance(tally, list):
-                votes = tally.count(p.number)
-            else:
-                votes = 0
-            p_candidates.append({
-                'president_candidate': p.president_candidate,
-                'number': p.number,
-                'votes': votes
-            })
-
-        c_candidates = []
-        for c in congress_candidates:
-            if isinstance(tally, list):
-                votes = tally.count(c.number)
-            else:
-                votes = 0
-            c_candidates.append({
-                'congress_candidate': c.congress_candidate,
-                'number': c.number,
-                'votes': votes
-            })
-
-        data = { 'type': 'IDENTITY', 'president_candidates': p_candidates, 'congress_candidates': c_candidates }
+        data = { 'type': 'IDENTITY', 'options': opts }
+        print(data)
         postp = mods.post('postproc', json=data)
 
         self.postproc = postp
@@ -125,6 +133,12 @@ class PartyPresidentCandidate(models.Model):
     politicalParty = models.ForeignKey(PoliticalParty, related_name='president_candidates', on_delete=models.CASCADE)
     number = models.PositiveIntegerField(blank=True, null=True)
     president_candidate = models.CharField(max_length=100)
+    choices = (
+        ('H', 'Hombre'),
+        ('M', 'Mujer')
+    )
+    gender = models.CharField(max_length=1, choices=choices)
+    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$')])
 
     def save(self):
         if not self.number:
@@ -138,7 +152,13 @@ class PartyCongressCandidate(models.Model):
     politicalParty = models.ForeignKey(PoliticalParty, related_name='congress_candidates', on_delete=models.CASCADE)
     number = models.PositiveIntegerField(blank=True, null=True)
     congress_candidate = models.CharField(max_length=100)
-
+    choices = (
+        ('H', 'Hombre'),
+        ('M', 'Mujer')
+    )
+    gender = models.CharField(max_length=1, choices=choices)
+    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$')])
+    
     def save(self):
         if not self.number:
             self.number = self.politicalParty.congress_candidates.count() + 2
