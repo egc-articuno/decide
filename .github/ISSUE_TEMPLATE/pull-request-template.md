@@ -1,6 +1,6 @@
 ---
 name: Pull request template
-about: New fuatures and bug fixing allowed
+about: New features and bug fixing allowed
 title: "[Pull request]"
 labels: integration
 assignees: ''
