@@ -1,6 +1,19 @@
-<h2>Voting</h2>
-<ul>
-    <li *ngFor='let voting of votings'>
-      <h2>{{voting.name}}</h2>
-    </li>
-</ul>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <header>
+        <div class='containter'>
+          <h1>Decide</h1>
+        </div>
+      </header>
+    <div class="container">
+        <section class='main'>
+            <app-voting-list></app-voting-list>
+            <app-login></app-login>
+        </section>
+    </div>
+</body>
+

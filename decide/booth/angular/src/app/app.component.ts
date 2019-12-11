@@ -11,14 +11,6 @@ import { DataService } from './data.service';
 export class AppComponent implements OnInit {
   votings: Voting[];
 
-  // constructor(private api: ApiService) {
-  //   this.getVoting();
-  // }
-
-
-  // (res: any) => {
-  //   console.log(res);
-  // }
 
   constructor(private dataService: DataService) {}
 
@@ -27,16 +19,5 @@ export class AppComponent implements OnInit {
     .subscribe(data => this.votings = data);
 
   }
-
-  // getVoting = () => {
-  //   this.api.getVotings().subscribe(
-  //     data => {
-  //       this.votings = data;
-  //     },
-  //     error => {
-  //       console.log(error);
-  //     }
-  //   );
-  // };
 
 }
