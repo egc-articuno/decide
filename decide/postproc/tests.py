@@ -71,7 +71,7 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)
 
- def test_hondt(self):
+    def test_hondt(self):
         data = {
             'type': 'HONDT',
             'options': [

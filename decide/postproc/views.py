@@ -73,26 +73,23 @@ class PostProcView(APIView):
         for opt in options:
             parties.append(opt['votes']) #Copia 
             #Concatenar el número de votos con la opción
-            points[options.index(opt)] =  parties[options.index(opt)]
-             out.append({
+            out.append({
                 **opt,
                 'seats': 0,
-            });
+                });
         #Número de escaños totales
+        points = parties
         seatsToDistribution = nSeats 
         
         def giveASeat():
             biggest = max(points)
             index = points.index(biggest)
             seats[index] += 1
-            out['seats'][index] += 1
+            out[index]['seats'] += 1
             points[index] = parties[index] / (seats[index]+1)
 
         for i in range(0,seatsToDistribution):
             giveASeat()
-
-        for opt in options:
-            #out.append(seats[]) #Añadimos a la salida el recuento de los escaños
             
 
         out.sort(key=lambda x: -x['seats'])
@@ -121,8 +118,8 @@ class PostProcView(APIView):
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
 
-         elif t == 'HONDT':
-            return self.hondt(opts)
+        elif t == 'HONDT':
+            return self.hondt(opts,request.data.get('nSeats'))
         return Response({})
 
 def postProcHtml(request):
