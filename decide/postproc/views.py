@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pgeocode
-
+from bs4 import BeautifulSoup
+import urllib.request, re
 from django.shortcuts import render
 
 class PostProcView(APIView):
@@ -58,6 +59,57 @@ class PostProcView(APIView):
         out.sort(key=lambda x: -x['postproc'])
         return Response(out)
 
+        
+    # Este método calcula el resultado de la votación según la comunidad autonoma del candidato, dando mas puntuacion
+    # a los que pertenecen a una comunidad con menos poblacion.
+    # En las opciones van a llegar los siguientes datos de los candidatos:
+    #       options: [
+    #             {
+    #              option: str,
+    #              number: int,
+    #              votes: {CP(int): int, CP2(int): int},
+    #              ...extraparams
+    #             }
+    #              cp: int
+
+
+    def equalityMunicipality(self, options):
+        out = []
+        county_votes = {}
+        nomi = pgeocode.Nominatim('ES')
+        
+        url="https://en.wikipedia.org/wiki/Ranked_lists_of_Spanish_municipalities"
+        fichero = "municipilaties"
+        f = urllib.request.urlretrieve(url,fichero)
+        f = open (fichero, encoding="utf-8")
+        s = f.read()
+        soup = BeautifulSoup(s, "html.parser")
+        rows = soup.find("table").find('tbody').findAll("tr")
+
+        mapping = {}
+        for row in rows:
+            poblation = 0
+            city = ""
+            i = 0
+            row = row.findAll("td")
+            for element in row:
+                i+=1
+                if i==2:
+                    city = element.find("a").text.rstrip()
+                if i==4:
+                    poblation=element.text.rstrip()
+            mapping[city]=poblation
+
+        for opt in options:
+            votes = opt['votes'] 
+            votes = votes + votes*(0.1*(mapping[nomi.query_postal_code(opt['cp'])['community_name']]))
+            out.append({
+                **opt,
+                'postproc': votes,
+            });
+        out.sort(key=lambda x: -x['postproc'])
+        return Response(out)
+
     def post(self, request):
         """
          * type: IDENTITY | EQUALITY | WEIGHT
@@ -79,8 +131,12 @@ class PostProcView(APIView):
 
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
+        elif t == "EQUALITY_MUNICIPALITY":
+            return self.equalityMunicipality(opts)
 
         return Response({})
 
 def postProcHtml(request):
     return render(request,"postProcHtml.html",{})
+
+
