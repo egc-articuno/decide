@@ -44,6 +44,7 @@ class PostProcTestCase(APITestCase):
         self.assertEqual(values, expected_result)
 
 
+
     def test_parity(self):
         data = {
             'type': 'PARITY',
