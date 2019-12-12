@@ -44,12 +44,13 @@ class PostProcView(APIView):
 
         while len(outMale)>0 and len(outFemale)>0:
             aux = []
-            aux.append(outMale[0:3])
-            aux.append(outFemale[0:3])
+            for i in range(0, 3):
+                aux.append(outMale[i])
+                aux.append(outFemale[i])
             aux.sort(key=lambda x: -x['postproc'])
             aux.remove(aux[5])
-            out.append(aux)
             for a in aux:
+                out.append(a)
                 if outMale.__contains__(a):
                     outMale.remove(a)
                 if outFemale.__contains__(a):
