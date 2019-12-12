@@ -14,6 +14,26 @@
         <!-- Navbar -->
         <b-navbar type="dark" variant="secondary">
             <b-navbar-brand tag="h1">Decide</b-navbar-brand>
+
+                <!-- i18n menu -->
+                <b-navbar-nav>
+                  <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                    <select name="language">
+                      {% get_current_language as LANGUAGE_CODE %}
+                      {% get_available_languages as LANGUAGES %}
+                      {% get_language_info_list for LANGUAGES as languages %}
+                      {% for language in languages %}
+                      <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_translated }} ({{ language.code }})
+                      </option>
+                      {% endfor %}
+                    </select>
+                    <input type="submit" value="{% trans "Change" %}" />
+                  </form>
+                </b-navbar-nav>
+
+                <!-- Logout -->
                 <b-navbar-nav class="ml-auto" v-if="!signup">
                     <b-nav-item href="#" v-on:click="decideLogout">
                         {% trans "logout" %}
