@@ -58,6 +58,18 @@ class PostProcView(APIView):
                 out.append(outFemale[i])
         return Response(out)
 
+    def weigth_per_gender(self, options):
+        outMale = []
+        outFemale = []
+
+        for opt in options:
+            opt['votesFemale'] = opt['votesFemale'] * 2
+            outFemale.append({**opt, 'postprocFemale': opt['votesFemale'] })
+            opt['votesMale'] = opt['votesMale'] * 1
+            outMale.append({**opt, 'postprocMale': opt['votesMale'] })
+
+        return Response(outMale, outFemale)
+
     def post(self, request):
         """
          * type: IDENTITY | EQUALITY | WEIGHT
@@ -71,13 +83,15 @@ class PostProcView(APIView):
            ]
         """
 
-        t = request.data.get('type', 'IDENTITY')
+        t = request.data.get('type', 'GENDER')
         opts = request.data.get('options', [])
 
         if t == 'IDENTITY':
             return self.identity(opts)
         elif t == 'PARITY':
             return self.parity(opts)
+        elif t == 'GENDER':
+            return self.weigth_per_gender(opts)
 
         return Response({})
 
