@@ -21,42 +21,40 @@ class PostProcView(APIView):
 
     def parity(self, options):
         out = []
+        # Se crea una lista para los candidatos hombres y otra para las mujeres
         outMale = []
         outFemale = []
 
+        # Se añaden a cada lista las opciones, dependiendo del genero
         for opt in options:
-            if (opt['gender'] == 0):
-                outFemale.append({
-                    **opt,
-                    'postproc': opt['votes'], })
+            if (opt['gender'] == 'true'):
+                outFemale.append(opt)
+
             else:
-                outMale.append({
-                    **opt,
-                    'postproc': opt['votes'], })
+                outMale.append(opt)
 
-        outMale.sort(key=lambda x: -x['postproc'])
-        outFemale.sort(key=lambda x: -x['postproc'])
-        size=0
-        sizeSmall = len(outMale)
-        sizeBigger = len(outFemale)
-        if len(outFemale)<len(outMale):
-            size=1
-            sizeSmall=len(outFemale)
-            sizeBigger=len(outMale)
+        # Se ordenan ambas listas
+        outMale.sort(key=lambda x: -x['votes'])
+        outFemale.sort(key=lambda x: -x['votes'])
 
-        if outMale[0]['votes']>=outFemale[0]['votes']:
-            for i in range(0, sizeSmall):
-                    out.append(outMale[i])
-                    out.append(outFemale[i])
+        while len(outMale) > 0 and len(outFemale) > 0:
+            aux = []
+            for i in range(0, 3):
+                aux.append(outMale[i])
+                aux.append(outFemale[i])
+            aux.sort(key=lambda x: -x['votes'])
+            aux.remove(aux[5])
+            for a in aux:
+                out.append(a)
+                if outMale._contains_(a):
+                    outMale.remove(a)
+                if outFemale._contains_(a):
+                    outFemale.remove(a)
+        for o in outMale:
+            out.append(o)
+        for o in outFemale:
+            out.append(o)
 
-        else:
-            for i in range(0, sizeSmall):
-                    out.append(outFemale[i])
-                    out.append(outMale[i])
-
-        if size==0:
-            for i in range(sizeSmall, sizeBigger):
-                out.append(outFemale[i])
         return Response(out)
 
     def weigth_per_gender(self, options):

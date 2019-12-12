@@ -3,7 +3,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 
-from base import mods
+from decide.decide.base import mods
 
 
 class PostProcTestCase(APITestCase):
@@ -57,7 +57,8 @@ class PostProcTestCase(APITestCase):
         }
 
         expected_result = [
-            { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postprocFemale': 4, 'postprocMale': 3 },
+            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postprocFemale': 4,
+             'postprocMale': 3},
             # { 'option': 'Option 5', 'number': 5, 'votes': 5, 'postproc': 5 },
             # { 'option': 'Option 3', 'number': 3, 'votes': 3, 'postproc': 3 },
             # { 'option': 'Option 4', 'number': 4, 'votes': 2, 'postproc': 2 },
@@ -69,4 +70,65 @@ class PostProcTestCase(APITestCase):
         self.assertEqual(response.status_code, 200)
 
         values = response.json()
+        self.assertEqual(values, expected_result)
+
+
+    def test_parity(self):
+        data = {
+            'type': 'PARITY',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'gender' : 'true' },
+                { 'option': 'Option 2', 'number': 2, 'votes': 0, 'gender' : 'true'  },
+                { 'option': 'Option 3', 'number': 3, 'votes': 3, 'gender' : 'true'  },
+                { 'option': 'Option 4', 'number': 4, 'votes': 2, 'gender' : 'false'  },
+                { 'option': 'Option 5', 'number': 5, 'votes': 4, 'gender' : 'false'  },
+                { 'option': 'Option 6', 'number': 6, 'votes': 1, 'gender' : 'false'  },
+            ]
+        }
+
+        expected_result = [
+
+                           {'option': 'Option 1', 'number': 1, 'votes': 5, 'gender': 'true'},
+                           {'option': 'Option 5', 'number': 5, 'votes': 4, 'gender': 'false'},
+                           {'option': 'Option 3', 'number': 3, 'votes': 3, 'gender': 'true'},
+                           {'option': 'Option 4', 'number': 4, 'votes': 2, 'gender': 'false'},
+                           {'option': 'Option 6', 'number': 6, 'votes': 1, 'gender': 'false'},
+                           {'option': 'Option 2', 'number': 2, 'votes': 0, 'gender': 'true'},
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+
+
+        self.assertEqual(values, expected_result)
+
+    def test_county(self):
+        data = {
+            'type': 'COUNTY_EQUALITY',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': {'41927': 1, '21002': 5} },
+                { 'option': 'Option 2', 'number': 2, 'votes': {'41927': 20, '21002': 1} },
+                { 'option': 'Option 3', 'number': 3, 'votes': {'41927': 15, '21002': 1} },
+                { 'option': 'Option 4', 'number': 4, 'votes': {'41927': 25, '21002': 1} },
+                { 'option': 'Option 5', 'number': 5, 'votes': {'41927': 30, '21002': 1} },
+                { 'option': 'Option 6', 'number': 6, 'votes': {'41927': 9, '21002': 1} },
+            ]
+        }
+
+        expected_result = [
+            { 'option': 'Option 1', 'number': 1, 'votes': {'41927': 1, '21002': 5}, 'postproc': 51 },
+            { 'option': 'Option 5', 'number': 5, 'votes': {'41927': 30, '21002': 1}, 'postproc': 40 },
+            { 'option': 'Option 4', 'number': 4, 'votes': {'41927': 25, '21002': 1}, 'postproc': 35 },
+            { 'option': 'Option 2', 'number': 2, 'votes': {'41927': 20, '21002': 1}, 'postproc': 30 },
+            { 'option': 'Option 3', 'number': 3, 'votes': {'41927': 15, '21002': 1}, 'postproc': 25 },
+            { 'option': 'Option 6', 'number': 6, 'votes': {'41927': 9, '21002': 1}, 'postproc': 19 },
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+
         self.assertEqual(values, expected_result)
