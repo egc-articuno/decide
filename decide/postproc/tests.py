@@ -3,7 +3,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 
-from base import mods
+from decide.decide.base import mods
 
 
 class PostProcTestCase(APITestCase):
@@ -59,12 +59,12 @@ class PostProcTestCase(APITestCase):
 
         expected_result = [
 
-                           {'option': 'Option 1', 'number': 1, 'votes': 5, 'postproc': 5, 'gender': 'true'},
-                           {'option': 'Option 5', 'number': 5, 'votes': 4, 'postproc': 5, 'gender': 'false'},
-                           {'option': 'Option 3', 'number': 3, 'votes': 3, 'postproc': 3, 'gender': 'true'},
-                           {'option': 'Option 4', 'number': 4, 'votes': 2, 'postproc': 2, 'gender': 'false'},
-                           {'option': 'Option 6', 'number': 6, 'votes': 1, 'postproc': 1, 'gender': 'false'},
-                           {'option': 'Option 2', 'number': 2, 'votes': 0, 'postproc': 0, 'gender': 'true'},
+                           {'option': 'Option 1', 'number': 1, 'votes': 5, 'gender': 'true'},
+                           {'option': 'Option 5', 'number': 5, 'votes': 4, 'gender': 'false'},
+                           {'option': 'Option 3', 'number': 3, 'votes': 3, 'gender': 'true'},
+                           {'option': 'Option 4', 'number': 4, 'votes': 2, 'gender': 'false'},
+                           {'option': 'Option 6', 'number': 6, 'votes': 1, 'gender': 'false'},
+                           {'option': 'Option 2', 'number': 2, 'votes': 0, 'gender': 'true'},
         ]
 
         response = self.client.post('/postproc/', data, format='json')

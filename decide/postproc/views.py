@@ -18,7 +18,6 @@ class PostProcView(APIView):
         out.sort(key=lambda x: -x['postproc'])
         return Response(out)
 
-
     def parity(self, options):
         out = []
         # Se crea una lista para los candidatos hombres y otra para las mujeres
@@ -27,40 +26,35 @@ class PostProcView(APIView):
 
         # Se añaden a cada lista las opciones, dependiendo del genero
         for opt in options:
-            if (opt['gender']):
-                outFemale.append({
-                    **opt,
-                    'postproc': opt['votes'], })
+            if (opt['gender'] == 'true'):
+                outFemale.append(opt)
+
             else:
-                outMale.append({
-                    **opt,
-                    'postproc': opt['votes'], })
+                outMale.append(opt)
+
         # Se ordenan ambas listas
-        outMale.sort(key=lambda x: -x['postproc'])
-        outFemale.sort(key=lambda x: -x['postproc'])
+        outMale.sort(key=lambda x: -x['votes'])
+        outFemale.sort(key=lambda x: -x['votes'])
 
-
-
-
-
-
-
-        while len(outMale)>0 and len(outFemale)>0:
+        while len(outMale) > 0 and len(outFemale) > 0:
             aux = []
             for i in range(0, 3):
                 aux.append(outMale[i])
                 aux.append(outFemale[i])
-            aux.sort(key=lambda x: -x['postproc'])
+            aux.sort(key=lambda x: -x['votes'])
             aux.remove(aux[5])
             for a in aux:
                 out.append(a)
-                if outMale.__contains__(a):
+                if outMale._contains_(a):
                     outMale.remove(a)
-                if outFemale.__contains__(a):
+                if outFemale._contains_(a):
                     outFemale.remove(a)
+        for o in outMale:
+            out.append(o)
+        for o in outFemale:
+            out.append(o)
 
-        out.append(outFemale)
-        out.append(outMale)
+        return Response(out)
 
 
     # Este método calcula el resultado en proporcion al numero de votantes por CP de manera que cada provincia que ha votado tiene el mismo poder electoral
