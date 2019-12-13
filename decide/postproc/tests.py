@@ -3,7 +3,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 
-from decide.decide.base import mods
+from base import mods
 
 
 class PostProcTestCase(APITestCase):
@@ -57,8 +57,7 @@ class PostProcTestCase(APITestCase):
         }
 
         expected_result = [
-            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postprocFemale': 4,
-             'postprocMale': 3},
+            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postproc': 7},
             # { 'option': 'Option 5', 'number': 5, 'votes': 5, 'postproc': 5 },
             # { 'option': 'Option 3', 'number': 3, 'votes': 3, 'postproc': 3 },
             # { 'option': 'Option 4', 'number': 4, 'votes': 2, 'postproc': 2 },

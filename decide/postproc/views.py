@@ -58,16 +58,14 @@ class PostProcView(APIView):
         return Response(out)
 
     def weigth_per_gender(self, options):
-        outMale = []
-        outFemale = []
+        out = []
+        votesFinal = 0
 
         for opt in options:
-            opt['votesFemale'] = opt['votesFemale'] * 2
-            outFemale.append({**opt, 'postprocFemale': opt['votesFemale'] })
-            opt['votesMale'] = opt['votesMale'] * 1
-            outMale.append({**opt, 'postprocMale': opt['votesMale'] })
+            votesFinal = (opt['votesFemale'] * 2) + (opt['votesMale'] * 1)
+            out.append({**opt, 'postproc': votesFinal })
 
-        return Response(outMale, outFemale)
+        return Response(out)
 
     # Este método calcula el resultado en proporcion al numero de votantes por CP de manera que cada provincia que ha votado tiene el mismo poder electoral
     #   Se supone que llegan los votos agrupados por CP segun el siguiente formato:
