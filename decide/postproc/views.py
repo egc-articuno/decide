@@ -46,9 +46,9 @@ class PostProcView(APIView):
             aux.remove(aux[5])
             for a in aux:
                 out.append(a)
-                if outMale._contains_(a):
+                if a in outMale:
                     outMale.remove(a)
-                if outFemale._contains_(a):
+                if a in outFemale:
                     outFemale.remove(a)
         for o in outMale:
             out.append(o)
