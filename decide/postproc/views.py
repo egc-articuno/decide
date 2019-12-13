@@ -27,10 +27,10 @@ class PostProcView(APIView):
 
         # Se añaden a cada lista las opciones, dependiendo del genero
         for opt in options:
-            if (opt['gender'] == 'true'):
+            if (opt['gender'] == 'F'):
                 outFemale.append(opt)
 
-            else:
+            elif(opt['gender'] == 'F'):
                 outMale.append(opt)
 
         # Se ordenan ambas listas
