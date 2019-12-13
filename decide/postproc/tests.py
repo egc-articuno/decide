@@ -48,21 +48,21 @@ class PostProcTestCase(APITestCase):
             'type': 'GENDER',
             'options': [
                 { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3 },
-                # { 'option': 'Option 2', 'number': 2, 'votes': 0 },
-                # { 'option': 'Option 3', 'number': 3, 'votes': 3 },
-                # { 'option': 'Option 4', 'number': 4, 'votes': 2 },
-                # { 'option': 'Option 5', 'number': 5, 'votes': 5 },
-                # { 'option': 'Option 6', 'number': 6, 'votes': 1 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'votesMale': 14 },
+                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'votesMale': 23 },
+                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47 },
+                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'votesMale': 56 },
             ]
         }
 
         expected_result = [
             {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postproc': 7},
-            # { 'option': 'Option 5', 'number': 5, 'votes': 5, 'postproc': 5 },
-            # { 'option': 'Option 3', 'number': 3, 'votes': 3, 'postproc': 3 },
-            # { 'option': 'Option 4', 'number': 4, 'votes': 2, 'postproc': 2 },
-            # { 'option': 'Option 6', 'number': 6, 'votes': 1, 'postproc': 1 },
-            # { 'option': 'Option 2', 'number': 2, 'votes': 0, 'postproc': 0 },
+            { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50, 'postproc': 56 },
+            { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'votesMale': 14, 'postproc': 34 },
+            { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'votesMale': 23, 'postproc': 113 },
+            { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47, 'postproc': 173 },
+            { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'votesMale': 56, 'postproc': 84 },
         ]
 
         response = self.client.post('/postproc/', data, format='json')
@@ -86,13 +86,12 @@ class PostProcTestCase(APITestCase):
         }
 
         expected_result = [
-
-                           {'option': 'Option 1', 'number': 1, 'votes': 5, 'gender': 'F'},
-                           {'option': 'Option 5', 'number': 5, 'votes': 4, 'gender': 'M'},
-                           {'option': 'Option 3', 'number': 3, 'votes': 3, 'gender': 'F'},
-                           {'option': 'Option 4', 'number': 4, 'votes': 2, 'gender': 'M'},
-                           {'option': 'Option 6', 'number': 6, 'votes': 1, 'gender': 'M'},
-                           {'option': 'Option 2', 'number': 2, 'votes': 0, 'gender': 'F'},
+            {'option': 'Option 1', 'number': 1, 'votes': 5, 'gender': 'F'},
+            {'option': 'Option 5', 'number': 5, 'votes': 4, 'gender': 'M'},
+            {'option': 'Option 3', 'number': 3, 'votes': 3, 'gender': 'F'},
+            {'option': 'Option 4', 'number': 4, 'votes': 2, 'gender': 'M'},
+            {'option': 'Option 6', 'number': 6, 'votes': 1, 'gender': 'M'},
+            {'option': 'Option 2', 'number': 2, 'votes': 0, 'gender': 'F'},
         ]
 
         response = self.client.post('/postproc/', data, format='json')
