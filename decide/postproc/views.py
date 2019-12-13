@@ -30,7 +30,7 @@ class PostProcView(APIView):
             if (opt['gender'] == 'F'):
                 outFemale.append(opt)
 
-            elif(opt['gender'] == 'F'):
+            elif(opt['gender'] == 'M'):
                 outMale.append(opt)
 
         # Se ordenan ambas listas
