@@ -124,8 +124,8 @@ class PostProcView(APIView):
 
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
-        elif t == "EQUALITY_MUNICIPALITY":
-            return self.equalityMunicipality(opts)
+        elif t == "EQUALITY_PROVINCE":
+            return self.equalityProvince(opts)
 
         return Response({})
 
