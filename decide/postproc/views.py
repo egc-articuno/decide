@@ -4,6 +4,7 @@ import pgeocode
 from bs4 import BeautifulSoup
 import urllib.request, re
 from django.shortcuts import render
+import os 
 
 class PostProcView(APIView):
 
@@ -75,7 +76,9 @@ class PostProcView(APIView):
 
     def get_map(self):
         res = {}
-        f=open("provincias", "r", encoding="utf-8")
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        f=open(dir_path+"/provincias", "r", encoding="utf-8")
         lines = f.readlines()
         for line in lines:
             provincia = line.split(",")
@@ -88,8 +91,8 @@ class PostProcView(APIView):
         county_votes = {}
         nomi = pgeocode.Nominatim('ES')
 
-        mapping = get_map()
-        for opt in options['options']:
+        mapping = self.get_map()
+        for opt in options:
             print(opt)
             votes = opt['votes'] 
             coef = float(0.01)
@@ -121,7 +124,6 @@ class PostProcView(APIView):
 
         if t == 'IDENTITY':
             return self.identity(opts)
-
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
         elif t == "EQUALITY_PROVINCE":
