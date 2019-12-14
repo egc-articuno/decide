@@ -73,40 +73,33 @@ class PostProcView(APIView):
     #              cp: int
 
 
-    def equalityMunicipality(self, options):
+    def get_map(self):
+        res = {}
+        f=open("provincias", "r", encoding="utf-8")
+        lines = f.readlines()
+        for line in lines:
+            provincia = line.split(",")
+            res[provincia[1].rstrip().strip()]=provincia[0]
+        return res
+
+
+    def equalityProvince(self, options):
         out = []
         county_votes = {}
         nomi = pgeocode.Nominatim('ES')
-        
-        url="https://en.wikipedia.org/wiki/Ranked_lists_of_Spanish_municipalities"
-        fichero = "municipilaties"
-        f = urllib.request.urlretrieve(url,fichero)
-        f = open (fichero, encoding="utf-8")
-        s = f.read()
-        soup = BeautifulSoup(s, "html.parser")
-        rows = soup.find("table").find('tbody').findAll("tr")
 
-        mapping = {}
-        for row in rows:
-            poblation = 0
-            city = ""
-            i = 0
-            row = row.findAll("td")
-            for element in row:
-                i+=1
-                if i==2:
-                    city = element.find("a").text.rstrip()
-                if i==4:
-                    poblation=element.text.rstrip()
-            mapping[city]=poblation
-
-        for opt in options:
+        mapping = get_map()
+        for opt in options['options']:
+            print(opt)
             votes = opt['votes'] 
-            votes = votes + votes*(0.1*(mapping[nomi.query_postal_code(opt['cp'])['community_name']]))
+            coef = float(0.01)
+            position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
+            votes = float(votes) + float(votes)*coef*position
+            votes = int(votes)
             out.append({
                 **opt,
                 'postproc': votes,
-            });
+            })
         out.sort(key=lambda x: -x['postproc'])
         return Response(out)
 
