@@ -1,5 +1,5 @@
 [{
-    "tpye":"paridad",
+    "type":"paridad",
     "options":[
         {
             "option": "Mayte",
@@ -13,7 +13,7 @@
             "gender": true,
             "votesFemale": 40,
             "votesMale": 60,
-            "comunity": null
+            "community": null
         },
         {
             "option": "Rafael",
@@ -25,7 +25,7 @@
             "gender": false,
             "votesFemale": 5,
             "votesMale": 5,
-            "comunity": null
+            "community": null
         },
         {
             "option": "Pablo",
@@ -36,7 +36,7 @@
             "gender": false,
             "votesFemale": 0,
             "votesMale": 1,
-            "comunity": null
+            "community": null
         }
     ]
 

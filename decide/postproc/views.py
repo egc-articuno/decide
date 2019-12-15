@@ -1,3 +1,4 @@
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pgeocode
@@ -16,6 +17,54 @@ class PostProcView(APIView):
             });
 
         out.sort(key=lambda x: -x['postproc'])
+        return Response(out)
+
+    def parity(self, options):
+        out = []
+        # Se crea una lista para los candidatos hombres y otra para las mujeres
+        outMale = []
+        outFemale = []
+
+        # Se añaden a cada lista las opciones, dependiendo del genero
+        for opt in options:
+            if (opt['gender'] == 'F'):
+                outFemale.append(opt)
+
+            elif(opt['gender'] == 'M'):
+                outMale.append(opt)
+
+        # Se ordenan ambas listas
+        outMale.sort(key=lambda x: -x['votes'])
+        outFemale.sort(key=lambda x: -x['votes'])
+
+        while len(outMale) > 0 and len(outFemale) > 0:
+            aux = []
+            for i in range(0, 3):
+                aux.append(outMale[i])
+                aux.append(outFemale[i])
+            aux.sort(key=lambda x: -x['votes'])
+            aux.remove(aux[5])
+            for a in aux:
+                out.append(a)
+                if a in outMale:
+                    outMale.remove(a)
+                if a in outFemale:
+                    outFemale.remove(a)
+        for o in outMale:
+            out.append(o)
+        for o in outFemale:
+            out.append(o)
+
+        return Response(out)
+
+    def weigth_per_gender(self, options):
+        out = []
+        votesFinal = 0
+
+        for opt in options:
+            votesFinal = (opt['votesFemale'] * 2) + (opt['votesMale'] * 1)
+            out.append({**opt, 'postproc': votesFinal })
+
         return Response(out)
 
     # Este método calcula el resultado en proporcion al numero de votantes por CP de manera que cada provincia que ha votado tiene el mismo poder electoral
@@ -71,11 +120,15 @@ class PostProcView(APIView):
            ]
         """
 
-        t = request.data.get('type', 'IDENTITY')
+        t = request.data.get('type', 'GENDER')
         opts = request.data.get('options', [])
 
         if t == 'IDENTITY':
             return self.identity(opts)
+        elif t == 'PARITY':
+            return self.parity(opts)
+        elif t == 'GENDER':
+            return self.weigth_per_gender(opts)
 
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
@@ -83,4 +136,7 @@ class PostProcView(APIView):
         return Response({})
 
 def postProcHtml(request):
-    return render(request,"postProcHtml.html",{})
+    #dir_path = os.path.dirname(os.path.realpath("postproc/mock.json"))
+    with open("/mnt/c/Users/danie/Desktop/AII Workspace/Decide/decide/decide/postproc/mock.json") as json_file:
+        data = json.load(json_file)
+    return render(request,"postProcHtml.html",{'options': data})
