@@ -71,6 +71,25 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)
 
+    def test_voter_age(self):
+        data = {
+            'type': 'AGERANGE',
+            'options': [
+                {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':0, '38to47': 1, '48to57':0, '58to67':0, '68to77':0, '78to87':0, '88to97':0}},
+
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':0, '38to47': 1, '48to57':0, '58to67':0, '68to77':0, '78to87':0, '88to97':0}, 'postproc': 7},
+
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
 
     def test_parity(self):
         data = {
