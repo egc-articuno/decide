@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/divider.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/breadcrumb.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/form.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
+</head>
+  
+<nav>
+  <div class="ui breadcrumb">
+    <a href="/" class="section">Home</a>
+    <i class="right angle icon divider"></i>
+    <a href="{% url 'listCensus' %}" class="section">Census</a>
+    <i class="right angle icon divider"></i>
+    <a href="" class="active section">Edit census</a>
+  </div>
+</nav>
+
+<h3 class="ui center aligned header">Edit Census</h3>
+  <form action="{% url 'saveEditedCensus' %}" method="get" class="ui form container">
+    <div class="field">
+      <h4>Voting ID to assign to this census</h4>
+        <input type="number" name="voting_id" style="width:80%"/>
+    </div>
+
+    <div class="ui fluid field input"></div>
+      <h4>User ID to assign to this census</h4>
+        <input type="number" name="voter_id" style="width:80%"/>
+    </div>
+    </br>
+    </br>
+    <input type="hidden" name="id" value="{{census.id}}" />
+    <button class="ui primary button" type="submit">Save</button> 
+    <a class="ui button" href="{% url 'listCensus' %}" >Back</a>
+  </form>  
+

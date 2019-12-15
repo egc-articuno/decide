@@ -1,7 +1,9 @@
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
+from django.shortcuts import redirect, render
 from rest_framework.status import (
         HTTP_201_CREATED as ST_201,
         HTTP_204_NO_CONTENT as ST_204,
@@ -12,6 +14,8 @@ from rest_framework.status import (
 
 from base.perms import UserIsStaff
 from .models import Census
+from voting.models import Voting
+from census.serializer import CensusSerializer
 
 
 class CensusCreate(generics.ListCreateAPIView):
@@ -49,3 +53,77 @@ class CensusDetail(generics.RetrieveDestroyAPIView):
         except ObjectDoesNotExist:
             return Response('Invalid voter', status=ST_401)
         return Response('Valid voter')
+
+
+
+def list_census(request):
+
+    census = Census.objects.all()
+    votings = Voting.objects.all()
+    return render(request,"main_index.html",{'census': census, 'votings':votings})
+
+
+def edit_census(request):
+
+    if request.user.is_staff:
+        n_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=n_id)
+
+        return render(request, 'edit_census.html',{'census': census})
+
+def save_edited_census(request):
+    if request.user.is_staff:
+        census_id = request.GET.get('id')
+        voting_id = request.GET.get('voting_id')
+        voter_id = request.GET.get('voter_id')
+        census = get_object_or_404(Census,id=census_id)
+
+        census.voting_id = voting_id
+        census.voter_id = voter_id
+        census.save()
+
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+
+    return redirect('listCensus')
+
+
+def add_census(request):
+
+    return render(request, 'add_census.html')
+
+def save_new_census(request):
+    if request.user.is_staff:
+        census_id = request.GET.get('id')
+        voting_id = request.GET.get('voting_id')
+        voter_id = request.GET.get('voter_id')
+        
+        census = Census(voting_id=voting_id, voter_id=voter_id)
+        census.save()
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+
+    return redirect('listCensus')
+
+def delete_census(request):
+    if request.user.is_staff:
+        n_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=n_id)
+
+        return render(request, 'delete_census.html',{'census': census})
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+
+        return redirect('listCensus')
+
+def delete_selected_census(request):
+
+    if request.user.is_staff:
+        census_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=census_id)
+        census.delete()
+
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+
+    return redirect('listCensus')

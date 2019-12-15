@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/divider.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/breadcrumb.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/message.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/table.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/item.css">
+</head>
+  
+<nav>
+  <div class="ui breadcrumb">
+    <a href="/" class="section">Home</a>
+    <i class="right angle icon divider"></i>
+    <a href="{% url 'listCensus' %}" class="section">Census</a>
+    <i class="right angle icon divider"></i>
+    <a href="" class="active section">Delete census</a>
+  </div>
+</nav>
+
+<br>
+<br>
+
+<div class="ui icon message" style="width:80%">
+  <i class="info icon"></i>
+  <div class="content">
+    <div class="header">
+      Are you sure you want to delete this census?
+    </div>
+    <p>All of the following related items will be deleted</p>
+  </div>
+</div>
+
+<br>
+
+<table class="ui celled table" style="width:85%">
+<thead>
+          <tr>
+              <th>ID</th>
+              <th>Voting ID</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>{{census.id}}</td>
+            <td>{{census.voting_id}}</td>
+          </tr>
+         
+        </tbody>
+
+</table>
+
+<br>
+
+<form action="{% url 'deleteSelectedCensus' %} " method="get">
+
+<div class="ui icon message" style="width:80%">
+  <i class="exclamation icon"></i>
+  <div class="content">
+    <div class="header">
+      Be careful!
+    </div>
+    <p>This action cannot be undone</p>
+  </div>
+</div>
+
+  <br/>
+  <input type="hidden" name="id" value="{{census.id}}" />
+  <button class="positive ui button" type="submit">Yes, I'm sure</button>
+        
+  <a href="{% url 'listCensus' %}" class="negative ui button">No, take me back</a>
+</div> 
+</form>
+</div>
