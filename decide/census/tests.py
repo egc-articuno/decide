@@ -73,3 +73,20 @@ class CensusTestCase(BaseTestCase):
         response = self.client.delete('/census/{}/'.format(1), data, format='json')
         self.assertEqual(response.status_code, 204)
         self.assertEqual(0, Census.objects.count())
+
+
+    def test_save_census(self):
+        data = {'voting_id': 123, 'voter_id': 123}
+        census_before = len(Census.objects.all().values_list('voting_id', flat=True))
+
+
+        admin = User(email='administrador@gmail.com', password='qwerty')
+        admin.is_staff = True
+        admin.save()
+
+        self.client.force_login(admin)
+
+        response = self.client.get('/census/saveNewCensus', {'voting_id': 123, 'voter_id': 123})
+
+        census_after = len(Census.objects.all().values_list('voting_id', flat=True))
+        self.assertTrue(census_before < census_after)
