@@ -23,12 +23,12 @@
   <form action="{% url 'saveEditedCensus' %}" method="get" class="ui form container">
     <div class="field">
       <h4>Voting ID to assign to this census</h4>
-        <input type="number" name="voting_id" style="width:80%"/>
+        <input type="number" name="voting_id" placeholder="{{census.voting_id}}" style="width:80%"/>
     </div>
 
     <div class="ui fluid field input"></div>
       <h4>User ID to assign to this census</h4>
-        <input type="number" name="voter_id" style="width:80%"/>
+        <input type="number" name="voter_id" placeholder="{{census.voter_id}}" style="width:80%"/>
     </div>
     </br>
     </br>
