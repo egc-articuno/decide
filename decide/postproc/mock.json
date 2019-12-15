@@ -13,7 +13,8 @@
             "gender": true,
             "votesFemale": 40,
             "votesMale": 60,
-            "community": null
+            "cp": "41059",
+            "age": 40
         },
         {
             "option": "Rafael",
@@ -25,7 +26,8 @@
             "gender": false,
             "votesFemale": 5,
             "votesMale": 5,
-            "community": null
+            "cp": "41059",
+            "age": 45
         },
         {
             "option": "Pablo",
@@ -36,8 +38,10 @@
             "gender": false,
             "votesFemale": 0,
             "votesMale": 1,
-            "community": null
+            "cp": "41059",
+            "age": 23
         }
     ]
 
 }]
+
