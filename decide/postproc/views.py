@@ -2,8 +2,10 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pgeocode
-
+from bs4 import BeautifulSoup
+import urllib.request, re
 from django.shortcuts import render
+import os 
 
 class PostProcView(APIView):
 
@@ -134,6 +136,52 @@ class PostProcView(APIView):
         out.sort(key=lambda x: -x['postproc'])
         return Response(out)
 
+        
+    # Este método calcula el resultado de la votación según la comunidad autonoma del candidato, dando mas puntuacion
+    # a los que pertenecen a una comunidad con menos poblacion.
+    # En las opciones van a llegar los siguientes datos de los candidatos:
+    #       options: [
+    #             {
+    #              option: str,
+    #              number: int,
+    #              votes: {CP(int): int, CP2(int): int},
+    #              ...extraparams
+    #             }
+    #              cp: int
+
+
+    def get_map(self):
+        res = {}
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        f=open(dir_path+"/provincias", "r", encoding="utf-8")
+        lines = f.readlines()
+        for line in lines:
+            provincia = line.split(",")
+            res[provincia[1].rstrip().strip()]=provincia[0]
+        return res
+
+
+    def equalityProvince(self, options):
+        out = []
+        county_votes = {}
+        nomi = pgeocode.Nominatim('ES')
+
+        mapping = self.get_map()
+        for opt in options:
+            print(opt)
+            votes = opt['votes'] 
+            coef = float(0.01)
+            position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
+            votes = float(votes) + float(votes)*coef*position
+            votes = int(votes)
+            out.append({
+                **opt,
+                'postproc': votes,
+            })
+        out.sort(key=lambda x: -x['postproc'])
+        return Response(out)
+
     def post(self, request):
         """
          * type: IDENTITY | EQUALITY | WEIGHT
@@ -160,6 +208,8 @@ class PostProcView(APIView):
             return self.voter_weight_age(opts)
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
+        elif t == "EQUALITY_PROVINCE":
+            return self.equalityProvince(opts)
 
         return Response({})
 

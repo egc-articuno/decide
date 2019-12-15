@@ -23,7 +23,9 @@
                 "78to87": 20,
                 "88to97": 10
             },
-            "community": null
+            "community": null,
+            "cp": "41059",
+            "age": 40
         },
         {
             "option": "Rafael",
@@ -45,7 +47,9 @@
                 "78to87": 1,
                 "88to97": 0
             },
-            "community": null
+            "community": null,
+            "cp": "41059",
+            "age": 45
         },
         {
             "option": "Pablo",
@@ -66,8 +70,11 @@
                 "78to87": 0,
                 "88to97": 0
             },
-            "community": null
+            "community": null,
+            "cp": "41059",
+            "age": 23
         }
     ]
 
 }]
+
