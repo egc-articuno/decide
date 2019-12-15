@@ -68,6 +68,33 @@ class PostProcView(APIView):
             out.append({**opt, 'postproc': votesFinal })
 
         return Response(out)
+    #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación de los votos con un peso de edad a partir del dato original
+    #   Se supone que llegan los votos agrupados por ageRange segun el siguiente formato:
+    #       options: [
+    #             {
+    #               .
+    #               .
+    #               .
+    #              ageRange: {RANGE(string): int, RANGE2(string): int},
+    #               .
+    #               .
+    #               .
+    #             }
+    #   Como este cálculo es en porcentaje, lo máximo que puede aportar una provincia a una option es 100
+    # Sin acabar
+    def voter_weight_age(self, options):
+        out = []
+        result = 0
+        i = 1
+        for opt in options:
+            votesAges = opt['ageRange']
+            for a in votesAges:
+                result += i * votesAges.get(a)
+                i = i + 1
+
+        out.append({**opt, 'postproc': result})
+
+        return Response(out)
 
     # Este método calcula el resultado en proporcion al numero de votantes por CP de manera que cada provincia que ha votado tiene el mismo poder electoral
     #   Se supone que llegan los votos agrupados por CP segun el siguiente formato:
@@ -177,6 +204,8 @@ class PostProcView(APIView):
             return self.parity(opts)
         elif t == 'GENDER':
             return self.weigth_per_gender(opts)
+        elif t == 'AGERANGE':
+            return self.voter_weight_age(opts)
         elif t == 'COUNTY_EQUALITY':
             return self.county(opts)
         elif t == "EQUALITY_PROVINCE":
@@ -186,6 +215,6 @@ class PostProcView(APIView):
 
 def postProcHtml(request):
     #dir_path = os.path.dirname(os.path.realpath("postproc/mock.json"))
-    with open("/mnt/c/Users/danie/Desktop/AII Workspace/Decide/decide/decide/postproc/mock.json") as json_file:
+    with open("/mnt/c/Users/User/Documents/workspacemio/decide/decide/postproc/mock.json") as json_file:
         data = json.load(json_file)
     return render(request,"postProcHtml.html",{'options': data})
