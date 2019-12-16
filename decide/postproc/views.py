@@ -2,7 +2,6 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pgeocode
-from bs4 import BeautifulSoup
 import urllib.request, re
 from django.shortcuts import render
 import os 
