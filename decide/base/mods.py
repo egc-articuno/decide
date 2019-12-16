@@ -68,7 +68,7 @@ def post(*args, **kwargs):
 
 def mock_query(client):
     '''
-    Function to build a mock to override the query function in this module.
+    Function to build a mock.json to override the query function in this module.
 
     The client param should be a rest_framework.tests.APIClient
     '''
