@@ -2,7 +2,6 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import pgeocode
-from bs4 import BeautifulSoup
 import urllib.request, re
 from django.shortcuts import render
 import os 
@@ -136,6 +135,44 @@ class PostProcView(APIView):
         out.sort(key=lambda x: -x['postproc'])
         return Response(out)
 
+          
+
+    def hondt(self, options, nSeats):
+        parties = [] # Partidos politicos - option
+        points = [] #Puntos de cada partido - votes
+        seats = [] #Salida - se almacena en dicha lista el valor calculado de los escaños
+        out = []
+
+        for i in options:
+            esc = 0
+            seats.append(esc)
+
+        for opt in options:
+            parties.append(opt['votes']) #Copia 
+            #Concatenar el número de votos con la opción
+            out.append({
+                **opt,
+                'seats': 0,
+                });
+        #Número de escaños totales
+        points = parties
+        seatsToDistribution = nSeats 
+        
+        def giveASeat():
+            biggest = max(points)
+            index = points.index(biggest)
+            seats[index] += 1
+            out[index]['seats'] += 1
+            points[index] = parties[index] / (seats[index]+1)
+
+        for i in range(0,seatsToDistribution):
+            giveASeat()
+            
+
+        out.sort(key=lambda x: -x['seats'])
+        return Response(out)
+
+
         
     # Este método calcula el resultado de la votación según la comunidad autonoma del candidato, dando mas puntuacion
     # a los que pertenecen a una comunidad con menos poblacion.
@@ -211,6 +248,8 @@ class PostProcView(APIView):
         elif t == "EQUALITY_PROVINCE":
             return self.equalityProvince(opts)
 
+        elif t == 'HONDT':
+            return self.hondt(opts,request.data.get('nSeats'))
         return Response({})
 
 def postProcHtml(request):
