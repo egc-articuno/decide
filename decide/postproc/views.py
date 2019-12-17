@@ -78,6 +78,7 @@ class PostProcView(APIView):
             out.append({**opt, 'postproc': votesFinal })
 
         return Response(out)
+
     #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación de los votos con un peso de edad a partir del dato original
     #   Se supone que llegan los votos agrupados por ageRange segun el siguiente formato:
     #       options: [
@@ -264,7 +265,7 @@ class PostProcView(APIView):
         return Response({})
 
 def postProcHtml(request):
-    #dir_path = os.path.dirname(os.path.realpath("postproc/mock.json"))
-    with open("/mnt/c/Users/User/Documents/workspacemio/decide/decide/postproc/mock.json") as json_file:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    with open(dir_path + "/mock.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
     return render(request,"postProcHtml.html",{'options': data})
