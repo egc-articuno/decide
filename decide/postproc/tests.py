@@ -5,6 +5,7 @@ from rest_framework.test import APITestCase
 
 from base import mods
 
+import os 
 
 class PostProcTestCase(APITestCase):
 
@@ -71,6 +72,25 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)
 
+    def test_voter_age(self):
+        data = {
+            'type': 'AGERANGE',
+            'options': [
+                {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':0, '38to47': 1, '48to57':0, '58to67':0, '68to77':0, '78to87':0, '88to97':0}},
+
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':0, '38to47': 1, '48to57':0, '58to67':0, '68to77':0, '78to87':0, '88to97':0}, 'postproc': 7},
+
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
 
     def test_parity(self):
         data = {
@@ -130,3 +150,59 @@ class PostProcTestCase(APITestCase):
         values = response.json()
 
         self.assertEqual(values, expected_result)
+
+    def test_hondt(self):
+        data = {
+            'type': 'HONDT',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 5 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 0 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 3 },
+               
+            ],
+             'nSeats': 5
+        }
+
+        expected_result = [
+            { 'option': 'Option 1', 'number': 1, 'votes': 5, 'seats': 3 },
+            { 'option': 'Option 3', 'number': 3, 'votes': 3, 'seats': 2 },
+            { 'option': 'Option 2', 'number': 2, 'votes': 0, 'seats': 0 },
+
+           
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+    def test_equalityProvince(self):
+        data = {
+            'type': 'EQUALITY_PROVINCE',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': '50', 'postal_code': '41927' },
+                { 'option': 'Option 2', 'number': 2, 'votes': '60', 'postal_code': '06005' },
+                { 'option': 'Option 3', 'number': 3, 'votes': '50', 'postal_code': '41012' },
+                { 'option': 'Option 4', 'number': 4, 'votes': '50', 'postal_code': '16812' },
+                { 'option': 'Option 5', 'number': 5, 'votes': '40', 'postal_code': '10004' },
+                { 'option': 'Option 6', 'number': 6, 'votes': '30', 'postal_code': '44001' },
+            ]
+        }
+
+        expected_result = [
+            { 'option': 'Option 2', 'number': 2, 'votes': '60', 'postal_code': '06005', 'postproc': 74},
+            { 'option': 'Option 4', 'number': 4, 'votes': '50', 'postal_code': '16812', 'postproc': 72},
+            { 'option': 'Option 5', 'number': 5, 'votes': '40', 'postal_code': '10004', 'postproc': 53},
+            { 'option': 'Option 1', 'number': 1, 'votes': '50', 'postal_code': '41927', 'postproc': 52},
+            { 'option': 'Option 3', 'number': 3, 'votes': '50', 'postal_code': '41012', 'postproc': 52},
+            { 'option': 'Option 6', 'number': 6, 'votes': '30', 'postal_code': '44001', 'postproc': 44}
+        ]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+
