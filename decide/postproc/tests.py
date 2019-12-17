@@ -47,22 +47,22 @@ class PostProcTestCase(APITestCase):
         data = {
             'type': 'GENDER',
             'options': [
-                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3 },
-                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50 },
-                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'votesMale': 14 },
-                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'votesMale': 23 },
-                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47 },
-                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'votesMale': 56 },
+                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 3, 'pondMale': 1 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'pondFemale': 2, 'votesMale': 50, 'pondMale': 1 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'pondFemale': 2, 'votesMale': 14, 'pondMale': 1 },
+                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'pondFemale': 2, 'votesMale': 23, 'pondMale': 1 },
+                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'pondFemale': 2, 'votesMale': 47, 'pondMale': 1 },
+                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 2, 'votesMale': 56, 'pondMale': 1 },
             ]
         }
 
         expected_result = [
-            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postproc': 7},
-            { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50, 'postproc': 56 },
-            { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'votesMale': 14, 'postproc': 34 },
-            { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'votesMale': 23, 'postproc': 113 },
-            { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47, 'postproc': 173 },
-            { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'votesMale': 56, 'postproc': 84 },
+            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 3, 'pondMale': 1, 'postproc': 7},
+            { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'pondFemale': 2, 'votesMale': 50, 'pondMale': 1, 'postproc': 56 },
+            { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'pondFemale': 2, 'votesMale': 14, 'pondMale': 1, 'postproc': 34 },
+            { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'pondFemale': 2, 'votesMale': 23, 'pondMale': 1, 'postproc': 113 },
+            { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'pondFemale': 2, 'votesMale': 47, 'pondMale': 1, 'postproc': 173 },
+            { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 2, 'votesMale': 56, 'pondMale': 1, 'postproc': 84 },
         ]
 
         response = self.client.post('/postproc/', data, format='json')

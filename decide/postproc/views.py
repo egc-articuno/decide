@@ -57,12 +57,23 @@ class PostProcView(APIView):
 
         return Response(out)
 
+    # Este método realiza ponderaciones a los pesos de los votos dependiendo del género del votante en cuestión
+    #   Se supone que llegan el número de votos de hombres y mujeres para cada candidato:
+    #       options: [
+    #             {
+    #              option: str,
+    #              number: int,
+    #              votesFemale: int,
+    #              votesMale: int,
+    #              ...extraparams
+    #             }
+    # Por mejorar
     def weigth_per_gender(self, options):
         out = []
         votesFinal = 0
 
         for opt in options:
-            votesFinal = (opt['votesFemale'] * 2) + (opt['votesMale'] * 1)
+            votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
             out.append({**opt, 'postproc': votesFinal })
 
         return Response(out)

@@ -115,3 +115,5 @@ README.md
 
 #node_modules for angular app
 node_modules/
+
+.idea/

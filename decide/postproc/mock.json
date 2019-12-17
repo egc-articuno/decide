@@ -12,7 +12,9 @@
             },
             "gender": true,
             "votesFemale": 40,
+            "pondFemale": 2,
             "votesMale": 60,
+            "pondMale": 1,
             "community": null
         },
         {
@@ -24,7 +26,9 @@
             },
             "gender": false,
             "votesFemale": 5,
+            "pondFemale": 2,
             "votesMale": 5,
+            "pondMale": 1,
             "community": null
         },
         {
@@ -35,7 +39,9 @@
             },
             "gender": false,
             "votesFemale": 0,
+            "pondFemale": 2,
             "votesMale": 1,
+            "pondMale": 1,
             "community": null
         }
     ]
