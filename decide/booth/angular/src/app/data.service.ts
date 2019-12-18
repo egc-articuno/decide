@@ -14,4 +14,8 @@ export class DataService {
   getVotings() {
     return this.http.get<Voting[]>(this.baseurl);
   }
+
+  logUser() {
+    return this.http.post
+  }
 }

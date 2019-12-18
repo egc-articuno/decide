@@ -32,4 +32,3 @@ export class Option {
   number: number;
   option: string;
 }
-

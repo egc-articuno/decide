@@ -6,17 +6,25 @@
 
       <div class="form-group">
             <label>Username:</label>
-            <input class="form-control" formControlName="username"  id="username" >
-            <div *ngIf="username.touched && name.hasError('required')">Required</div>
+            <input class="form-control" formControlName="username"  id="username"
+                       name='username'/>
+            <div class="alert alert-danger"
+            *ngIf="registerForm.get('username').invalid && (registerForm.get('username').touched || registerForm.get('username').dirty)">
+              Username required
+            </div>
       </div>
 
       <div class="form-group">
           <label>Password:</label>
           <input type="password" formControlName="password" class="form-control" />
+          <div class="alert alert-danger"
+            *ngIf="registerForm.get('password').invalid && (registerForm.get('password').touched || registerForm.get('password').dirty)">
+              Password required
+          </div>
       </div>
 
       <div class="form-group">
-        <button class="btn btn-primary">Login</button>
+        <button [disabled]="registerForm.get('password').invalid || registerForm.get('username').invalid" class="btn btn-primary">Login</button>
       </div>
 
   </form>
