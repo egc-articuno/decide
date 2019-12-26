@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../data.service';
-import { Token } from '@angular/compiler/src/ml_parser/lexer';
 import { Observable } from 'rxjs';
+import { Token } from '../voting.model';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
   buttonDisabled: boolean;
   submitted = false;
   token: Token;
-  jsonToken: String;
-  userId: Number;
+  userId: any;
 
 
 
@@ -41,21 +40,24 @@ export class LoginComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+
     console.log(this.registerForm.get('username').value);
     console.log(this.registerForm.get('password').value);
+
     this.dataService.logUser(this.registerForm.get('username').value,
       this.registerForm.get('password').value)
       .subscribe(data => {
-        this.token = data;
-        this.jsonToken = JSON.stringify(this.token);
-      })
-    console.log(this.jsonToken);
+        this.token = data; }
+      );
 
-    this.dataService.getUserId(this.jsonToken)
+    console.log('my token:' + this.token.token);
+
+    this.dataService.getUserId(this.token)
     .subscribe(data => {
       this.userId = data;
-      console.log(this.userId);
-    })
+    });
+
+    console.log('my user id: ' + this.userId.id);
   }
 
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Voting } from './voting.model';
-import { Token } from '@angular/compiler/src/ml_parser/lexer';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Voting, Token } from './voting.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,8 @@ export class DataService {
     return this.http.get<Voting[]>(this.baseurl + 'voting');
   }
 
-  logUser(user: String, pass: String) {
+  logUser(user: string, pass: string): Observable<Token> {
+
     return this.http.post<Token>(this.baseurl + 'authentication/login/',
       {
         username: user,
@@ -25,7 +26,7 @@ export class DataService {
     );
   }
 
-  getUserId(jsonToken: String) {
-    return this.http.post<Number>(this.baseurl + 'authentication/getuser/', jsonToken);
+  getUserId(jsonToken: Token) {
+    return this.http.post(this.baseurl + 'authentication/getuser/', jsonToken);
   }
 }
