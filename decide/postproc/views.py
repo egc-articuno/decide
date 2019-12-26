@@ -121,7 +121,6 @@ class PostProcView(APIView):
     #              ...extraparams
     #             }
     #   Como este cálculo es en porcentaje, lo máximo que puede aportar una provincia a una option es 100
-    # Sin acabar
 
     def county(self, options):
         out = []
@@ -130,7 +129,7 @@ class PostProcView(APIView):
 
         for opt in options:
             for cp, votes in opt['votes'].items():
-                county = nomi.query_postal_code(cp)['county_name'] #Hay que comprobar esta linea
+                county = nomi.query_postal_code(cp)['county_name']
 
                 if county in county_votes:
                     county_votes[county] = county_votes[county] + opt['votes'][cp]
@@ -141,7 +140,7 @@ class PostProcView(APIView):
             result = 0
             for cp, votes in opt['votes'].items():
                 county = nomi.query_postal_code(cp)['county_name']
-                county_percent = votes / county_votes[county] * 100
+                county_percent = round(votes / county_votes[county] * 100)
                 result += county_percent
             out.append({
                 **opt,
