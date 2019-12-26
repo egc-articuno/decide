@@ -32,3 +32,7 @@ export class Option {
   number: number;
   option: string;
 }
+
+export class Token {
+  token: string;
+}
