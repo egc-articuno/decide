@@ -9,6 +9,7 @@ import { DataService } from './data.service';
 import { VotingListComponent } from './voting-list/voting-list.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { VotingFormComponent } from './voting-form/voting-form.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     AppComponent,
     VotingListComponent,
     LoginComponent,
+    VotingFormComponent,
   ],
   imports: [
     BrowserModule,
