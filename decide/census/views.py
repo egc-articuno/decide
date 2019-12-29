@@ -135,11 +135,11 @@ def view_voting(request):
         census = get_object_or_404(Census,id=n_id)
         voters = []
         
-        voters = filter_census_by_voting_id(voting_id=census.voting_id)
+        voters = get_voters_by_voting_id(voting_id=census.voting_id)
 
         return render(request, 'view_voting.html',{'voting_id': census.voting_id, 'voters': voters})
     
-def filter_census_by_voting_id(voting_id):
+def get_voters_by_voting_id(voting_id):
     allCensus = Census.objects.all()
     votingSelected_id = voting_id
     voters = []
