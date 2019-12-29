@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.utils import timezone
 
-from .models import QuestionOption
-from .models import Question
+from .models import PartyPresidentCandidate, PartyCongressCandidate
+from .models import PoliticalParty
 from .models import Voting
 
 from .filters import StartedFilter
@@ -26,14 +26,31 @@ def tally(ModelAdmin, request, queryset):
         token = request.session.get('auth-token', '')
         v.tally_votes(token)
 
+# -------------- NEW INLINE ------------------
 
-class QuestionOptionInline(admin.TabularInline):
-    model = QuestionOption
+class PartyPresidentCandidateInline(admin.TabularInline):
+    model = PartyPresidentCandidate
+
+class PartyCongressCandidateInline(admin.TabularInline):
+    model = PartyCongressCandidate
 
 
-class QuestionAdmin(admin.ModelAdmin):
-    inlines = [QuestionOptionInline]
+class PartyAdmin(admin.ModelAdmin):
+    inlines = [PartyPresidentCandidateInline, PartyCongressCandidateInline]
 
+# --------------------------------------------
+
+
+# -------------- OLD INLINE ------------------
+
+# class QuestionOptionInline(admin.TabularInline):
+#     model = QuestionOption
+
+
+# class QuestionAdmin(admin.ModelAdmin):
+#     inlines = [QuestionOptionInline]
+
+# --------------------------------------------
 
 class VotingAdmin(admin.ModelAdmin):
     list_display = ('name', 'start_date', 'end_date')
@@ -47,4 +64,16 @@ class VotingAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Voting, VotingAdmin)
-admin.site.register(Question, QuestionAdmin)
+
+# ----------------- NEW REGISTER ----------------
+
+admin.site.register(PoliticalParty, PartyAdmin)
+
+# -----------------------------------------------
+
+
+# ----------------- OLD REGISTER ----------------
+
+# admin.site.register(Question, QuestionAdmin)
+
+# -----------------------------------------------
