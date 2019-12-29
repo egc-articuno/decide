@@ -127,3 +127,25 @@ def delete_selected_census(request):
         messages.add_message(request, messages.ERROR, "Permission denied")
 
     return redirect('listCensus')
+    
+    
+def view_voting(request):
+    if request.user.is_staff:
+        n_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=n_id)
+        voters = []
+        
+        voters = filter_census_by_voting_id(voting_id=census.voting_id)
+
+        return render(request, 'view_voting.html',{'voting_id': census.voting_id, 'voters': voters})
+    
+def filter_census_by_voting_id(voting_id):
+    allCensus = Census.objects.all()
+    votingSelected_id = voting_id
+    voters = []
+    
+    for cens in allCensus:
+        if cens.voting_id == votingSelected_id:
+            voters.append(cens.voter_id)
+    
+    return voters
