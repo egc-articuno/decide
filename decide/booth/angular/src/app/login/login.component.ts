@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../data.service';
 import { Observable } from 'rxjs';
-import { Token } from '../voting.model';
+import { Token, User } from '../voting.model';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +15,7 @@ export class LoginComponent implements OnInit {
   password = '';
   buttonDisabled: boolean;
   submitted = false;
-  token: Token;
-  userId: any;
+
 
 
 
@@ -34,30 +33,21 @@ export class LoginComponent implements OnInit {
 
 
 
-  onSubmit() {
+  async onSubmit() {
     this.submitted = true;
 
     if (this.registerForm.invalid) {
       return;
     }
 
-    console.log(this.registerForm.get('username').value);
-    console.log(this.registerForm.get('password').value);
+    const token = await this.dataService.logUser(this.registerForm.get('username').value, this.registerForm.get('password').value);
+    const user = await this.dataService.getUserId(token);
 
-    this.dataService.logUser(this.registerForm.get('username').value,
-      this.registerForm.get('password').value)
-      .subscribe(data => {
-        this.token = data; }
-      );
 
-    console.log('my token:' + this.token.token);
-
-    this.dataService.getUserId(this.token)
-    .subscribe(data => {
-      this.userId = data;
-    });
-
-    console.log('my user id: ' + this.userId.id);
+    console.log('the username: ' + this.registerForm.get('username').value);
+    console.log('the password: ' + this.registerForm.get('password').value);
+    console.log('the token: ' + token.token);
+    console.log('my user id: ' + user.id );
   }
 
 

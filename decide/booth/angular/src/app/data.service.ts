@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Voting, Token } from './voting.model';
+import { Voting, Token, User } from './voting.model';
 import { Observable } from 'rxjs';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +13,24 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getVotings() {
+  getVotings(): Observable<Voting[]> {
     return this.http.get<Voting[]>(this.baseurl + 'voting');
   }
 
-  logUser(user: string, pass: string): Observable<Token> {
+  async logUser(user: string, pass: string): Promise<Token> {
 
-    return this.http.post<Token>(this.baseurl + 'authentication/login/',
+    const token: Token = await this.http.post<Token>(this.baseurl + 'authentication/login/',
       {
         username: user,
         password: pass
       }
-    );
+    ).toPromise();
+
+    return token;
   }
 
-  getUserId(jsonToken: Token) {
-    return this.http.post(this.baseurl + 'authentication/getuser/', jsonToken);
+  async getUserId(jsonToken: Token): Promise<User> {
+    const user: User = await this.http.post<User>(this.baseurl + 'authentication/getuser/', jsonToken).toPromise();
+    return user;
   }
 }
