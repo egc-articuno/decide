@@ -12,4 +12,5 @@ urlpatterns = [
     path('saveEditedCensus', views.save_edited_census, name='saveEditedCensus'),
     path('deleteCensus', views.delete_census, name='deleteCensus'),
     path('deleteSelectedCensus', views.delete_selected_census, name='deleteSelectedCensus'),
+    path('viewVoting', views.view_voting, name='viewVoting'),
 ]
