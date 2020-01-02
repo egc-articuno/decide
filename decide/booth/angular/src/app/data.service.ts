@@ -13,6 +13,11 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
+
+  getVotingById(id: number): Observable<Voting> {
+    return this.http.get<Voting>(this.baseurl + 'voting/' + id );
+  }
+
   getVotings(): Observable<Voting[]> {
     return this.http.get<Voting[]>(this.baseurl + 'voting');
   }
@@ -28,6 +33,8 @@ export class DataService {
 
     return token;
   }
+
+
 
   async getUserId(jsonToken: Token): Promise<User> {
     const user: User = await this.http.post<User>(this.baseurl + 'authentication/getuser/', jsonToken).toPromise();

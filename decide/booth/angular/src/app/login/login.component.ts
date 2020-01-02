@@ -16,9 +16,6 @@ export class LoginComponent implements OnInit {
   buttonDisabled: boolean;
   submitted = false;
 
-
-
-
   constructor(private formBuilder: FormBuilder, public dataService: DataService) {
   }
 
@@ -30,9 +27,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
-
-
   async onSubmit() {
     this.submitted = true;
 
@@ -43,16 +37,11 @@ export class LoginComponent implements OnInit {
     const token = await this.dataService.logUser(this.registerForm.get('username').value, this.registerForm.get('password').value);
     const user = await this.dataService.getUserId(token);
 
-
     console.log('the username: ' + this.registerForm.get('username').value);
     console.log('the password: ' + this.registerForm.get('password').value);
     console.log('the token: ' + token.token);
     console.log('my user id: ' + user.id );
   }
-
-
-
-
 
 }
 

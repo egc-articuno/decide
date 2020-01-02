@@ -1,1 +1,22 @@
-<p>voting-form works!</p>
+<!-- <form [formGroup]="votingForm" (ngSubmit)="onSubmit()">
+
+  <h2>{{voting.name}}</h2>
+
+  <div *ngFor='let option of voting.question.options'>
+     <input id="{{option.number}}" type="radio" class="custom-control-input" value="{{option.number}}" name="option" formControlName="option">
+     <label class="custom-control-label" for="male">{{option.option}}</label>
+  </div>
+
+  <button type="submit">Submit</button> -->
+<form [formGroup]="votingForm" (ngSubmit)="onSubmit()">
+    <h2>{{voting?.question?.desc}}</h2>
+    <div formArrayName="demoArray"
+       *ngFor="let option of options; let i=index">
+
+       <input  value="option.number"[id]="option.number"  type="checkbox">
+       <label [for]="option.number" class="array-item-title">
+          {{option.option}}</label>
+    </div>
+
+    <button type="submit">Vote</button>
+ </form>
