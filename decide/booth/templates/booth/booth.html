@@ -19,6 +19,8 @@
                 <b-navbar-nav>
                   <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
                     <input name="next" type="hidden" value="{{ redirect_to }}" />
+					<div  style="float: left">
+					<div class="input-field">
                     <select name="language">
                       {% get_current_language as LANGUAGE_CODE %}
                       {% get_available_languages as LANGUAGES %}
@@ -29,7 +31,9 @@
                       </option>
                       {% endfor %}
                     </select>
-                    <input type="submit" value="{% trans "Change" %}" />
+					</div>
+					</div>
+                    <input type="submit" value="{% trans "Change" %}" style="float: right"/>
                   </form>
                 </b-navbar-nav>
 
@@ -106,6 +110,13 @@
     <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 
     <script>
+		//Neccesary for dropdown menu to work correctly with materialize.css
+		//Used for the language dropdown menu in the i18n interface
+		$(document).ready(function(){
+    		$('select').formSelect();
+  		});
+
+
         var voting = {{voting|safe}};
         var app = new Vue({
             delimiters: ['[[', ']]'],
