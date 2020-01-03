@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { DataService } from '../data.service';
 import { Voting, Option } from '../voting.model';
 
@@ -8,37 +8,38 @@ import { Voting, Option } from '../voting.model';
   templateUrl: './voting-form.component.html',
   styleUrls: ['./voting-form.component.css']
 })
-export class VotingFormComponent implements OnInit {
+export class VotingFormComponent {
   votingForm: FormGroup;
   voting: Voting;
-  options: Option[] = [];
+  optionsData: Option[] = [];
   isSubmitted = false;
 
   constructor(private formBuilder: FormBuilder, public dataService: DataService) {
+    this.votingForm = this.formBuilder.group({
+      options: new FormArray([])
+    });
 
     this.dataService.getVotings()
     .subscribe(data => {this.voting = data[0];
                         for (const op of this.voting.question.options) {
-        console.log(op.option);
-        this.options.push(op);
+        this.optionsData.push(op);
       }
+                        this.addCheckboxes();
     } );
+  }
 
-    this.votingForm = this.formBuilder.group({
-      demoArray: this.formBuilder.array([])
+  private addCheckboxes() {
+    this.optionsData.forEach((o, i) => {
+    const control = new FormControl(); // if first item set to true, else false
+    (this.votingForm.controls.options as FormArray).push(control);
     });
-  }
-
-  ngOnInit() {
-  }
-
-  onSubmit(){
-    this.isSubmitted = true;
-    if(!this.votingForm.valid) {
-      return false;
-    } else {
-      alert(JSON.stringify(this.votingForm.value));
     }
+
+  onSubmit() {
+    const selectedOptions = this.votingForm.value.options
+  .map((v, i) => v ? this.optionsData[i].number : null)
+  .filter(v => v !== null);
+    console.log(selectedOptions);
   }
 
 }
