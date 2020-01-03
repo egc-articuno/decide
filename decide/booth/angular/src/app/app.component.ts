@@ -10,6 +10,7 @@ import { DataService } from './data.service';
 })
 export class AppComponent implements OnInit {
   votings: Voting[];
+  showVoting = false;
 
 
   constructor(private dataService: DataService) {}
