@@ -13,6 +13,12 @@ export class LoginComponent implements OnInit {
   password = '';
   buttonDisabled: boolean;
   submitted = false;
+  //showVotings: whether to show the component voting-list
+  showVotings: boolean;
+  //showVoting: whether to show the component voting-form
+  showVoting: boolean;
+  //showLogin: whether to show the component login
+  showLogin: boolean;
 
 
   constructor(private formBuilder: FormBuilder, public dataService: DataService) {
@@ -38,6 +44,18 @@ export class LoginComponent implements OnInit {
 
     this.dataService.changeToken(tokenR.token);
     this.dataService.changeUserId(userR.id);
+
+    //If the token is not null, the user logged in correctly.
+    if (tokenR.token != null) {
+      //Since the user logged in correctly, show the listing of all available votings.
+      //In a future version, only the votings for which the user is part of the census should be shown.
+      this.dataService.changeShowVotings(true);
+      //Since the user logged in correctly, show the voting form
+      //In a future version, the user should select which voting he wants to participate in and that form should be shown.
+      this.dataService.changeShowVoting(true);
+      //Since the user logged in correctly, hide the login component
+      this.dataService.changeShowLogin(false);
+    }
 
     console.log('the username: ' + this.registerForm.get('username').value);
     console.log('the password: ' + this.registerForm.get('password').value);

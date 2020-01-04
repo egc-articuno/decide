@@ -26,8 +26,17 @@ export class DataService {
 
   private tokenSource = new BehaviorSubject<string>('Not ready token');
   private userIdSource = new BehaviorSubject<number>(null);
+  //showVotings: whether to show the component voting-list
+  private showVotingsSource = new BehaviorSubject<boolean>(false);
+  //showVoting: whether to show the component voting-form
+  private showVotingSource = new BehaviorSubject<boolean>(false);
+  //showLogin: whether to show the component login. Default: true
+  private showLoginSource = new BehaviorSubject<boolean>(true);
   currentToken = this.tokenSource.asObservable();
   currentUserId = this.userIdSource.asObservable();
+  currentShowVotings = this.showVotingsSource.asObservable();
+  currentShowVoting = this.showVotingSource.asObservable();
+  currentShowLogin = this.showLoginSource.asObservable();
 
 
   baseurl = 'http://127.0.0.1:8000/';
@@ -38,6 +47,30 @@ export class DataService {
 
   changeUserId(id: number) {
     this.userIdSource.next(id);
+  }
+
+  changeShowVotings(show: boolean) {
+    this.showVotingsSource.next(show);
+  }
+
+  getShowVotings(): Observable<boolean> {
+    return this.currentShowVotings;
+  }
+
+  changeShowVoting(show: boolean) {
+    this.showVotingSource.next(show);
+  }
+
+  getShowVoting(): Observable<boolean> {
+    return this.currentShowVoting;
+  }
+
+  changeShowLogin(show: boolean) {
+    this.showLoginSource.next(show);
+  }
+
+  getShowLogin(): Observable<boolean> {
+    return this.currentShowLogin;
   }
 
 
