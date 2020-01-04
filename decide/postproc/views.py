@@ -58,15 +58,31 @@ class PostProcView(APIView):
 
         return Response(out)
 
+    # Este método realiza ponderaciones a los pesos de los votos dependiendo del género del votante en cuestión
+    #   Se supone que llegan el número de votos de hombres y mujeres para cada candidato y la ponderación dada para cada género:
+    #       options: [
+    #             {
+    #              option: str,
+    #              number: int,
+    #              votesFemale: int,
+    #              pondFemale: int,
+    #              votesMale: int,
+    #              pondMale: int,
+    #              ...extraparams
+    #             }
+    # El método dará un peso u otro a los votos de hombres y mujeres dependiendo del género, y finalmente sumará
+    # ambos para realizar el conteo final para cada candidato.
+    # Por mejorar
     def weigth_per_gender(self, options):
-        out = []
-        votesFinal = 0
+        out = []    # JSON esperado en la salida
+        votesFinal = 0  # Acumulador donde se guardará el recuento de los votos tras la ponderación por género
 
         for opt in options:
-            votesFinal = (opt['votesFemale'] * 2) + (opt['votesMale'] * 1)
+            votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
             out.append({**opt, 'postproc': votesFinal })
 
         return Response(out)
+
     #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación de los votos con un peso de edad a partir del dato original
     #   Se supone que llegan los votos agrupados por ageRange segun el siguiente formato:
     #       options: [
@@ -105,7 +121,6 @@ class PostProcView(APIView):
     #              ...extraparams
     #             }
     #   Como este cálculo es en porcentaje, lo máximo que puede aportar una provincia a una option es 100
-    # Sin acabar
 
     def county(self, options):
         out = []
@@ -114,7 +129,7 @@ class PostProcView(APIView):
 
         for opt in options:
             for cp, votes in opt['votes'].items():
-                county = nomi.query_postal_code(cp)['county_name'] #Hay que comprobar esta linea
+                county = nomi.query_postal_code(cp)['county_name']
 
                 if county in county_votes:
                     county_votes[county] = county_votes[county] + opt['votes'][cp]
@@ -125,7 +140,7 @@ class PostProcView(APIView):
             result = 0
             for cp, votes in opt['votes'].items():
                 county = nomi.query_postal_code(cp)['county_name']
-                county_percent = votes / county_votes[county] * 100
+                county_percent = round(votes / county_votes[county] * 100)
                 result += county_percent
             out.append({
                 **opt,
@@ -253,7 +268,7 @@ class PostProcView(APIView):
         return Response({})
 
 def postProcHtml(request):
-    #dir_path = os.path.dirname(os.path.realpath("postproc/mock.json"))
-    with open("/mnt/c/Users/User/Documents/workspacemio/decide/decide/postproc/mock.json") as json_file:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    with open(dir_path + "/mock.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
     return render(request,"postProcHtml.html",{'options': data})

@@ -12,7 +12,9 @@
             },
             "gender": true,
             "votesFemale": 40,
+            "pondFemale": 2,
             "votesMale": 60,
+            "pondMale": 1,
             "ageRange": {
                 "18to27": 10,
                 "28to37": 20,
@@ -36,7 +38,9 @@
             },
             "gender": false,
             "votesFemale": 5,
+            "pondFemale": 2,
             "votesMale": 5,
+            "pondMale": 1,
              "ageRange": {
                 "18to27": 1,
                 "28to37": 3,
@@ -59,7 +63,9 @@
             },
             "gender": false,
             "votesFemale": 0,
+            "pondFemale": 2,
             "votesMale": 1,
+            "pondMale": 1,
              "ageRange": {
                 "18to27": 1,
                 "28to37": 0,

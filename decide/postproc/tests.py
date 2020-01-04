@@ -48,22 +48,22 @@ class PostProcTestCase(APITestCase):
         data = {
             'type': 'GENDER',
             'options': [
-                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3 },
-                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50 },
-                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'votesMale': 14 },
-                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'votesMale': 23 },
-                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47 },
-                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'votesMale': 56 },
+                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 3, 'pondMale': 3 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'pondFemale': 1, 'votesMale': 50, 'pondMale': 5 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'pondFemale': 5, 'votesMale': 14, 'pondMale': 2 },
+                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'pondFemale': 4, 'votesMale': 23, 'pondMale': 1 },
+                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'pondFemale': 3, 'votesMale': 47, 'pondMale': 1 },
+                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 4, 'votesMale': 56, 'pondMale': 3 },
             ]
         }
 
         expected_result = [
-            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'votesMale': 3, 'postproc': 7},
-            { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50, 'postproc': 56 },
-            { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'votesMale': 14, 'postproc': 34 },
-            { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'votesMale': 23, 'postproc': 113 },
-            { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47, 'postproc': 173 },
-            { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'votesMale': 56, 'postproc': 84 },
+            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 3, 'pondMale': 3, 'postproc': 13},
+            { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'pondFemale': 1, 'votesMale': 50, 'pondMale': 5, 'postproc': 253 },
+            { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'pondFemale': 5, 'votesMale': 14, 'pondMale': 2, 'postproc': 78 },
+            { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'pondFemale': 4, 'votesMale': 23, 'pondMale': 1, 'postproc': 203 },
+            { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'pondFemale': 3, 'votesMale': 47, 'pondMale': 1, 'postproc': 236 },
+            { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 4, 'votesMale': 56, 'pondMale': 3, 'postproc': 224 },
         ]
 
         response = self.client.post('/postproc/', data, format='json')
@@ -122,7 +122,7 @@ class PostProcTestCase(APITestCase):
 
         self.assertEqual(values, expected_result)
 
-    def test_county(self):
+    def test_county_simple(self):
         data = {
             'type': 'COUNTY_EQUALITY',
             'options': [
@@ -142,6 +142,60 @@ class PostProcTestCase(APITestCase):
             { 'option': 'Option 2', 'number': 2, 'votes': {'41927': 20, '21002': 1}, 'postproc': 30 },
             { 'option': 'Option 3', 'number': 3, 'votes': {'41927': 15, '21002': 1}, 'postproc': 25 },
             { 'option': 'Option 6', 'number': 6, 'votes': {'41927': 9, '21002': 1}, 'postproc': 19 },
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+
+        self.assertEqual(values, expected_result)
+
+    def test_county_oneCP(self):
+        data = {
+            'type': 'COUNTY_EQUALITY',
+            'options': [
+                {'option': 'Option 1', 'number': 1, 'votes': {'41927': 1}},
+                {'option': 'Option 2', 'number': 2, 'votes': {'41927': 20}},
+                {'option': 'Option 3', 'number': 3, 'votes': {'41927': 15}},
+                {'option': 'Option 4', 'number': 4, 'votes': {'41927': 25}},
+                {'option': 'Option 5', 'number': 5, 'votes': {'41927': 30}},
+                {'option': 'Option 6', 'number': 6, 'votes': {'41927': 9}},
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 5', 'number': 5, 'votes': {'41927': 30}, 'postproc': 30},
+            {'option': 'Option 4', 'number': 4, 'votes': {'41927': 25}, 'postproc': 25},
+            {'option': 'Option 2', 'number': 2, 'votes': {'41927': 20}, 'postproc': 20},
+            {'option': 'Option 3', 'number': 3, 'votes': {'41927': 15}, 'postproc': 15},
+            {'option': 'Option 6', 'number': 6, 'votes': {'41927': 9}, 'postproc': 9},
+            {'option': 'Option 1', 'number': 1, 'votes': {'41927': 1}, 'postproc': 1},
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+
+        self.assertEqual(values, expected_result)
+
+    def test_county_random(self):
+        data = {
+            'type': 'COUNTY_EQUALITY',
+            'options': [
+                {'option': 'Option 1', 'number': 1, 'votes': {'41927': 25, '21002': 747, '11001': 823}},
+                {'option': 'Option 2', 'number': 2, 'votes': {'41927': 3, '21002': 246, '11001': 103}},
+                {'option': 'Option 3', 'number': 3, 'votes': {'41927': 442, '21002': 842, '11001': 679}},
+                {'option': 'Option 4', 'number': 4, 'votes': {'41927': 870, '21002': 986, '11001': 999}},
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 4', 'number': 4, 'votes': {'41927': 870, '21002': 986, '11001': 999} , 'postproc': 138 },
+            {'option': 'Option 3', 'number': 3, 'votes': {'41927': 442, '21002': 842, '11001': 679}, 'postproc': 89 },
+            {'option': 'Option 1', 'number': 1, 'votes': {'41927': 25, '21002': 747, '11001': 823}, 'postproc': 60},
+            {'option': 'Option 2', 'number': 2, 'votes': {'41927': 3, '21002': 246, '11001': 103}, 'postproc': 13 },
         ]
 
         response = self.client.post('/postproc/', data, format='json')
