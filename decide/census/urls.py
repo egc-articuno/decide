@@ -13,4 +13,5 @@ urlpatterns = [
     path('deleteCensus', views.delete_census, name='deleteCensus'),
     path('deleteSelectedCensus', views.delete_selected_census, name='deleteSelectedCensus'),
     path('viewVoting', views.view_voting, name='viewVoting'),
+    path('moveVotersView', views.move_voters_view, name='moveVotersView'),
 ]

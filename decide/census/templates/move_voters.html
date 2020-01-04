@@ -16,36 +16,27 @@
       <i class="right angle icon divider"></i>
       <a href="{% url 'listCensus' %}" class="active section">Census</a>
 	  <i class="right angle icon diver"></i>
-	  <a href="" class="active section">View Voting</a>
+	  <a href="" class="active section">Move Voters</a>
     </div>
   </nav>
 
 
 <br/>
 
-<h3 class="ui center aligned header">View Voting</h3>
+<h3 class="ui center aligned header">Move Voters</h3>
 
-<h4>Voting: {{voting_id}}</h4>
-<table class="centered responsive-table">
-	<table>
-		<thead>
-			<tr>
-				<th>Voters</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>{{voters}}</td>
-			</tr>
-		</tbody>
-	</table>
-</table>
+<h4>Estamos en la votación: {{voting_id}}</h4>
+
+<p>En esta votación están los votantes: {{voters}}</p>
+
+<p>Podemos mover los votantes a estas votaciones existentes: {{votings}}</p>
+
+<p>Ó podemos mover los votantes a una nueva votación</p>
 
 <div>
 <br>
 <br>
 <td><a href="{% url 'listCensus' %}" class="waves-effect waves-light btn">Back</a></td>
-<td><a href="{% url 'moveVotersView' %}?id={{ census.id }}" class="waves-effect waves-light btn">Move voters</a></td>
 </div>
 
 
