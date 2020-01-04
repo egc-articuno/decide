@@ -161,10 +161,29 @@ def move_voters_view(request):
             if cens.voting_id not in votings:
                 votings.append(cens.voting_id)
         
-        return render(request, 'move_voters.html',{'census': census, 'voting_id': census.voting_id, 'voters': voters, 'votings': votings})
-        
+        return render(request, 'move_voters.html',{'census': census, 'voting_id': census.voting_id, 'voters': voters, 'votings': votings})     
 
-        
+def move_voters(request):
+    census_id = request.GET.get('id')
+    votings = request.GET.get('votings')
+    voting_id = request.GET.get('voting_id')
+    
+    allCensus = Census.objects.all()
+    census = get_object_or_404(Census,id=census_id)
+    voters = []
+    voters = get_voters_by_voting_id(voting_id=int(voting_id))
+    votersToMove = []
+    votersToMove = get_voters_by_voting_id(voting_id=census.voting_id)
+    
+    for voter in votersToMove:
+        if voting_id in votings:
+            if voter not in voters:
+                newCensus = Census(voting_id= voting_id, voter_id=voter)
+                newCensus.save()
+        else:
+                newCensus = Census(voting_id= voting_id, voter_id= voter)
+                newCensus.save()
+    return redirect('listCensus')    
         
         
         

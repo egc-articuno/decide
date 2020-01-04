@@ -33,6 +33,20 @@
 
 <p>Ó podemos mover los votantes a una nueva votación</p>
 
+<form action="{% url 'moveVoters' %}" method="get" class="ui form container">
+    <div class="field">
+      <h4>Introduce a continuación el numero de la votación a la que quieres mover los votantes</h4>
+        <input type="number" name="voting_id" placeholder="{{census.voting_id}}" style="width:80%"/>
+    </div>
+    </br>
+    </br>
+    <input type="hidden" name="id" value="{{census.id}}" />
+	<input type="hidden" name="voters" value="{{voters}}"/>
+	<input type="hidden" name="votings" value="{{votings}}"/>
+    <button class="ui primary button" type="submit">Save</button> 
+    <a class="ui button" href="{% url 'listCensus' %}" >Back</a>
+ </form> 
+
 <div>
 <br>
 <br>
