@@ -163,6 +163,9 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGES = (
     ('en', ugettext_lazy('English')),
     ('es', ugettext_lazy('Spanish')),
+    ('ca', ugettext_lazy('Catalan')),
+    ('eu', ugettext_lazy('Basque')),
+    ('gl', ugettext_lazy('Galician'))
 )
 
 # Default language: Spanish (Spain)
@@ -212,4 +215,3 @@ if os.path.exists("config.jsonnet"):
 
 INSTALLED_APPS = INSTALLED_APPS + MODULES
 django_heroku.settings(locals())
-

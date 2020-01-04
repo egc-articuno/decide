@@ -1,4 +1,4 @@
-# Translation of the decide booth web interface to Spanish.
+# Translation of the decide booth web interface to Basque.
 # Copyright (C) 2019 decide-articuno
 # This file is distributed under the same license as decide.
 # Miguel Macarro Klepsch <migmackle@alum.us.es>, 2019.
@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 17:05+0000\n"
-"PO-Revision-Date: 2019-12-11 11:59+0000\n"
+"POT-Creation-Date: 2020-01-04 17:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Miguel Macarro Klepsch <migmackle@alum.us.es>\n"
-"Language-Team: Spanish <migmackle@alum.us.es>\n"
-"Language: Spanish\n"
+"Language-Team: Basque <migmackle@alum.us.es>\n"
+"Language: Basque\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,27 +20,27 @@ msgstr ""
 
 #: booth/templates/booth/booth.html:36
 msgid "Change"
-msgstr "Cambiar"
+msgstr "Aldaketaren"
 
 #: booth/templates/booth/booth.html:43
 msgid "logout"
-msgstr "Salir"
+msgstr "Irteera"
 
 #: booth/templates/booth/booth.html:57
 msgid "Username"
-msgstr "Usuario"
+msgstr "Erabiltzaile"
 
 #: booth/templates/booth/booth.html:65
 msgid "Password"
-msgstr "Contraseña"
+msgstr "Pasahitza"
 
 #: booth/templates/booth/booth.html:73
 msgid "Login"
-msgstr "Entrar"
+msgstr "Sartzeko"
 
 #: booth/templates/booth/booth.html:88
 msgid "Vote"
-msgstr "Votar"
+msgstr "Boto"
 
 #: booth/templates/booth/booth.html:191 booth/templates/booth/booth.html:201
 #: booth/templates/booth/booth.html:232
@@ -49,24 +49,24 @@ msgstr "Error: "
 
 #: booth/templates/booth/booth.html:229
 msgid "Congratulations. Your vote has been sent"
-msgstr "Enhorabuena. Su voto ha sido enviado"
+msgstr "Zorionak. Zure botoa bidali da"
 
 #: decide/settings.py:164
 msgid "English"
-msgstr "Inglés"
+msgstr "Ingelesez"
 
 #: decide/settings.py:165
 msgid "Spanish"
-msgstr "Castellano"
+msgstr ""
 
 #: decide/settings.py:166
 msgid "Catalan"
-msgstr "Catalán"
+msgstr "Gaztelako"
 
 #: decide/settings.py:167
 msgid "Basque"
-msgstr "Vasco"
+msgstr "Euskal"
 
 #: decide/settings.py:168
 msgid "Galician"
-msgstr "Gallego"
+msgstr "Galiziako"

@@ -1,4 +1,4 @@
-# Translation of the decide booth web interface to Spanish.
+# Translation of the decide booth web interface to Catalan.
 # Copyright (C) 2019 decide-articuno
 # This file is distributed under the same license as decide.
 # Miguel Macarro Klepsch <migmackle@alum.us.es>, 2019.
@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 17:05+0000\n"
-"PO-Revision-Date: 2019-12-11 11:59+0000\n"
+"POT-Creation-Date: 2020-01-04 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Miguel Macarro Klepsch <migmackle@alum.us.es>\n"
-"Language-Team: Spanish <migmackle@alum.us.es>\n"
-"Language: Spanish\n"
+"Language-Team: Catalan <migmackle@alum.us.es>\n"
+"Language: Catalan\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,19 +20,19 @@ msgstr ""
 
 #: booth/templates/booth/booth.html:36
 msgid "Change"
-msgstr "Cambiar"
+msgstr "Canviar"
 
 #: booth/templates/booth/booth.html:43
 msgid "logout"
-msgstr "Salir"
+msgstr "sortir"
 
 #: booth/templates/booth/booth.html:57
 msgid "Username"
-msgstr "Usuario"
+msgstr "Usuari"
 
 #: booth/templates/booth/booth.html:65
 msgid "Password"
-msgstr "Contraseña"
+msgstr "Clau"
 
 #: booth/templates/booth/booth.html:73
 msgid "Login"
@@ -49,23 +49,23 @@ msgstr "Error: "
 
 #: booth/templates/booth/booth.html:229
 msgid "Congratulations. Your vote has been sent"
-msgstr "Enhorabuena. Su voto ha sido enviado"
+msgstr "Enhorabona. El seu vot ha estat enviat"
 
 #: decide/settings.py:164
 msgid "English"
-msgstr "Inglés"
+msgstr "Anglès"
 
 #: decide/settings.py:165
 msgid "Spanish"
-msgstr "Castellano"
+msgstr "Castellà"
 
 #: decide/settings.py:166
 msgid "Catalan"
-msgstr "Catalán"
+msgstr "Català"
 
 #: decide/settings.py:167
 msgid "Basque"
-msgstr "Vasco"
+msgstr "Basc"
 
 #: decide/settings.py:168
 msgid "Galician"
