@@ -16,6 +16,8 @@ from base.perms import UserIsStaff
 from .models import Census
 from voting.models import Voting
 from census.serializer import CensusSerializer
+from django.http import HttpResponse
+import csv, io
 
 
 class CensusCreate(generics.ListCreateAPIView):
@@ -127,3 +129,19 @@ def delete_selected_census(request):
         messages.add_message(request, messages.ERROR, "Permission denied")
 
     return redirect('listCensus')
+
+def exportCSV(request):
+    res = HttpResponse(context_type='text/csv')
+    res['Content-Disposition'] = 'attachment; filename="census.csv"'
+
+    censo = Census.objects.all()
+    datos = [field.attname for field in Census._meta.get_fields()]
+
+    w = csv.writer(res)
+    w.writerow(datos)
+
+    for c in censo:
+        w.writerow([c.id, c.voting_id, c.voter_id])
+    
+    return res
+    
