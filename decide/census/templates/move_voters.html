@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/form.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/table.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/message.css">
 </head>
 
 <nav style="margin-bottom:5%">
@@ -16,26 +17,44 @@
       <i class="right angle icon divider"></i>
       <a href="{% url 'listCensus' %}" class="active section">Census</a>
 	  <i class="right angle icon diver"></i>
+	  <a href="{% url 'viewVoting' %}?id={{ census.id }}" class="waves-effect waves-light btn">View Voting</a>
+	  <i class="right angle icon diver"></i>
 	  <a href="" class="active section">Move Voters</a>
     </div>
-  </nav>
+</nav>
 
+<div class="ui icon message" style="width:80%">
+  <i class="info icon"></i>
+  <div class="content">
+    <div class="header">
+      Are you sure you want to move the voters in this voting?
+    </div>
+    <p>All of the following related voters will be copied an added to the voting you select</p>
+  </div>
+</div>
 
-<br/>
+<h4>You are watching the voting: {{voting_id}}</h4>
 
-<h3 class="ui center aligned header">Move Voters</h3>
+<p>In this voting there are the next voters: {{voters}}</p>
 
-<h4>Estamos en la votación: {{voting_id}}</h4>
+<p>You can move the voters to these existing votings: {{votings}}</p>
 
-<p>En esta votación están los votantes: {{voters}}</p>
+<p>Or you can move them to a new voting</p>
 
-<p>Podemos mover los votantes a estas votaciones existentes: {{votings}}</p>
-
-<p>Ó podemos mover los votantes a una nueva votación</p>
+<div class="ui icon message" style="width:80%">
+  <i class="exclamation icon"></i>
+  <div class="content">
+    <div class="header">
+      Be careful!
+    </div>
+    <p>This action cannot be undone</p>
+	<p>If you want to revert it, you will have to delete every new census created one by one by yourself</p>
+  </div>
+</div>
 
 <form action="{% url 'moveVoters' %}" method="get" class="ui form container">
     <div class="field">
-      <h4>Introduce a continuación el numero de la votación a la que quieres mover los votantes</h4>
+      <h4>Enter the number of the voting to which you want to move the voters</h4>
         <input type="number" name="voting_id" placeholder="{{census.voting_id}}" style="width:80%"/>
     </div>
     </br>
@@ -43,15 +62,11 @@
     <input type="hidden" name="id" value="{{census.id}}" />
 	<input type="hidden" name="voters" value="{{voters}}"/>
 	<input type="hidden" name="votings" value="{{votings}}"/>
-    <button class="ui primary button" type="submit">Save</button> 
-    <a class="ui button" href="{% url 'listCensus' %}" >Back</a>
- </form> 
+    <button class="ui primary button" type="submit">Move voters</button> 
+    <a class="ui button" href="{% url 'viewVoting' %}?id={{ census.id }}" >Back</a>
+</form> 
 
-<div>
-<br>
-<br>
-<td><a href="{% url 'listCensus' %}" class="waves-effect waves-light btn">Back</a></td>
-</div>
+
 
 
 

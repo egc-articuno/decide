@@ -170,6 +170,8 @@ def move_voters(request):
     
     allCensus = Census.objects.all()
     census = get_object_or_404(Census,id=census_id)
+    if voting_id == '' or int(voting_id) == census.voting_id:
+        return redirect('listCensus')
     voters = []
     voters = get_voters_by_voting_id(voting_id=int(voting_id))
     votersToMove = []
