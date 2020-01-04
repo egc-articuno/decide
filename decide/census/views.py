@@ -137,7 +137,7 @@ def view_voting(request):
         
         voters = get_voters_by_voting_id(voting_id=census.voting_id)
 
-        return render(request, 'view_voting.html',{'voting_id': census.voting_id, 'voters': voters})
+        return render(request, 'view_voting.html',{'census': census ,'voting_id': census.voting_id, 'voters': voters})
     
 def get_voters_by_voting_id(voting_id):
     allCensus = Census.objects.all()
@@ -149,3 +149,22 @@ def get_voters_by_voting_id(voting_id):
             voters.append(cens.voter_id)
     
     return voters
+    
+def move_voters_view(request):
+    if request.user.is_staff:
+        census_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=census_id)
+        voters = []
+        voters = get_voters_by_voting_id(voting_id=census.voting_id)
+        votings = []
+        for cens in Census.objects.all():
+            if cens.voting_id not in votings:
+                votings.append(cens.voting_id)
+        
+        return render(request, 'move_voters.html',{'census': census, 'voting_id': census.voting_id, 'voters': voters, 'votings': votings})
+        
+
+        
+        
+        
+        
