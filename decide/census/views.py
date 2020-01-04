@@ -131,7 +131,7 @@ def delete_selected_census(request):
     return redirect('listCensus')
 
 def exportCSV(request):
-    res = HttpResponse(context_type='text/csv')
+    res = HttpResponse(content_type='text/csv')
     res['Content-Disposition'] = 'attachment; filename="census.csv"'
 
     censo = Census.objects.all()
@@ -144,4 +144,6 @@ def exportCSV(request):
         w.writerow([c.id, c.voting_id, c.voter_id])
     
     return res
-    
+
+#def export_csv_view(request):
+#    return render(request, "export_view.html")
