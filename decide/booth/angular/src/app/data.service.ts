@@ -36,7 +36,7 @@ export class DataService {
     this.tokenSource.next(token);
   }
 
-  changeUserId(id: number){
+  changeUserId(id: number) {
     this.userIdSource.next(id);
   }
 
