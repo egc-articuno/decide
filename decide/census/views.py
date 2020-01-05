@@ -147,3 +147,11 @@ def import_csv(request):
         messages.add_message(request, messages.ERROR, "Permission denied")
     
     return redirect('listCensus')
+
+def import_csv_view(request):
+    if request.user.is_staff:
+        return render(request, "import_csv.html")
+
+    else:
+       messages.add_message(request, messages.ERROR, "Permission denied") 
+       return redirect('listCensus')
