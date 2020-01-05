@@ -1,0 +1,21 @@
+{% load i18n static %}
+{% load i18n admin_urls static admin_list %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Import CSV</title>
+</head>
+<body>
+    <h1>Importar CSV</h1>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'importCSV' %}">
+        {% csrf_token %}
+        <input name="file" type="file" accept=".csv">
+        <br/>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
