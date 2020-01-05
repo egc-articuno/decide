@@ -69,4 +69,4 @@ msgstr "Basc"
 
 #: decide/settings.py:168
 msgid "Galician"
-msgstr "Gallego"
+msgstr "Gallec"
