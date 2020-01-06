@@ -198,6 +198,17 @@ class PartyAdmin(admin.ModelAdmin):
         return self.render_change_form(request, context, add=add, change=not add, obj=obj, form_url=form_url)
 
 # ----------------- NEW REGISTER ----------------
+class VotingAdmin(admin.ModelAdmin):
+    list_display = ('name', 'start_date', 'end_date')
+    readonly_fields = ('start_date', 'end_date', 'pub_key',
+                       'tally', 'postproc')
+    date_hierarchy = 'start_date'
+    list_filter = (StartedFilter,)
+    search_fields = ('name', )
+
+    actions = [ start, stop, tally ]
+
+admin.site.register(Voting, VotingAdmin)
 
 admin.site.register(PoliticalParty, PartyAdmin)
 
