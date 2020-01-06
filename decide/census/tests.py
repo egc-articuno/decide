@@ -40,6 +40,8 @@ class CensusTestCase(BaseTestCase):
         response = self.client.get('/census/?voting_id={}'.format(1), format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'voters': [1]})
+        
+    
 
     def test_add_new_voters_conflict(self):
         data = {'voting_id': 1, 'voters': [1]}
@@ -90,3 +92,35 @@ class CensusTestCase(BaseTestCase):
 
         census_after = len(Census.objects.all().values_list('voting_id', flat=True))
         self.assertTrue(census_before < census_after)
+        
+    def test_move_voters(self):
+        data = {'voting_id': 100, 'voters': [8,7,15,12]}
+        self.login()
+        response = self.client.post('/census/', data, format='json')
+        self.assertEqual(response.status_code, 201)
+        census_before = len(Census.objects.all().values_list('voting_id', flat=True))
+        
+        data = {'voting_id': 200, 'voters': [8,7,15,12]}
+        self.login()
+        response = self.client.post('/census/', data, format='json')
+        self.assertEqual(response.status_code, 201)
+        census_after = len(Census.objects.all().values_list('voting_id', flat=True))
+        
+        self.assertTrue(census_before < census_after)
+        
+    def test_move_voters_same_voting_fail(self):
+        data = {'voting_id': 3, 'voters': [8,7,15,12]}
+        self.login()
+        response = self.client.post('/census/', data, format='json')
+        self.assertEqual(response.status_code, 201)
+        
+        data = {'voting_id': 3, 'voters': [8,7,15,12]}
+        self.login()
+        response = self.client.post('/census/', data, format='json')
+        self.assertEqual(response.status_code, 409)
+        
+        
+        
+        
+        
+        
