@@ -126,12 +126,15 @@ class PostProcView(APIView):
     def get_map(self):
         res = {}
 
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        f=open(dir_path+"/provincias", "r", encoding="utf-8")
-        lines = f.readlines()
-        for line in lines:
-            provincia = line.split(",")
-            res[provincia[1].rstrip().strip()]=provincia[0]
+        try:
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            f=open(dir_path+"/provincias", "r", encoding="utf-8")
+            lines = f.readlines()
+            for line in lines:
+                provincia = line.split(",")
+                res[provincia[1].rstrip().strip()]=provincia[0]
+        except:
+            print('An except ocurred reading the province list file')
         return res
 
 
@@ -139,20 +142,24 @@ class PostProcView(APIView):
         out = []
         county_votes = {}
         nomi = pgeocode.Nominatim('ES')
-
         mapping = self.get_map()
-        for opt in options:
-            print(opt)
-            votes = opt['votes'] 
-            coef = float(0.01)
-            position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
-            votes = float(votes) + float(votes)*coef*position
-            votes = int(votes)
-            out.append({
-                **opt,
-                'postproc': votes,
-            })
-        out.sort(key=lambda x: -x['postproc'])
+        try:
+            for opt in options:
+                print(opt)
+                votes = opt['votes'] 
+                coef = float(0.01)
+                position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
+                votes = float(votes) + float(votes)*coef*position
+                votes = int(votes)
+                out.append({
+                    **opt,
+                    'postproc': votes,
+                })
+            out.sort(key=lambda x: -x['postproc'])
+        except:
+            print("An exception occurred with equality province method")
+            out.append({'error': 'An exception occurred with equality province method'})
+
         return Response(out)
 
     def post(self, request):

@@ -161,4 +161,50 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)
 
+    def test_equalityProvince_bad_data(self):
+        data = {
+            'type': 'EQUALITY_PROVINCE',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': '50' },
+                { 'option': 'Option 2', 'number': 2, 'votes': '60' },
+                { 'option': 'Option 3', 'number': 3, 'votes': '50' },
+                { 'option': 'Option 4', 'number': 4, 'votes': '50' },
+                { 'option': 'Option 5', 'number': 5, 'votes': '40' },
+                { 'option': 'Option 6', 'number': 6, 'votes': '30' },
+            ]
+        }
+
+        expected_result = [{'error': 'An exception occurred with equality province method'}]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_no_type_defined(self):
+        data = {
+            'type': '',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': '50' },
+                { 'option': 'Option 2', 'number': 2, 'votes': '60' },
+                { 'option': 'Option 3', 'number': 3, 'votes': '50' },
+                { 'option': 'Option 4', 'number': 4, 'votes': '50' },
+                { 'option': 'Option 5', 'number': 5, 'votes': '40' },
+                { 'option': 'Option 6', 'number': 6, 'votes': '30' },
+            ]
+        }
+
+        expected_result = {}
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+
+
 
