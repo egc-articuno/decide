@@ -210,6 +210,8 @@ class VotingAdmin(admin.ModelAdmin):
 
 admin.site.register(Voting, VotingAdmin)
 
+# ----------------- NEW REGISTER ----------------
+
 admin.site.register(PoliticalParty, PartyAdmin)
 
 # -----------------------------------------------

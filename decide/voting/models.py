@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import JSONField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 from base import mods
 from base.models import Auth, Key
@@ -38,11 +39,16 @@ class Voting(models.Model):
         self.pub_key = pk
         self.save()
 
-    def get_votes(self, token=''):
+     def get_votes(self, token=''):
         # gettings votes from store
         votes = mods.get('store', params={'voting_id': self.id}, HTTP_AUTHORIZATION='Token ' + token)
         # anon votes
-        return [[i['a'], i['b']] for i in votes]
+        print(votes)
+        res = []
+        for vote in votes:
+            for cipher in vote["ciphers"]:
+                res.append([cipher["a"], cipher["b"]])
+        return res
 
     def tally_votes(self, token=''):
         '''
@@ -138,9 +144,16 @@ class PartyPresidentCandidate(models.Model):
         ('H', 'Hombre'),
         ('M', 'Mujer')
     )
-    gender = models.CharField(max_length=1, choices=choices)
-    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$')])
+    
+    def valid(self):
+        postal_code_2 = int(self[0:2])
+        if not 1 <= postal_code_2 <= 51:
+            raise ValidationError(('Código postal no válido'))
 
+    gender = models.CharField(max_length=1, choices=choices)
+    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
+
+    
     def save(self):
         if not self.number:
             self.number = self.politicalParty.president_candidates.count() + 2
@@ -157,8 +170,14 @@ class PartyCongressCandidate(models.Model):
         ('H', 'Hombre'),
         ('M', 'Mujer')
     )
+
+    def valid(self):
+        postal_code_2 = int(self[0:2])
+        if not 1 <= postal_code_2 <= 51:
+            raise ValidationError(('Código postal no válido'))
+
     gender = models.CharField(max_length=1, choices=choices)
-    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$')])
+    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
     
     def save(self):
         if not self.number:
