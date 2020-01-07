@@ -27,10 +27,9 @@ class VotingSerializer(serializers.HyperlinkedModelSerializer):
     parties = PartySerializer(many=True)
     pub_key = KeySerializer()
     auths = AuthSerializer(many=True)
-
     class Meta:
         model = Voting
-        fields = ('id', 'name', 'desc', 'parties', 'start_date',
+        fields = ('id', 'name', 'desc', 'blank_vote', 'parties', 'start_date',
                   'end_date', 'pub_key', 'auths', 'tally', 'postproc')
 
 
