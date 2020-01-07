@@ -97,16 +97,24 @@ class PartyAdmin(admin.ModelAdmin):
             
             # ----- GENDER BALANCE LOAD CHECK
             if all_valid(formsets):
+                global women_number
+                global men_number
                 women_number = 0
                 men_number = 0
                 for formset in formsets:
                     for f in formset: 
                         cd = f.cleaned_data
                         genre = cd.get('gender')
+                        delete = cd.get('DELETE')
                         if genre == 'H':
                             men_number += 1
                         elif genre == 'M':
                             women_number += 1
+                        if delete:
+                            if genre == 'H':
+                                men_number -= 1
+                            elif genre == 'M':
+                                women_number -= 1
 
             valid_genre_balance = True
             women_balance = (women_number/(women_number+men_number))
