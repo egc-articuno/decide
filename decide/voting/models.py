@@ -147,7 +147,7 @@ class PartyPresidentCandidate(models.Model):
     def valid(self):
         postal_code_2 = int(self[0:2])
         if not 1 <= postal_code_2 <= 51:
-            raise ValidationError(('Código postal no válido'))
+            raise ValidationError(('Invalid postal code'))
 
     gender = models.CharField(max_length=1, choices=choices)
     postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
@@ -173,7 +173,7 @@ class PartyCongressCandidate(models.Model):
     def valid(self):
         postal_code_2 = int(self[0:2])
         if not 1 <= postal_code_2 <= 51:
-            raise ValidationError(('Código postal no válido'))
+            raise ValidationError(('Invalid postal code'))
 
     gender = models.CharField(max_length=1, choices=choices)
     postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
