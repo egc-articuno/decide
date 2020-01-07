@@ -73,6 +73,14 @@
             <div v-if="!signup">
                 <h2>[[ voting.desc ]]</h2>
                 <ul id='political_parties'>
+                    <b-form-group id="blank_vote" v-if="voting.blank_vote != null">
+                        <b-form-radio v-model="selected"
+                                        :id="blank_vote"
+                                        name="blank_vote"
+                                        :value="blank_vote">
+                            Blank vote
+                        </b-form-radio>
+                    </b-form-group>
                     <li v-for="party in voting.parties">
                     <h3>[[ party.name ]]</h3>
                     <h4>President candidates</h4>
