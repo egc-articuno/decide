@@ -113,9 +113,8 @@ class PartyAdmin(admin.ModelAdmin):
             formsets, inline_instances = self._create_formsets(request, new_object, change=not add)
             
             # Check number of candidades for congress
+            number_candidates_congress = 0
             if all_valid(formsets):
-                global number_candidates_congress
-                number_candidates_congress = 0
                 for formset in formsets:
                     for f in formset: 
                         cd = f.cleaned_data
