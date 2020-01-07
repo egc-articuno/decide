@@ -12,6 +12,7 @@ from base.models import Auth, Key
 class Voting(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField(blank=True, null=True)
+    blank_vote = models.PositiveIntegerField()
 
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
