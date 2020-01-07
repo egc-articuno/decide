@@ -41,8 +41,6 @@ class PartyCongressCandidateInline(admin.TabularInline):
 
 class PartyAdmin(admin.ModelAdmin):
     inlines = [PartyPresidentCandidateInline, PartyCongressCandidateInline]
-    women_number = 0
-    men_number = 0
     # def save_form(self, request, form, formset, change):
     #     msg = ('Está borrachooo')
     #     self.message_user(request, msg, messages.WARNING)
@@ -96,11 +94,9 @@ class PartyAdmin(admin.ModelAdmin):
             formsets, inline_instances = self._create_formsets(request, new_object, change=not add)
             
             # ----- GENDER BALANCE LOAD CHECK
+            women_number = 0
+            men_number = 0
             if all_valid(formsets):
-                global women_number
-                global men_number
-                women_number = 0
-                men_number = 0
                 for formset in formsets:
                     for f in formset: 
                         cd = f.cleaned_data
@@ -117,15 +113,19 @@ class PartyAdmin(admin.ModelAdmin):
                                 women_number -= 1
 
             valid_genre_balance = True
-            women_balance = (women_number/(women_number+men_number))
-            men_balance = (men_number/(women_number+men_number))
+            if women_number+men_number == 0:
+                women_balance = 0
+                men_balance = 0
+            else:
+                women_balance = (women_number/(women_number+men_number))
+                men_balance = (men_number/(women_number+men_number))
             if women_balance < 0.4 or men_balance < 0.4 :
                 valid_genre_balance = False
             # Message users
             if not valid_genre_balance:
                 msg = 'The number of women candidates and the number of men candidates must be at least a 40% of the total candidates. Mujeres: {}%, Hombres:{}%'.format(women_balance*100, men_balance*100)
                 self.message_user(request, msg, messages.WARNING)
-            # ----- GENDER BALANCE LOAD CHECK
+            # ----- END GENDER BALANCE LOAD CHECK
 
             if all_valid(formsets) and form_validated and valid_genre_balance:
                 self.save_model(request, new_object, form, not add)
