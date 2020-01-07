@@ -112,30 +112,28 @@ class PartyAdmin(admin.ModelAdmin):
                 new_object = form.instance
             formsets, inline_instances = self._create_formsets(request, new_object, change=not add)
             
-            # Check number of candidades for congress
+            # ----- NUMBER OF CANDIDATES
+            number_candidates = 0
             if all_valid(formsets):
-                global number_candidates_congress
-                number_candidates_congress = 0
                 for formset in formsets:
                     for f in formset: 
                         cd = f.cleaned_data
-                        congress_candidate = cd.get('congress_candidate')
+                        candidate = cd.get('president_candidate') or cd.get('congress_candidate')
                         delete = cd.get('DELETE')
-                        print(congress_candidate)
-                        # The option is a congress candidate. Sum one to the total for checking
-                        if congress_candidate is not None:
-                            number_candidates_congress += 1
-                        # Check the total number of candidates if user delete one                            
+                        print(candidate)
+                        if candidate:
+                            number_candidates += 1
                         if delete:
-                            number_candidates_congress -= 1
+                            number_candidates -= 1
 
             valid_number_candidates_congress = True
-            if number_candidates_congress >= 350 or number_candidates_congress <= 0:
+            if number_candidates > 350 or number_candidates <= 0:
                 valid_number_candidates_congress = False
             # Message users
             if not valid_number_candidates_congress:
-                msg = 'The number of candidates for the congress must be 349 or less as well as having at least one candidate. There are now {} candidates for congress.'.format(number_candidates_congress)
+                msg = 'The number of candidates must be 350 or less as well as having at least one candidate. There are now {} candidates.'.format(number_candidates)
                 self.message_user(request, msg, messages.WARNING)
+            # ----- END NUMBER OF CANDIDATES
 
             if all_valid(formsets) and form_validated and valid_number_candidates_congress:
                 self.save_model(request, new_object, form, not add)
