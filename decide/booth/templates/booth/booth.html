@@ -71,15 +71,30 @@
 
             <!-- Voting -->
             <div v-if="!signup">
-                <h2>[[ voting.question.desc ]]</h2>
-                <b-form-group v-for="opt in voting.question.options" :key="opt.number">
-                    <b-form-radio v-model="selected"
-                                  :id="'q' + opt.number"
-                                  name="question"
-                                  :value="opt.number">
-                        [[ opt.option ]]
-                    </b-form-radio>
-                </b-form-group>
+                <h2>[[ voting.desc ]]</h2>
+                <ul id='political_parties'>
+                    <li v-for="party in voting.parties">
+                    <h3>[[ party.name ]]</h3>
+                    <h4>President candidates</h4>
+                    <b-form-checkbox-group id="president_form" v-for="president in party.president_candidates" :key="president.number">
+                        <b-form-checkbox v-model="selected"
+                                      :id="'p' + party.name + president.number"
+                                      name="president_candidate"
+                                      :value="'p' + party.name + president.number">
+                            [[ president.president_candidate ]]
+                        </b-form-checkbox>
+                    </b-form-checkbox-group>
+                    <h4>Congress candidates</h4>
+                    <b-form-checkbox-group id="congress_form" v-for="congress in party.congress_candidates" :key="congress.number">
+                        <b-form-checkbox v-model="selected"
+                                      :id="'c' + party.name + congress.number"
+                                      name="congress_candidate"
+                                      :value="'c' + party.name + congress.number">
+                            [[ congress.congress_candidate ]]
+                        </b-form-checkbox>
+                    </b-form-checkbox-group>
+                    </li>
+                </ul>
                 <b-button type="button" variant="primary" v-on:click="decideSend">
                     {% trans "Vote" %}
                 </b-button>
