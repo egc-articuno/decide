@@ -8,14 +8,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Import CSV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js"></script>
 </head>
-<body>
+<body style="padding: 20px;">
     <h1>Importar CSV</h1>
     <form method="POST" enctype="multipart/form-data" action="{% url 'importCSV' %}">
         {% csrf_token %}
-        <input name="file" type="file" accept=".csv">
+        <input class="ui button" name="file" type="file" accept=".csv">
         <br/>
-        <input type="submit" value="Enviar">
+        <br/>
+        <br/>
+        <button class="ui basic button" type="submit">
+            <i class="icon user"></i>
+            Subir
+        </button>
     </form>
 </body>
 </html>
