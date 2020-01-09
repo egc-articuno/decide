@@ -378,7 +378,7 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)
 
-    def test_equalityProvince_bad_data(self):
+    def test_equalityProvince_bad_data1(self):
         data = {
             'type': 'EQUALITY_PROVINCE',
             'options': [
@@ -421,6 +421,109 @@ class PostProcTestCase(APITestCase):
 
         values = response.json()
         self.assertEqual(values, expected_result)
+
+    def test_equalityProvince_bad_data2(self):
+        data = {
+            'type': 'EQUALITY_PROVINCE',
+            'options': [
+                { 'option': 'Option 1', 'number': 1 },
+                { 'option': 'Option 2', 'number': 2},
+                { 'option': 'Option 3', 'number': 3},
+                { 'option': 'Option 4', 'number': 4},
+                { 'option': 'Option 5', 'number': 5},
+                { 'option': 'Option 6', 'number': 6},
+            ]
+        }
+
+        expected_result = [{'error': 'An exception occurred with equality province method'}]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_equalityProvince_bad_data3(self):
+        data = {
+            'type': 'EQUALITY_PROVINCE',
+            'options': [
+                { 'option': 'Option 1'},
+                { 'option': 'Option 2'},
+                { 'option': 'Option 3'},
+                { 'option': 'Option 4'},
+                { 'option': 'Option 5'},
+                { 'option': 'Option 6'},
+            ]
+        }
+
+        expected_result = [{'error': 'An exception occurred with equality province method'}]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_equalityProvince_bad_data4(self):
+        data = {
+                'type': 'EQUALITY_PROVINCE',
+                'options': [
+                    { 'option': 'Option 1', 'votes': '50' },
+                    { 'option': 'Option 2', 'number': 2, 'votes': '60' },
+                    { 'option': 'Option 3', 'number': 3,},
+                    { 'option': 'Option 4', 'number': 4, 'votes': '50' },
+                    { 'number': 5, 'votes': '40' },
+                    { 'option': '', 'number': 6, 'votes': '30' },
+                ]
+            }
+
+        expected_result = [{'error': 'An exception occurred with equality province method'}]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)    
+
+    def test_equalityProvince_bad_data5(self):
+        data = {
+                'type': 'EQUALITY_PROVINCE',
+                'options': [
+                    { 'optiosdsn': 'Option 1', 'votes': '50' },
+                    { 'optifgfon': 'Option 2', 'number': 2, 'votsdfes': '60' },
+                    { 'optsdfion': 'Option 3', 'number': 3,},
+                    { 'optsdfion': 'Option 4', 'number': 4, 'vosdftes': '50' },
+                    { 'nusdfmber': 5, 'votes': '40' },
+                    { 'optsdfion': '', 'numgber': 6, 'votes': '30' },
+                ]
+            }
+
+        expected_result = [{'error': 'An exception occurred with equality province method'}]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)       
+
+    def test_equalityProvince_not_data(self):
+        data = {
+
+        }
+
+        expected_result = [{'error': 'The Data is empty'}]
+
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
 
 
 
