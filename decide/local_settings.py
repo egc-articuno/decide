@@ -34,7 +34,7 @@ DATABASES = {
         'USER': 'decide',
         'HOST': '127.0.0.1',
 	    'PASSWORD': 'decide',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }
 
