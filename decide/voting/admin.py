@@ -34,9 +34,12 @@ def tally(ModelAdmin, request, queryset):
 
 class PartyPresidentCandidateInline(admin.TabularInline):
     model = PartyPresidentCandidate
+    exclude = ['number']
 
 class PartyCongressCandidateInline(admin.TabularInline):
     model = PartyCongressCandidate
+    exclude = ['number']
+
 
 
 class PartyAdmin(admin.ModelAdmin):
@@ -221,6 +224,7 @@ class VotingAdmin(admin.ModelAdmin):
     search_fields = ('name', )
 
     actions = [ start, stop, tally ]
+    exclude = ['blank_vote']
 
 admin.site.register(Voting, VotingAdmin)
 

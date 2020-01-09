@@ -13,7 +13,7 @@ from base.models import Auth, Key
 class Voting(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField(blank=True, null=True)
-    blank_vote = models.PositiveIntegerField()
+    blank_vote = models.PositiveIntegerField(default = 1)
 
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
@@ -156,7 +156,33 @@ class PartyPresidentCandidate(models.Model):
     
     def save(self):
         if not self.number:
-            self.number = self.politicalParty.president_candidates.count() + 2
+            number = 1
+            president = PartyPresidentCandidate.objects.filter().order_by('-number')
+            candidate = PartyCongressCandidate.objects.filter().order_by('-number')
+
+            if len(president) > 0 and len(candidate) == 0:
+                presidentBiggerNumber = president[0]
+                number = presidentBiggerNumber.number
+           
+            elif len(candidate) > 0 and len(president) == 0:
+                candidateBiggerNumber = candidate[0]
+                number = candidateBiggerNumber.number
+            
+            elif len(candidate) > 0 and len(president) > 0:
+                candidateBiggerNumber = candidate[0]
+                presidentBiggerNumber = president[0]
+                numberCandidate = candidateBiggerNumber.number
+                numberPresident = presidentBiggerNumber.number
+                bigger = numberPresident > numberCandidate
+                if bigger:
+                    number = numberPresident
+                else:
+                    number = numberCandidate
+
+            else :
+                number = number
+       
+            self.number = number + 1
         return super().save()
 
     def __str__(self):
@@ -180,9 +206,34 @@ class PartyCongressCandidate(models.Model):
     postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
     
     def save(self):
-        numbers = models.PartyCongressCandidate.numbers
         if not self.number:
-            self.number = self.politicalParty.congress_candidates.count() + 2
+            number = 1
+            president = PartyPresidentCandidate.objects.filter().order_by('-number')
+            candidate = PartyCongressCandidate.objects.filter().order_by('-number')
+
+            if len(president) > 0 and len(candidate) == 0:
+                presidentBiggerNumber = president[0]
+                number = presidentBiggerNumber.number
+           
+            elif len(candidate) > 0 and len(president) == 0:
+                candidateBiggerNumber = candidate[0]
+                number = candidateBiggerNumber.number
+            
+            elif len(candidate) > 0 and len(president) > 0:
+                candidateBiggerNumber = candidate[0]
+                presidentBiggerNumber = president[0]
+                numberCandidate = candidateBiggerNumber.number
+                numberPresident = presidentBiggerNumber.number
+                bigger = numberPresident > numberCandidate
+                if bigger:
+                    number = numberPresident
+                else:
+                    number = numberCandidate
+
+            else :
+                number = number
+       
+            self.number = number + 1
         return super().save()
 
     def __str__(self):
