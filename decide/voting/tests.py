@@ -13,7 +13,7 @@ from census.models import Census
 from mixnet.mixcrypt import ElGamal
 from mixnet.mixcrypt import MixCrypt
 from mixnet.models import Auth
-from voting.models import Voting, Question, QuestionOption
+from voting.models import Voting, PartyCongressCandidate, PartyPresidentCandidate, PoliticalParty
 
 
 class VotingTestCase(BaseTestCase):
@@ -32,20 +32,25 @@ class VotingTestCase(BaseTestCase):
         return k.encrypt(msg)
 
     def create_voting(self):
-        q = Question(desc='test question')
-        q.save()
-        for i in range(5):
-            opt = QuestionOption(question=q, option='option {}'.format(i+1))
-            opt.save()
-        v = Voting(name='test voting', question=q)
+        v = Voting(name='Elecciones 2020',blank_vote=1)
         v.save()
 
+        p = PoliticalParty(name='test politicalParty', voting=v)
+        p.save()
+
+        opt1 = PartyPresidentCandidate(politicalParty=p, number=2, president_candidate="John", gender='H', postal_code="41410")
+        opt1.save()
+        opt2 = PartyCongressCandidate(politicalParty=p, number=3, congress_candidate="Mery", gender='M', postal_code="41410")
+        opt2.save()
+            
         a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
                                           defaults={'me': True, 'name': 'test auth'})
         a.save()
         v.auths.add(a)
 
-        return v
+        res = v
+
+        return res
 
     def create_voters(self, v):
         for i in range(100):
@@ -62,6 +67,7 @@ class VotingTestCase(BaseTestCase):
         user.save()
         return user
 
+    
     def store_votes(self, v):
         voters = list(Census.objects.filter(voting_id=v.id))
         voter = voters.pop()
@@ -83,7 +89,7 @@ class VotingTestCase(BaseTestCase):
                 mods.post('store', json=data)
         return clear
 
-    def test_complete_voting(self):
+    def complete_voting(self):
         v = self.create_voting()
         self.create_voters(v)
 
@@ -122,10 +128,9 @@ class VotingTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
 
         data = {
-            'name': 'Example',
-            'desc': 'Description example',
-            'question': 'I want a ',
-            'question_opt': ['cat', 'dog', 'horse']
+            'name': 'Elecciones 2020',
+            'desc': 'Vota la partido',
+            'blank_vote': 2
         }
 
         response = self.client.post('/voting/', data, format='json')
