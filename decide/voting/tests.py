@@ -25,7 +25,8 @@ class VotingTestCase(BaseTestCase):
         super().tearDown()
 
     def encrypt_msg(self, msg, v, bits=settings.KEYBITS):
-        pk = v.pub_key
+        aux = v
+        pk = aux.pub_key
         p, g, y = (pk.p, pk.g, pk.y)
         k = MixCrypt(bits=bits)
         k.k = ElGamal.construct((p, g, y))
@@ -67,47 +68,63 @@ class VotingTestCase(BaseTestCase):
         user.save()
         return user
 
-    
     def store_votes(self, v):
         voters = list(Census.objects.filter(voting_id=v.id))
         voter = voters.pop()
 
         clear = {}
-        for opt in v.question.options.all():
-            clear[opt.number] = 0
-            for i in range(random.randint(0, 5)):
-                a, b = self.encrypt_msg(opt.number, v)
-                data = {
-                    'voting': v.id,
-                    'voter': voter.voter_id,
-                    'vote': { 'a': a, 'b': b },
-                }
-                clear[opt.number] += 1
-                user = self.get_or_create_user(voter.voter_id)
-                self.login(user=user.username)
-                voter = voters.pop()
-                mods.post('store', json=data)
+
+        data = {
+            'voting': v.id,
+            'voter': voter.voter_id,
+            'votes': []
+        }
+        for pty in v.parties.all():
+            for p in pty.president_candidates.all():
+                clear[p.number] = 0
+                # for i in range(random.randint(0, 5)):
+                for i in range(1):
+                    a, b = self.encrypt_msg(p.number, v)
+                    data['votes'].append({'a': a, 'b': b})
+                    clear[p.number] += 1
+            for c in pty.congress_candidates.all():
+                clear[c.number] = 0
+                # for i in range(random.randint(0, 5)):
+                for i in range(1):
+                    a, b = self.encrypt_msg(c.number, v)
+                    data['votes'].append({'a': a, 'b': b})
+                    clear[c.number] += 1
+            user = self.get_or_create_user(voter.voter_id)
+            self.login(user=user.username)
+            voter = voters.pop()
+            mods.post('store', json=data)
+
         return clear
 
-    def complete_voting(self):
+    def test_complete_voting(self):
         v = self.create_voting()
-        self.create_voters(v)
+        v1 = v
+        self.create_voters(v1)
 
-        v.create_pubkey()
-        v.start_date = timezone.now()
-        v.save()
+        v1.create_pubkey()
+        v1.start_date = timezone.now()
+        v1.save()
 
         clear = self.store_votes(v)
 
         self.login()  # set token
-        v.tally_votes(self.token)
+        v1.tally_votes(self.token)
 
-        tally = v.tally
+        tally = v1.tally
         tally.sort()
         tally = {k: len(list(x)) for k, x in itertools.groupby(tally)}
+        print(tally)
 
-        for q in v.question.options.all():
-            self.assertEqual(tally.get(q.number, 0), clear.get(q.number, 0))
+        for pty in v.parties.all():
+            for p in pty.president_candidates.all():
+                self.assertEqual(tally.get(p.number, 0), clear.get(p.number, 0))
+            for c in pty.congress_candidates.all():
+                self.assertEqual(tally.get(c.number, 0), clear.get(c.number, 0))
 
         for q in v.postproc:
             self.assertEqual(tally.get(q["number"], 0), q["votes"])
