@@ -230,6 +230,59 @@ class PostProcTestCase(APITestCase):
 
         values = response.json()
         self.assertEqual(values, expected_result)
+
+    def test_hondt_zero(self):
+        data = {
+            'type': 'HONDT',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 0 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 0 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 0 },
+               
+            ],
+             'nSeats': 5
+        }
+
+        expected_result = [
+            { 'option': 'Option 1', 'number': 1, 'votes': 0, 'seats': 0 },
+            { 'option': 'Option 2', 'number': 2, 'votes': 0, 'seats': 0 },
+            { 'option': 'Option 3', 'number': 3, 'votes': 0, 'seats': 0 },
+
+           
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_hondt_noSeats(self):
+        data = {
+            'type': 'HONDT',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 5 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 3 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 2 },
+               
+            ],
+             'nSeats': 0
+        }
+
+        expected_result = [
+            { 'option': 'Option 1', 'number': 1, 'votes': 5, 'seats': 0 },
+            { 'option': 'Option 2', 'number': 2, 'votes': 3, 'seats': 0 },
+            { 'option': 'Option 3', 'number': 3, 'votes': 2, 'seats': 0 },
+
+           
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
     def test_equalityProvince(self):
         data = {
             'type': 'EQUALITY_PROVINCE',
