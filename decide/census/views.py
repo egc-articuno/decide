@@ -65,6 +65,13 @@ def list_census(request):
     return render(request,"main_index.html",{'census': census, 'votings':votings})
 
 
+def list_census_CP(request):
+
+    census = Census.objects.all()
+    votings = Voting.objects.all()
+
+    return render(request,"list_census_CP_main.html",{'census': census, 'votings':votings})
+
 def edit_census(request):
 
     if request.user.is_staff:
