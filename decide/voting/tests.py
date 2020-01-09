@@ -13,7 +13,7 @@ from census.models import Census
 from mixnet.mixcrypt import ElGamal
 from mixnet.mixcrypt import MixCrypt
 from mixnet.models import Auth
-from voting.models import Voting, Question, QuestionOption
+from voting.models import Voting, PartyCongressCandidate, PartyPresidentCandidate, PoliticalParty
 
 
 class VotingTestCase(BaseTestCase):
@@ -25,27 +25,33 @@ class VotingTestCase(BaseTestCase):
         super().tearDown()
 
     def encrypt_msg(self, msg, v, bits=settings.KEYBITS):
-        pk = v.pub_key
+        aux = v
+        pk = aux.pub_key
         p, g, y = (pk.p, pk.g, pk.y)
         k = MixCrypt(bits=bits)
         k.k = ElGamal.construct((p, g, y))
         return k.encrypt(msg)
 
     def create_voting(self):
-        q = Question(desc='test question')
-        q.save()
-        for i in range(5):
-            opt = QuestionOption(question=q, option='option {}'.format(i+1))
-            opt.save()
-        v = Voting(name='test voting', question=q)
+        v = Voting(name='Elecciones 2020',blank_vote=1)
         v.save()
 
+        p = PoliticalParty(name='test politicalParty', voting=v)
+        p.save()
+
+        opt1 = PartyPresidentCandidate(politicalParty=p, number=2, president_candidate="John", gender='H', postal_code="41410")
+        opt1.save()
+        opt2 = PartyCongressCandidate(politicalParty=p, number=3, congress_candidate="Mery", gender='M', postal_code="41410")
+        opt2.save()
+            
         a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
                                           defaults={'me': True, 'name': 'test auth'})
         a.save()
         v.auths.add(a)
 
-        return v
+        res = v
+
+        return res
 
     def create_voters(self, v):
         for i in range(100):
@@ -67,41 +73,58 @@ class VotingTestCase(BaseTestCase):
         voter = voters.pop()
 
         clear = {}
-        for opt in v.question.options.all():
-            clear[opt.number] = 0
-            for i in range(random.randint(0, 5)):
-                a, b = self.encrypt_msg(opt.number, v)
-                data = {
-                    'voting': v.id,
-                    'voter': voter.voter_id,
-                    'vote': { 'a': a, 'b': b },
-                }
-                clear[opt.number] += 1
-                user = self.get_or_create_user(voter.voter_id)
-                self.login(user=user.username)
-                voter = voters.pop()
-                mods.post('store', json=data)
+
+        data = {
+            'voting': v.id,
+            'voter': voter.voter_id,
+            'votes': []
+        }
+        for pty in v.parties.all():
+            for p in pty.president_candidates.all():
+                clear[p.number] = 0
+                # for i in range(random.randint(0, 5)):
+                for i in range(1):
+                    a, b = self.encrypt_msg(p.number, v)
+                    data['votes'].append({'a': a, 'b': b})
+                    clear[p.number] += 1
+            for c in pty.congress_candidates.all():
+                clear[c.number] = 0
+                # for i in range(random.randint(0, 5)):
+                for i in range(1):
+                    a, b = self.encrypt_msg(c.number, v)
+                    data['votes'].append({'a': a, 'b': b})
+                    clear[c.number] += 1
+            user = self.get_or_create_user(voter.voter_id)
+            self.login(user=user.username)
+            voter = voters.pop()
+            mods.post('store', json=data)
+
         return clear
 
     def test_complete_voting(self):
         v = self.create_voting()
-        self.create_voters(v)
+        v1 = v
+        self.create_voters(v1)
 
-        v.create_pubkey()
-        v.start_date = timezone.now()
-        v.save()
+        v1.create_pubkey()
+        v1.start_date = timezone.now()
+        v1.save()
 
         clear = self.store_votes(v)
 
         self.login()  # set token
-        v.tally_votes(self.token)
+        v1.tally_votes(self.token)
 
-        tally = v.tally
+        tally = v1.tally
         tally.sort()
         tally = {k: len(list(x)) for k, x in itertools.groupby(tally)}
+        print(tally)
 
-        for q in v.question.options.all():
-            self.assertEqual(tally.get(q.number, 0), clear.get(q.number, 0))
+        for pty in v.parties.all():
+            for p in pty.president_candidates.all():
+                self.assertEqual(tally.get(p.number, 0), clear.get(p.number, 0))
+            for c in pty.congress_candidates.all():
+                self.assertEqual(tally.get(c.number, 0), clear.get(c.number, 0))
 
         for q in v.postproc:
             self.assertEqual(tally.get(q["number"], 0), q["votes"])
@@ -122,10 +145,9 @@ class VotingTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
 
         data = {
-            'name': 'Example',
-            'desc': 'Description example',
-            'question': 'I want a ',
-            'question_opt': ['cat', 'dog', 'horse']
+            'name': 'Elecciones 2020',
+            'desc': 'Vota la partido',
+            'blank_vote': 2
         }
 
         response = self.client.post('/voting/', data, format='json')
