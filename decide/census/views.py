@@ -62,12 +62,14 @@ def list_census(request):
 
     census = Census.objects.all()
     votings = Voting.objects.all()
+
     return render(request,"main_index.html",{'census': census, 'votings':votings})
 
 
 def list_census_CP(request):
 
-    census = Census.objects.all()
+    censusAll = Census.objects.all()
+    census = sorted(censusAll, key=lambda objeto: objeto.voting_id)
     votings = Voting.objects.all()
 
     return render(request,"list_census_CP_main.html",{'census': census, 'votings':votings})
