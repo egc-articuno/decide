@@ -250,17 +250,17 @@ class PostProcTestCase(APITestCase):
         self.assertEqual(values, expected_result)
 
     def test_equalityProvince_bad_data4(self):
-     data = {
-            'type': 'EQUALITY_PROVINCE',
-            'options': [
-                { 'option': 'Option 1', 'votes': '50' },
-                { 'option': 'Option 2', 'number': 2, 'votes': '60' },
-                { 'option': 'Option 3', 'number': 3,},
-                { 'option': 'Option 4', 'number': 4, 'votes': '50' },
-                { 'number': 5, 'votes': '40' },
-                { 'option': '', 'number': 6, 'votes': '30' },
-            ]
-        }
+        data = {
+                'type': 'EQUALITY_PROVINCE',
+                'options': [
+                    { 'option': 'Option 1', 'votes': '50' },
+                    { 'option': 'Option 2', 'number': 2, 'votes': '60' },
+                    { 'option': 'Option 3', 'number': 3,},
+                    { 'option': 'Option 4', 'number': 4, 'votes': '50' },
+                    { 'number': 5, 'votes': '40' },
+                    { 'option': '', 'number': 6, 'votes': '30' },
+                ]
+            }
 
         expected_result = [{'error': 'An exception occurred with equality province method'}]
 
@@ -272,17 +272,17 @@ class PostProcTestCase(APITestCase):
         self.assertEqual(values, expected_result)    
 
     def test_equalityProvince_bad_data5(self):
-     data = {
-            'type': 'EQUALITY_PROVINCE',
-            'options': [
-                { 'optiosdsn': 'Option 1', 'votes': '50' },
-                { 'optifgfon': 'Option 2', 'number': 2, 'votsdfes': '60' },
-                { 'optsdfion': 'Option 3', 'number': 3,},
-                { 'optsdfion': 'Option 4', 'number': 4, 'vosdftes': '50' },
-                { 'nusdfmber': 5, 'votes': '40' },
-                { 'optsdfion': '', 'numgber': 6, 'votes': '30' },
-            ]
-        }
+        data = {
+                'type': 'EQUALITY_PROVINCE',
+                'options': [
+                    { 'optiosdsn': 'Option 1', 'votes': '50' },
+                    { 'optifgfon': 'Option 2', 'number': 2, 'votsdfes': '60' },
+                    { 'optsdfion': 'Option 3', 'number': 3,},
+                    { 'optsdfion': 'Option 4', 'number': 4, 'vosdftes': '50' },
+                    { 'nusdfmber': 5, 'votes': '40' },
+                    { 'optsdfion': '', 'numgber': 6, 'votes': '30' },
+                ]
+            }
 
         expected_result = [{'error': 'An exception occurred with equality province method'}]
 
@@ -293,8 +293,10 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)       
 
-   def test_equalityProvince_not_data(self):
-        data = {}
+    def test_equalityProvince_not_data(self):
+        data = {
+
+        }
 
         expected_result = [{'error': 'The Data is empty'}]
 

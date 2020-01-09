@@ -156,13 +156,13 @@ class PostProcView(APIView):
                     'postproc': votes,
                 })
             out.sort(key=lambda x: -x['postproc'])
+            if len(options)==0:
+                print("An exception occurred with equality province method")
+                out.append({'error': 'The Data is empty'})
         except:
-            if(len(options)>0):
+            if len(options)>0:
                 print("An exception occurred with equality province method")
                 out.append({'error': 'An exception occurred with equality province method'})
-            else:
-                print("The Data is empty")
-                out.append({'error': 'The Data is empty'})
 
         return Response(out)
 
