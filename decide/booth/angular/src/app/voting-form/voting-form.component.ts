@@ -48,7 +48,7 @@ export class VotingFormComponent {
     }
 
   onSubmit() {
-    console.log(this.token, this.userId , this.vointgId);
+    console.log('current token: ' + this.token, 'current userId: ' + this.userId , 'current votingId: ' +  this.vointgId);
     const selectedOptions = this.votingForm.value.options
   .map((v, i) => v ? this.optionsData[i].number : null)
   .filter(v => v !== null);
