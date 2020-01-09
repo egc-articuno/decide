@@ -151,39 +151,61 @@ class PostProcView(APIView):
         return Response(out)
 
           
+#Sistema D'Hondt - Metodo de promedio mayor para asignar escaños en sistemas de representación proporcional por listas electorales. Por tanto,
+# en dicho método trabajaremos con listas de partidos politicos y con un número de escaños que será pasado como parámetro. 
+    #       nSeats: 10
+    #       options: [
+    #             {
+    #              option: Partido1,
+    #              number: 1,
+    #              votes: 5,
+    #        
+    #             } {
+    #              option: Partido2,
+    #              number: 2,
+    #              votes: 3,
+    #              }.
+    #               .
 
     def hondt(self, options, nSeats):
         parties = [] # Partidos politicos - option
         points = [] #Puntos de cada partido - votes
-        seats = [] #Salida - se almacena en dicha lista el valor calculado de los escaños
-        out = []
+        seats = [] #Escaños por partidos
+        out = [] #Salida
 
+        #Calcular el número de escaño que voy a tener según el número de partidos, inicializamos a 0
         for i in options:
             esc = 0
             seats.append(esc)
 
+
         for opt in options:
-            parties.append(opt['votes']) #Copia 
-            #Concatenar el número de votos con la opción
+            parties.append(opt['votes']) #Copia de los votos de cada partido
+            #Concatenar la parametros de Opt con seats para mostrarlo en la salida
             out.append({
                 **opt,
                 'seats': 0,
-                });
-        #Número de escaños totales
+                })
         points = parties
         seatsToDistribution = nSeats 
         
+        #Submétodo para asignar los escaños
+        # En cada iteración se calcula los cocientes para cada partido y se asigna un escaño al partido con cociente mayor. Para la siguiente iteracion se recalcula
+        #  el cociente del partido que acaba de recibir un escaño. Los demas partidos mantienen su cociente ya que no reciben escaño y se repite el proceso.
         def giveASeat():
-            biggest = max(points)
+            biggest = max(points) #Obtener el partido con mayor número de votos
             index = points.index(biggest)
-            seats[index] += 1
-            out[index]['seats'] += 1
-            points[index] = parties[index] / (seats[index]+1)
+            if biggest != 0:
+                
+                seats[index] += 1 
+                out[index]['seats'] += 1 
+                points[index] = parties[index] / (seats[index]+1) 
 
+        #Llamar al método de asignación de escaños tantas veces como número de escaños tengamos
         for i in range(0,seatsToDistribution):
             giveASeat()
             
-
+        #Ordeno los resultados de la salida por el número de escaños
         out.sort(key=lambda x: -x['seats'])
         return Response(out)
 
