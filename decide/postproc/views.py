@@ -76,10 +76,13 @@ class PostProcView(APIView):
     def weigth_per_gender(self, options):
         out = []    # JSON esperado en la salida
         votesFinal = 0  # Acumulador donde se guardará el recuento de los votos tras la ponderación por género
-
-        for opt in options:
-            votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
-            out.append({**opt, 'postproc': votesFinal })
+        try:
+            for opt in options:
+                votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
+                out.append({**opt, 'postproc': votesFinal })
+        except:
+            print("An exception occurred in the expected data in the weigth_per_gender method")
+            out.append({'error': 'An exception occurred in the expected data in the weigth_per_gender method'})
 
         return Response(out)
 

@@ -54,17 +54,83 @@ class PostProcTestCase(APITestCase):
                 { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'pondFemale': 4, 'votesMale': 23, 'pondMale': 1 },
                 { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'pondFemale': 3, 'votesMale': 47, 'pondMale': 1 },
                 { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 4, 'votesMale': 56, 'pondMale': 3 },
+                { 'option': 'Option 7', 'number': 7, 'votes': 2, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 0, 'pondMale': 0 },
+                { 'option': 'Option 8', 'number': 8, 'votes': 4, 'votesFemale': 3, 'pondFemale': 1, 'votesMale': 1, 'pondMale': 5 },
+                { 'option': 'Option 9', 'number': 9, 'votes': 8, 'votesFemale': 4, 'pondFemale': 5, 'votesMale': 4, 'pondMale': 2 },
+                { 'option': 'Option 10', 'number': 10, 'votes': 3, 'votesFemale': 1, 'pondFemale': 4, 'votesMale': 2, 'pondMale': 1 },
+                { 'option': 'Option 11', 'number': 11, 'votes': 6, 'votesFemale': 0, 'pondFemale': 3, 'votesMale': 6, 'pondMale': 1 },
+                { 'option': 'Option 12', 'number': 12, 'votes': 12, 'votesFemale': 8, 'pondFemale': 0, 'votesMale': 4, 'pondMale': 2 },
             ]
         }
 
         expected_result = [
-            {'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 3, 'pondMale': 3, 'postproc': 13},
+            { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 3, 'pondMale': 3, 'postproc': 13},
             { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'pondFemale': 1, 'votesMale': 50, 'pondMale': 5, 'postproc': 253 },
             { 'option': 'Option 3', 'number': 3, 'votes': 28, 'votesFemale': 10, 'pondFemale': 5, 'votesMale': 14, 'pondMale': 2, 'postproc': 78 },
             { 'option': 'Option 4', 'number': 4, 'votes': 68, 'votesFemale': 45, 'pondFemale': 4, 'votesMale': 23, 'pondMale': 1, 'postproc': 203 },
             { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'pondFemale': 3, 'votesMale': 47, 'pondMale': 1, 'postproc': 236 },
             { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 4, 'votesMale': 56, 'pondMale': 3, 'postproc': 224 },
+            { 'option': 'Option 7', 'number': 7, 'votes': 2, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 0, 'pondMale': 0, 'postproc': 4},
+            { 'option': 'Option 8', 'number': 8, 'votes': 4, 'votesFemale': 3, 'pondFemale': 1, 'votesMale': 1, 'pondMale': 5, 'postproc': 8 },
+            { 'option': 'Option 9', 'number': 9, 'votes': 8, 'votesFemale': 4, 'pondFemale': 5, 'votesMale': 4, 'pondMale': 2, 'postproc': 28 },
+            { 'option': 'Option 10', 'number': 10, 'votes': 3, 'votesFemale': 1, 'pondFemale': 4, 'votesMale': 2, 'pondMale': 1, 'postproc': 6 },
+            { 'option': 'Option 11', 'number': 11, 'votes': 6, 'votesFemale': 0, 'pondFemale': 3, 'votesMale': 6, 'pondMale': 1, 'postproc': 6 },
+            { 'option': 'Option 12', 'number': 12, 'votes': 12, 'votesFemale': 8, 'pondFemale': 0, 'votesMale': 4, 'pondMale': 2, 'postproc': 8 },
         ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_weigth_gender_bad_data(self):
+        data = {
+            'type': 'GENDER',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'pondMale': 3 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50, 'pondMale': 5 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'pondFemale': 5, 'votesMale': 14, 'pondMale': 2 },
+                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'pondFemale': 4, 'pondMale': 1 },
+                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47 },
+                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 4, 'votesMale': 56, 'pondMale': 3 },
+                { 'option': 'Option 7', 'number': 7, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 0, 'pondMale': 0 },
+                { 'option': 'Option 8', 'number': 8, 'votes': 4, 'pondFemale': 1, 'votesMale': 1, 'pondMale': 5 },
+                { 'option': 'Option 9', 'number': 9, 'votes': 8, 'votesFemale': 4, 'votesMale': 4, 'pondMale': 2 },
+                { 'option': 'Option 10', 'number': 10, 'votes': 3, 'votesFemale': 1, 'pondFemale': 4, 'pondMale': 1 },
+                { 'option': 'Option 11', 'number': 11, 'votes': 6, 'votesFemale': 0, 'votesMale': 6, 'pondMale': 1 },
+                { 'option': 'Option 12', 'number': 12, 'votes': 12, 'votesFemale': 8, 'pondFemale': 0, 'votesMale': 4 },
+            ]
+        }
+
+        expected_result = [{'error': 'An exception occurred in the expected data in the weigth_per_gender method'}]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_weigth_gender_not_type_defined(self):
+        data = {
+            'type': '',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'votesFemale': 2, 'pondFemale': 2, 'pondMale': 3 },
+                { 'option': 'Option 2', 'number': 2, 'votes': 53, 'votesFemale': 3, 'votesMale': 50, 'pondMale': 5 },
+                { 'option': 'Option 3', 'number': 3, 'votes': 28, 'pondFemale': 5, 'votesMale': 14, 'pondMale': 2 },
+                { 'option': 'Option 4', 'number': 4, 'votes': 68, 'pondFemale': 4, 'pondMale': 1 },
+                { 'option': 'Option 5', 'number': 5, 'votes': 110, 'votesFemale': 63, 'votesMale': 47 },
+                { 'option': 'Option 6', 'number': 6, 'votes': 70, 'votesFemale': 14, 'pondFemale': 4, 'votesMale': 56, 'pondMale': 3 },
+                { 'option': 'Option 7', 'number': 7, 'votesFemale': 2, 'pondFemale': 2, 'votesMale': 0, 'pondMale': 0 },
+                { 'option': 'Option 8', 'number': 8, 'votes': 4, 'pondFemale': 1, 'votesMale': 1, 'pondMale': 5 },
+                { 'option': 'Option 9', 'number': 9, 'votes': 8, 'votesFemale': 4, 'votesMale': 4, 'pondMale': 2 },
+                { 'option': 'Option 10', 'number': 10, 'votes': 3, 'votesFemale': 1, 'pondFemale': 4, 'pondMale': 1 },
+                { 'option': 'Option 11', 'number': 11, 'votes': 6, 'votesFemale': 0, 'votesMale': 6, 'pondMale': 1 },
+                { 'option': 'Option 12', 'number': 12, 'votes': 12, 'votesFemale': 8, 'pondFemale': 0, 'votesMale': 4 },
+            ]
+        }
+
+        expected_result = {}
 
         response = self.client.post('/postproc/', data, format='json')
         self.assertEqual(response.status_code, 200)
