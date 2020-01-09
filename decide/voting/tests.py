@@ -39,13 +39,18 @@ class VotingTestCase(BaseTestCase):
         p = PoliticalParty(name='test politicalParty', voting=v)
         p.save()
 
-        opt1 = PartyPresidentCandidate(politicalParty=p, number=2, president_candidate="John", gender='H', postal_code="41410")
-        opt1.save()
-        opt2 = PartyCongressCandidate(politicalParty=p, number=3, congress_candidate="Mery", gender='M', postal_code="41410")
-        opt2.save()
+        i = 2
+        while i >=  51: # Save 50 presidents
+            opt1 = PartyPresidentCandidate(politicalParty=p, number=i, president_candidate="President " + i, gender='H', postal_code="41410")
+            opt1.save()
+            i += 1
+                        
+        while i >=  101: # Save 50 congresses
+            opt2 = PartyCongressCandidate(politicalParty=p, number=i, congress_candidate="Congress " + i, gender='M', postal_code="41410")
+            opt2.save()
+            i += 1
             
-        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
-                                          defaults={'me': True, 'name': 'test auth'})
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL, defaults={'me': True, 'name': 'test auth'})
         a.save()
         v.auths.add(a)
 
@@ -153,7 +158,7 @@ class VotingTestCase(BaseTestCase):
         response = self.client.post('/voting/', data, format='json')
         self.assertEqual(response.status_code, 201)
 
-    def test_update_voting(self):
+    def test_supdate_voting(self):
         voting = self.create_voting()
 
         data = {'action': 'start'}
