@@ -336,6 +336,49 @@ class PostProcTestCase(APITestCase):
         self.assertEqual(values, expected_result)
 
 
+    def test_parity_more_options(self):
+        data = {
+            'type': 'PARITY',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 9, 'gender' : 'F' },
+                { 'option': 'Option 2', 'number': 2, 'votes': 4, 'gender' : 'F'  },
+                { 'option': 'Option 3', 'number': 3, 'votes': 7, 'gender' : 'F'  },
+                { 'option': 'Option 4', 'number': 4, 'votes': 6, 'gender' : 'M'  },
+                { 'option': 'Option 5', 'number': 5, 'votes': 8, 'gender' : 'M'  },
+                { 'option': 'Option 6', 'number': 6, 'votes': 12, 'gender' : 'F'  },
+                { 'option': 'Option 7', 'number': 7, 'votes': 10, 'gender' : 'M'  },
+                { 'option': 'Option 8', 'number': 8, 'votes': 5, 'gender' : 'F'  },
+                { 'option': 'Option 9', 'number': 9, 'votes': 3, 'gender' : 'M'  },
+                { 'option': 'Option 10', 'number': 10, 'votes': 1, 'gender' : 'M'  },
+                { 'option': 'Option 11', 'number': 11, 'votes': 0, 'gender' : 'M'  },
+                { 'option': 'Option 12', 'number': 12, 'votes': 2, 'gender' : 'M'  },
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 6', 'number': 6, 'votes': 12, 'gender': 'F'},
+            {'option': 'Option 7', 'number': 7, 'votes': 10, 'gender': 'M'},
+            {'option': 'Option 1', 'number': 1, 'votes': 9, 'gender': 'F'},
+            {'option': 'Option 5', 'number': 5, 'votes': 8, 'gender': 'M'},
+            {'option': 'Option 3', 'number': 3, 'votes': 7, 'gender': 'F'},
+            {'option': 'Option 4', 'number': 4, 'votes': 6, 'gender': 'M'},
+            {'option': 'Option 8', 'number': 8, 'votes': 5, 'gender': 'F'},
+            {'option': 'Option 2', 'number': 2, 'votes': 4, 'gender': 'F'},
+            {'option': 'Option 9', 'number': 9, 'votes': 3, 'gender': 'M'},
+            {'option': 'Option 12', 'number': 12, 'votes': 2, 'gender': 'M'},
+            {'option': 'Option 10', 'number': 10, 'votes': 1, 'gender': 'M'},
+            {'option': 'Option 11', 'number': 11, 'votes': 0, 'gender': 'M'},
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+
+
+        self.assertEqual(values, expected_result)
+
+
     def test_county_simple(self):
         data = {
             'type': 'COUNTY_EQUALITY',
