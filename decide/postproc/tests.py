@@ -280,6 +280,32 @@ class PostProcTestCase(APITestCase):
 
         self.assertEqual(values, expected_result)
 
+    def test_parity_less_than_3_options_per_gender(self):
+        data = {
+            'type': 'PARITY',
+            'options': [
+                { 'option': 'Option 1', 'number': 1, 'votes': 5, 'gender' : 'F' },
+                { 'option': 'Option 2', 'number': 2, 'votes': 0, 'gender' : 'F'  },
+                { 'option': 'Option 4', 'number': 4, 'votes': 2, 'gender' : 'M'  },
+
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 1', 'number': 1, 'votes': 5, 'gender': 'F'},
+            {'option': 'Option 4', 'number': 4, 'votes': 2, 'gender': 'M'},
+            {'option': 'Option 2', 'number': 2, 'votes': 0, 'gender': 'F'},
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+
+
+        self.assertEqual(values, expected_result)
+
+
     def test_county_simple(self):
         data = {
             'type': 'COUNTY_EQUALITY',
