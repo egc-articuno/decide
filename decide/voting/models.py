@@ -89,6 +89,15 @@ class Voting(models.Model):
         parties = self.parties.all()
         
         opts = []
+        if isinstance(tally, list):
+            votes = tally.count(self.blank_vote)
+        else:
+            votes = 0
+        opts.append({
+            'option': 'Blank vote',
+            'number': self.blank_vote,
+            'votes': votes
+        })
         for pty in parties:
             for p in pty.president_candidates.all():
                 if isinstance(tally, list):

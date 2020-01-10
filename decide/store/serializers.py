@@ -8,7 +8,7 @@ class CipherSerializer(serializers.HyperlinkedModelSerializer):
     b = serializers.IntegerField()
 
     class Meta:
-        model = Vote
+        model = Cipher
         fields = ('a', 'b')
 
 class VoteSerializer(serializers.HyperlinkedModelSerializer):
