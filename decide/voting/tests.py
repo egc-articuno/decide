@@ -39,14 +39,14 @@ class VotingTestCase(BaseTestCase):
         p = PoliticalParty(name='test politicalParty', voting=v)
         p.save()
 
-        i = 2
-        while i >=  51: # Save 50 presidents
-            opt1 = PartyPresidentCandidate(politicalParty=p, number=i, president_candidate="President " + i, gender='H', postal_code="41410")
+        i = 1
+        while i <=  10: # Save 10 presidents
+            opt1 = PartyPresidentCandidate(politicalParty=p, number=str(i), president_candidate="President " + str(i), gender='H', postal_code="41410")
             opt1.save()
             i += 1
                         
-        while i >=  101: # Save 50 congresses
-            opt2 = PartyCongressCandidate(politicalParty=p, number=i, congress_candidate="Congress " + i, gender='M', postal_code="41410")
+        while i <=  20: # Save 10 congresses
+            opt2 = PartyCongressCandidate(politicalParty=p, number=str(i), congress_candidate="Congress " + str(i), gender='M', postal_code="41410")
             opt2.save()
             i += 1
             
