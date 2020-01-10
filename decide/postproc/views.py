@@ -21,6 +21,9 @@ class PostProcView(APIView):
         out.sort(key=lambda x: -x['postproc'])
         return Response(out)
 
+
+    #Este método ordena los resultados teniendo en cuenta una proporción de al menos 60/40% en cuanto a candidatos hombres y mujeres,
+    #siempre que sea posible
     def parity(self, options):
         out = []
         # Se crea una lista para los candidatos hombres y otra para las mujeres
@@ -39,6 +42,8 @@ class PostProcView(APIView):
         outMale.sort(key=lambda x: -x['votes'])
         outFemale.sort(key=lambda x: -x['votes'])
 
+        #Mientras haya al menos 3 candidatos hombres y 3 candidatos mujer, se van añadiendo de 3 en 3, ordenado y quitando el de menos votos
+        #De esta forma se añaden en grupos de 5, en los que al menos hay 2 hombres y 3 mujeres, o 3 hombres y 2 mujeres, guardando asi la proporción
         while len(outMale) > 2 and len(outFemale) > 2:
             aux = []
             for i in range(0, 3):
@@ -52,6 +57,8 @@ class PostProcView(APIView):
                     outMale.remove(a)
                 if a in outFemale:
                     outFemale.remove(a)
+        #Cuando queden menos de 3 mujeres o 3 hombres, mantener la proporción no sera necesariamente posible, por lo que se añadirán todos los restantes
+        #ordenados por número de votos
         aux = []
         for o in outMale:
             aux.append(o)
