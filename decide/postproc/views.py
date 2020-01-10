@@ -233,9 +233,9 @@ class PostProcView(APIView):
     #              cp: int
 
 
+    #Metodo auxiliar para extraer el top de las provincias mas pobladas
     def get_map(self):
         res = {}
-
         try:
             dir_path = os.path.dirname(os.path.realpath(__file__))
             f=open(dir_path+"/provincias", "r", encoding="utf-8")
@@ -255,18 +255,20 @@ class PostProcView(APIView):
         mapping = self.get_map()
         try:
             for opt in options:
-                print(opt)
-                votes = opt['votes'] 
-                coef = float(0.01)
-                position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
-                votes = float(votes) + float(votes)*coef*position
-                votes = int(votes)
-                out.append({
-                    **opt,
-                    'postproc': votes,
-                })
+                #Comprobamos que tiene el parametro que necesitamos
+                if 'postal_code' in opt:
+                    votes = opt['votes'] 
+                    coef = float(0.01)
+                    position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
+                    votes = float(votes) + float(votes)*coef*position
+                    votes = int(votes)
+                    out.append({
+                        **opt,
+                        'postproc': votes,
+                    })
             out.sort(key=lambda x: -x['postproc'])
             if len(options)==0:
+                #Controlamos que no vengan datos vacios
                 print("An exception occurred with equality province method")
                 out.append({'error': 'The Data is empty'})
         except:
