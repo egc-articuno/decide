@@ -189,7 +189,6 @@ class PartyCongressCandidate(models.Model):
     postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
     
     def save(self):
-        numbers = models.PartyCongressCandidate.numbers
         if not self.number:
             self.number = self.politicalParty.congress_candidates.count() + 2
         return super().save()
