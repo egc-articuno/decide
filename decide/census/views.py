@@ -154,7 +154,13 @@ def filter(request):
 
     return render(request,"filter_census.html",{'census': census,'conj':conj})
 
-  
+def deleteAll(request):
+    census = Census.objects.all()
+    for cens in census:
+        census_id = cens.voter_id
+        censo = get_object_or_404(Census,id=census_id)
+        censo.delete()
+    return redirect('filterCensus')      
 
 
 #def export_csv_view(request):

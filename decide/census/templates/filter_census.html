@@ -14,7 +14,7 @@
     <div class="ui breadcrumb">
       <a href="/" class="section">Home</a>
       <i class="right angle icon divider"></i>
-      <a href="{% url 'listCensus' %}" class="active section">Pruebas</a>
+      <a href="{% url 'listCensus' %}" class="active section">Census</a>
     </div>
   </nav>
 
@@ -22,6 +22,8 @@
 
 {% if census %}
   {% for i in conj %}
+
+  
 
   <div id="censusTable>">
 
@@ -55,7 +57,7 @@
 
 {% else %}
 
-<h4><div id=nocensus">No census to show</div></h4>
+<h4><div id="nocensus">No census to show</div></h4>
 
 {% endif %}
 </div>
@@ -68,5 +70,9 @@
   <input type="hidden" name="id" value="{{census.id}}" />
   <button class="ui primary button" type="submit">Create New Voter</button> 
 </form>  
+
+<form action="{% url 'deleteAll' %} " >
+  <button class="positive ui button" type="submit">Delete All Census</button>
+</form>
 
 <a id="exportCSV" href="{% url 'exportCensus' %}" class="ui button right floated" style="margin-top:20px">Export census</a>

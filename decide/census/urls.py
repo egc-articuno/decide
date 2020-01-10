@@ -13,5 +13,6 @@ urlpatterns = [
     path('deleteCensus', views.delete_census, name='deleteCensus'),
     path('deleteSelectedCensus', views.delete_selected_census, name='deleteSelectedCensus'),
     path('exportCensus', views.exportCSV, name='exportCensus'),
-    path('filterCensus', views.filter, name='filterCensus')
+    path('filterCensus', views.filter, name='filterCensus'),
+    path('deleteAll', views.deleteAll, name='deleteAll')
 ]
