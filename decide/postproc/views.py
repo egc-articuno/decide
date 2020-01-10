@@ -39,7 +39,7 @@ class PostProcView(APIView):
         outMale.sort(key=lambda x: -x['votes'])
         outFemale.sort(key=lambda x: -x['votes'])
 
-        while len(outMale) > 0 and len(outFemale) > 0:
+        while len(outMale) > 2 and len(outFemale) > 2:
             aux = []
             for i in range(0, 3):
                 aux.append(outMale[i])
@@ -52,11 +52,14 @@ class PostProcView(APIView):
                     outMale.remove(a)
                 if a in outFemale:
                     outFemale.remove(a)
+        aux = []
         for o in outMale:
-            out.append(o)
+            aux.append(o)
         for o in outFemale:
-            out.append(o)
-
+            aux.append(o)
+        aux.sort(key=lambda x: -x['votes'])
+        for a in aux:
+            out.append(a)
         return Response(out)
 
     # Este método realiza ponderaciones a los pesos de los votos dependiendo del género del votante en cuestión
