@@ -20,6 +20,7 @@ from census.serializer import CensusSerializer
 from django.http import HttpResponse
 from django.contrib import messages
 import csv, io
+import random
 
 
 class CensusCreate(generics.ListCreateAPIView):
@@ -154,7 +155,11 @@ def add_census_CP(request):
 
     return render(request, 'add_census_CP.html')
 
+voting_id_global= 0
+
 def save_new_census_CP(request):
+    global voting_id_global
+    voting_id_global = voting_id_global + 1
     voters = Voter.objects.all()
     census = Census.objects.all()
     postal_code_introducido = int(request.GET.get('postal_code'))
@@ -179,7 +184,7 @@ def save_new_census_CP(request):
                 postal_code = v.postal_code
                 if v.postal_code != None:
                     if postal_code == postal_code_introducido:
-                        voting_id = 100000000
+                        voting_id = voting_id_global
                         census_id = request.GET.get('id')
                         census = Census(voting_id=voting_id, voter_id=voter_id)
                         census.save()
