@@ -15,11 +15,11 @@
         <b-navbar type="dark" variant="secondary">
                 <!-- i18n menu -->
                 <b-navbar-nav class="ml-auto">
-                  <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                  <form style="color:white !important" action="{% url 'set_language' %}" method="post">{% csrf_token %}
                     <input name="next" type="hidden" value="{{ redirect_to }}" />
 					<div  style="float: left">
 					<div class="input-field">
-                    <select name="language" class="dropdown-content">
+                    <select  name="language" class="dropdown-content">
                       {% get_current_language as LANGUAGE_CODE %}
                       {% get_available_languages as LANGUAGES %}
                       {% get_language_info_list for LANGUAGES as languages %}
@@ -29,12 +29,12 @@
                     </select>
 					</div>
 					</div>
-                    <input type="submit" value="{% trans "Change" %}" style="float: right"/>
+                    <input type="submit" class="waves-effect waves-light btn white" value="{% trans "Change" %}" style="float: right"/>
                   </form>
                 </b-navbar-nav>
 
                 <!-- Logout -->
-                <b-navbar-nav class="ml-auto" v-if="!signup">
+                <b-navbar-nav class="ml-auto waves-effect waves-light btn-small material-icons right blue-grey darken-4" v-if="!signup">
                     <b-nav-item href="#" v-on:click="decideLogout">
                         {% trans "logout" %}
                     </b-nav-item>
