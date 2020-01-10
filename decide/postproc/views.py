@@ -83,31 +83,36 @@ class PostProcView(APIView):
 
         return Response(out)
 
-    #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación de los votos con un peso de edad a partir del dato original
+    #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación
+    #   de los votos con un peso de edad a partir del dato original
     #   Se supone que llegan los votos agrupados por ageRange segun el siguiente formato:
     #       options: [
     #             {
     #               .
     #               .
     #               .
-    #              ageRange: {RANGE(string): int, RANGE2(string): int},
+    #              ageRange: {RANGE(string): int, RANGE2(string): int, ... , RANGE8(string): int},
     #               .
     #               .
     #               .
     #             }
-    #   Como este cálculo es en porcentaje, lo máximo que puede aportar una provincia a una option es 100
-    # Sin acabar
     def voter_weight_age(self, options):
-        out = []
-        result = 0
+        out = [] # JSON esperado en la salida
+        result = 0 # Acumulador donde se guardará el recuento de los votos tras la ponderación por edad
         i = 1
         for opt in options:
             votesAges = opt['ageRange']
             for a in votesAges:
-                result += i * votesAges.get(a)
-                i = i + 1
-
-        out.append({**opt, 'postproc': result})
+                if votesAges.get(a)<0 or len(votesAges)<8:
+                        print("An exception occurred in the expected data in the voter_weight_age method")
+                        out.append({'error': 'An exception occurred in the expected data in the voter_weight_age method'})
+                        return Response(out)
+                else:
+                    result += i * votesAges.get(a)
+                    i = i + 1
+            i = 1
+            out.append({**opt, 'postproc': result})
+            result = 0
 
         return Response(out)
 

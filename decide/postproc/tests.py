@@ -76,13 +76,31 @@ class PostProcTestCase(APITestCase):
         data = {
             'type': 'AGERANGE',
             'options': [
-                {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':0, '38to47': 1, '48to57':0, '58to67':0, '68to77':0, '78to87':0, '88to97':0}},
+                {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':2, '38to47': 1, '48to57': 0, '58to67': 0, '68to77': 0, '78to87':0, '88to97':0}},
+                {'option': 'Option 2', 'number': 2, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 3', 'number': 3, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 0, '68to77': 0, '78to87': 0,  '88to97': 0}},
+                {'option': 'Option 4', 'number': 4,  'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 0, '78to87': 0, '88to97': 0}},
+                {'option': 'Option 5', 'number': 5, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 6', 'number': 6,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7,'88to97': 0}},
+                {'option': 'Option 7', 'number': 7,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 8}},
+                {'option': 'Option 8', 'number': 8, 'ageRange': {'18to27': 23, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7,'88to97': 8}},
+                {'option': 'Option 9', 'number': 9,'ageRange': {'18to27': 23, '28to37': 20, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 8}},
+                {'option': 'Option 10', 'number': 10, 'ageRange': {'18to27': 23, '28to37': 20, '38to47': 15, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 8}},
 
             ]
         }
 
         expected_result = [
-            {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':0, '38to47': 1, '48to57':0, '58to67':0, '68to77':0, '78to87':0, '88to97':0}, 'postproc': 7},
+            {'option': 'Option 1', 'number': 1, 'ageRange': {'18to27': 4, '28to37':2, '38to47': 1, '48to57':  0, '58to67': 0, '68to77':0, '78to87':0, '88to97':0}, 'postproc': 11},
+            {'option': 'Option 2', 'number': 2, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}, 'postproc': 10},
+            {'option': 'Option 3', 'number': 3, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}, 'postproc': 18},
+            {'option': 'Option 4', 'number': 4, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 0, '78to87': 0,'88to97': 0}, 'postproc': 43},
+            {'option': 'Option 5', 'number': 5,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 0, '88to97': 0}, 'postproc': 79},
+            {'option': 'Option 6', 'number': 6, 'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7,'88to97': 0}, 'postproc': 128},
+            {'option': 'Option 7', 'number': 7,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 8}, 'postproc': 192},
+            {'option': 'Option 8', 'number': 8,'ageRange': {'18to27': 23, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 8}, 'postproc': 212},
+            {'option': 'Option 9', 'number': 9, 'ageRange': {'18to27': 23, '28to37': 20, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7,'88to97': 8}, 'postproc': 248},
+            {'option': 'Option 10', 'number': 10, 'ageRange': {'18to27': 23, '28to37': 20, '38to47': 15, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 8}, 'postproc': 290},
 
         ]
 
@@ -91,6 +109,8 @@ class PostProcTestCase(APITestCase):
 
         values = response.json()
         self.assertEqual(values, expected_result)
+
+   
 
     def test_parity(self):
         data = {
