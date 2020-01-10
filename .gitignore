@@ -102,7 +102,6 @@ decideEnv/
 .mypy_cache/
 
 .vagrant
-
 .gitmessage.txt
 
 /local_settings.py
@@ -115,3 +114,6 @@ README.md
 
 #node_modules for angular app
 node_modules/
+
+.idea/
+decide/local_settings.py
