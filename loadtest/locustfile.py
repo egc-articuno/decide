@@ -8,18 +8,27 @@ from locust import (
     TaskSet,
     seq_task,
     task,
+    Locust,
+    between
 )
 
 
 HOST = "http://localhost:8000"
-VOTING = 1
+VOTING = 8
 
 
 class DefVisualizer(TaskSet):
-
+    last_wait_time = 0
+    
     @task
     def index(self):
         self.client.get("/visualizer/{0}/".format(VOTING))
+        
+
+    def wait_time(self):
+        self.last_wait_time += 1
+        return self.last_wait_time
+
 
 
 class DefVoters(TaskSequence):
@@ -64,6 +73,11 @@ class DefVoters(TaskSequence):
 class Visualizer(HttpLocust):
     host = HOST
     task_set = DefVisualizer
+    last_wait_time = 0
+
+    def wait_time(self):
+        self.last_wait_time += 1
+        return self.last_wait_time
 
 
 class Voters(HttpLocust):
