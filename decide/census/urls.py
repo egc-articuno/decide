@@ -14,4 +14,6 @@ urlpatterns = [
     path('deleteSelectedCensus', views.delete_selected_census, name='deleteSelectedCensus'),
     path('exportCensus', views.exportCSV, name='exportCensus'), 
     path('listCensusCP', views.list_census_CP, name='listCensusCP'),
+    path('addCensusCP', views.add_census_CP, name='addCensusCP'),
+    path('saveNewCensusCP', views.save_new_census_CP, name='saveNewCensusCP')
 ]

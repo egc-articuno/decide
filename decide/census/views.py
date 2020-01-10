@@ -15,6 +15,7 @@ from rest_framework.status import (
 from base.perms import UserIsStaff
 from .models import Census
 from voting.models import Voting
+from authentication.models import Voter
 from census.serializer import CensusSerializer
 from django.http import HttpResponse
 import csv, io
@@ -65,14 +66,6 @@ def list_census(request):
 
     return render(request,"main_index.html",{'census': census, 'votings':votings})
 
-
-def list_census_CP(request):
-
-    censusAll = Census.objects.all()
-    census = sorted(censusAll, key=lambda objeto: objeto.voting_id)
-    votings = Voting.objects.all()
-
-    return render(request,"list_census_CP_main.html",{'census': census, 'votings':votings})
 
 def edit_census(request):
 
@@ -153,6 +146,39 @@ def exportCSV(request):
         w.writerow([c.id, c.voting_id, c.voter_id])
     
     return res
+
+# Introducción del código postal
+
+def add_census_CP(request):
+
+    return render(request, 'add_census_CP.html')
+
+def save_new_census_CP(request):
+    voters = Voter.objects.all()
+    postal_code_introducido = request.GET.get('postal_code')
+
+    if request.user.is_staff:
+        for v in voters:
+            voter_id = v.id
+            if v.postal_code == postal_code_introducido:
+                voting_id = 100000000
+                census = Census(voting_id=voting_id, voter_id=voter_id)
+                census.save()
+           # else:
+            #    messages.add_message(request, messages.ERROR, "Not users with this postal code")
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+
+    return redirect('listCensusCP')
+
+def list_census_CP(request):
+
+    censusAll = Census.objects.all()
+    census = sorted(censusAll, key=lambda objeto: objeto.voting_id)
+    #votings = Voting.objects.all()
+    #voters = Voter.objects.all()
+
+    return render(request,"list_census_CP_main.html",{'census': census})
 
 #def export_csv_view(request):
 #    return render(request, "export_view.html")
