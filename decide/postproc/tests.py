@@ -176,7 +176,79 @@ class PostProcTestCase(APITestCase):
         values = response.json()
         self.assertEqual(values, expected_result)
 
+    def test_voter_age_zero(self):
+        data = {
+            'type': 'AGERANGE',
+            'options': [
+                {'option': 'Option 1', 'number': 1,'ageRange': {'18to27': 0, '28to37': 0, '38to47': 0, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 2', 'number': 2,'ageRange': {'18to27': 0, '28to37': 0, '38to47': 0, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 3', 'number': 3,'ageRange': {'18to27': 0, '28to37': 0, '38to47': 0, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
 
+            ]
+        }
+
+        expected_result = [
+            {'option': 'Option 1', 'number': 1,'ageRange': {'18to27': 0, '28to37': 0, '38to47': 0, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}, 'postproc': 0},
+            {'option': 'Option 2', 'number': 2,'ageRange': {'18to27': 0, '28to37': 0, '38to47': 0, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}, 'postproc': 0},
+            {'option': 'Option 3', 'number': 3,'ageRange': {'18to27': 0, '28to37': 0, '38to47': 0, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}, 'postproc': 0},
+        ]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_voter_age_not_type_defined(self):
+        data = {
+            'type': '',
+            'options': [
+                {'option': 'Option 1', 'number': 1,'ageRange': {'18to27': 4, '28to37': 2, '38to47': 1, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 2', 'number': 2,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 0, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 3', 'number': 3,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 4', 'number': 4,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 5', 'number': 5,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 6', 'number': 6,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7, '88to97': 0}},
+                {'option': 'Option 7', 'number': 7,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': 7,'88to97': 8}},
+                {'option': 'Option 8', 'number': 8,'ageRange': {'18to27': 23, '28to37': 2, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6,'78to87': 7, '88to97': 8}},
+                {'option': 'Option 9', 'number': 9,'ageRange': {'18to27': 23, '28to37': 20, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6,'78to87': 7, '88to97': 8}},
+                {'option': 'Option 10', 'number': 10,'ageRange': {'18to27': 23, '28to37': 20, '38to47': 15, '48to57': 2, '58to67': 5, '68to77': 6,'78to87': 7, '88to97': 8}},
+
+            ]
+        }
+
+        expected_result = {}
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
+
+    def test_voter_age_bad_data(self):
+        data = {
+            'type': 'AGERANGE',
+            'options': [
+                {'option': 'Option 1', 'number': 1,'ageRange': {'18to27': -3, '28to37': 2, '38to47': 1, '48to57': 0, '58to67': 0, '68to77': 0,'78to87': 0, '88to97': 0}},
+                {'option': 'Option 2', 'number': 2,'ageRange': {'28to37': -2, '38to47': 1, '48to57': -9, '58to67': 0, '68to77': 0, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 3', 'number': 3,'ageRange': {'18to27': 3, '28to37': 2, '38to47': -1, '48to57': 2, '58to67': 0, '68to77': 0,'78to87': 0, '88to97': 0}},
+                {'option': 'Option 4', 'number': 4,'ageRange': {'18to27': -3, '28to37': 2, '48to57': 2, '58to67': 5, '68to77': 0, '78to87': 0,'88to97': 80}},
+                {'option': 'Option 5', 'number': 5,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '58to67': 5, '68to77': 6, '78to87': 0,'88to97': 0}},
+                {'option': 'Option 6', 'number': 6,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '48to57': 2, '68to77': 6, '78to87': 7,'88to97': 23}},
+                {'option': 'Option 7', 'number': 7,'ageRange': {'18to27': 3, '28to37': 2, '38to47': 1, '58to67': 5, '68to77': 6, '78to87': 7,'88to97': 8}},
+                {'option': 'Option 8', 'number': 8, 'ageRange': {'18to27': 23, '38to47': 1, '48to57': 2, '58to67': 5, '68to77': 6, '78to87': -7,'88to97': -8}},
+                {'option': 'Option 9', 'number': 9,'ageRange': {'18to27': 23, '28to37': 20, '38to47': 1, '48to57': -2, '68to77': 6, '78to87': 7,'88to97': 8}},
+                {'option': 'Option 10', 'number': 10,'ageRange': {'18to27': -23, '28to37': 20, '38to47': 15, '48to57': 2, '58to67': 5, '78to87': -7,'88to97': 8}},
+            ]
+        }
+
+        expected_result = [{'error': 'An exception occurred in the expected data in the voter_weight_age method'}]
+
+        response = self.client.post('/postproc/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        values = response.json()
+        self.assertEqual(values, expected_result)
 
     def test_parity(self):
         data = {
