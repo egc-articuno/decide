@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/divider.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/breadcrumb.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/form.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/table.css">
+</head>
+
+<nav style="margin-bottom:5%">
+    <div class="ui breadcrumb">
+      <a href="/" class="section">Home</a>
+      <i class="right angle icon divider"></i>
+      <a href="{% url 'listCensus' %}" class="active section">Pruebas</a>
+    </div>
+  </nav>
+
+<br/>
+
+{% if census %}
+  {% for i in conj %}
+
+  <div id="censusTable>">
+
+    <table class="ui celled table">
+            <thead>
+              <tr>
+                {% if i == 0 %}
+                  <th>Choose one voting for this voter</th>
+                {% else %}
+                  <th>Voting ID: {{i}} </th>
+                {% endif %}  
+              </tr>
+            </thead>
+            <tbody>
+            {% for cens in census %}            
+              {% if cens.voting_id == i %}
+              <tr></tr>
+              <td>{{cens.voter_id}}</td>
+              <td><a href="{% url 'editCensus' %}?id={{ cens.id }}" class="waves-effect waves-light btn">Edit census</a></td>
+
+              </tr>
+
+              {% endif %}
+            {% endfor %}
+              
+            </tbody>
+          </table>
+    </div>  
+  {% endfor %}  
+
+
+{% else %}
+
+<h4><div id=nocensus">No census to show</div></h4>
+
+{% endif %}
+</div>
+<br>
+<br>
+
+<form action="{% url 'saveNewCensus' %}" method="get" class="ui form container">
+  <input type="hidden" name="voting_id" value="0"/>
+  <input type="hidden" name="voter_id" value="0"> 
+  <input type="hidden" name="id" value="{{census.id}}" />
+  <button class="ui primary button" type="submit">Create New Voter</button> 
+</form>  
+
+<a id="exportCSV" href="{% url 'exportCensus' %}" class="ui button right floated" style="margin-top:20px">Export census</a>
