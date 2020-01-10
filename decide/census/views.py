@@ -18,6 +18,7 @@ from voting.models import Voting
 from authentication.models import Voter
 from census.serializer import CensusSerializer
 from django.http import HttpResponse
+from django.contrib import messages
 import csv, io
 
 
@@ -155,25 +156,37 @@ def add_census_CP(request):
 
 def save_new_census_CP(request):
     voters = Voter.objects.all()
+    census = Census.objects.all()
     postal_code_introducido = int(request.GET.get('postal_code'))
-    if request.user.is_staff:
-        for v in voters:
-            voter_id = v.id
-            postal_code = v.postal_code
-            print(type(postal_code))
-            print(type(postal_code_introducido))
-            if v.postal_code != None:
-                if postal_code == postal_code_introducido:
-                    voting_id = 100000000
-                    census_id = request.GET.get('id')
-                    census = Census(voting_id=voting_id, voter_id=voter_id)
-                    census.save()
-               # else:
-                #    messages.add_message(request, messages.ERROR, "Permission denied")
-            #else:
-             #   messages.add_message(request, messages.ERROR, "Permission denied")
+    list_postal_code_all = []
+    list_postal_code = []
+    for vo in voters:
+        list_postal_code_all.append(vo.postal_code)
+    for cens in census: 
+        voter_id_cens = cens.voter_id
+        for vot in voters:
+            if voter_id_cens == vot.id:
+                list_postal_code.append(vot.postal_code)
+
+    if postal_code_introducido in list_postal_code:
+        print("The census with this postal code alredy exists")
+    elif not(postal_code_introducido in list_postal_code_all):
+        print("Not users with this postal code")
     else:
-        messages.add_message(request, messages.ERROR, "Permission denied")
+        if request.user.is_staff:
+            for v in voters:
+                voter_id = v.id
+                postal_code = v.postal_code
+                if v.postal_code != None:
+                    if postal_code == postal_code_introducido:
+                        voting_id = 100000000
+                        census_id = request.GET.get('id')
+                        census = Census(voting_id=voting_id, voter_id=voter_id)
+                        census.save()
+                
+
+        else:
+            messages.add_message(request, messages.ERROR, "Permission denied")
 
     return redirect('listCensusCP')
 
