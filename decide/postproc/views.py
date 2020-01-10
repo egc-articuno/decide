@@ -1,6 +1,7 @@
 import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 import pgeocode
 import urllib.request, re
 from django.shortcuts import render
@@ -76,38 +77,46 @@ class PostProcView(APIView):
     def weigth_per_gender(self, options):
         out = []    # JSON esperado en la salida
         votesFinal = 0  # Acumulador donde se guardará el recuento de los votos tras la ponderación por género
-
-        for opt in options:
-            votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
-            out.append({**opt, 'postproc': votesFinal })
+        try:
+            for opt in options:
+                votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
+                out.append({**opt, 'postproc': votesFinal })
+        except:
+            print("An exception occurred in the expected data in the weigth_per_gender method")
+            out.append({'error': 'An exception occurred in the expected data in the weigth_per_gender method'})
 
         return Response(out)
 
-    #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación de los votos con un peso de edad a partir del dato original
+    #   Este método lo que hace es agrupar a los votantes entre distintos rangos de edad, y a cada rango asignarle un peso de modo que el resultado sea una ponderación
+    #   de los votos con un peso de edad a partir del dato original
     #   Se supone que llegan los votos agrupados por ageRange segun el siguiente formato:
     #       options: [
     #             {
     #               .
     #               .
     #               .
-    #              ageRange: {RANGE(string): int, RANGE2(string): int},
+    #              ageRange: {RANGE(string): int, RANGE2(string): int, ... , RANGE8(string): int},
     #               .
     #               .
     #               .
     #             }
-    #   Como este cálculo es en porcentaje, lo máximo que puede aportar una provincia a una option es 100
-    # Sin acabar
     def voter_weight_age(self, options):
-        out = []
-        result = 0
+        out = [] # JSON esperado en la salida
+        result = 0 # Acumulador donde se guardará el recuento de los votos tras la ponderación por edad
         i = 1
         for opt in options:
             votesAges = opt['ageRange']
             for a in votesAges:
-                result += i * votesAges.get(a)
-                i = i + 1
-
-        out.append({**opt, 'postproc': result})
+                if votesAges.get(a)<0 or len(votesAges)<8:
+                        print("An exception occurred in the expected data in the voter_weight_age method")
+                        out.append({'error': 'An exception occurred in the expected data in the voter_weight_age method'})
+                        return Response(out)
+                else:
+                    result += i * votesAges.get(a)
+                    i = i + 1
+            i = 1
+            out.append({**opt, 'postproc': result})
+            result = 0
 
         return Response(out)
 
@@ -121,7 +130,6 @@ class PostProcView(APIView):
     #              ...extraparams
     #             }
     #   Como este cálculo es en porcentaje, lo máximo que puede aportar una provincia a una option es 100
-    # Sin acabar
 
     def county(self, options):
         out = []
@@ -130,7 +138,7 @@ class PostProcView(APIView):
 
         for opt in options:
             for cp, votes in opt['votes'].items():
-                county = nomi.query_postal_code(cp)['county_name'] #Hay que comprobar esta linea
+                county = nomi.query_postal_code(cp)['county_name']
 
                 if county in county_votes:
                     county_votes[county] = county_votes[county] + opt['votes'][cp]
@@ -141,7 +149,7 @@ class PostProcView(APIView):
             result = 0
             for cp, votes in opt['votes'].items():
                 county = nomi.query_postal_code(cp)['county_name']
-                county_percent = votes / county_votes[county] * 100
+                county_percent = round(votes / county_votes[county] * 100)
                 result += county_percent
             out.append({
                 **opt,
@@ -152,39 +160,61 @@ class PostProcView(APIView):
         return Response(out)
 
           
+#Sistema D'Hondt - Metodo de promedio mayor para asignar escaños en sistemas de representación proporcional por listas electorales. Por tanto,
+# en dicho método trabajaremos con listas de partidos politicos y con un número de escaños que será pasado como parámetro. 
+    #       nSeats: 10
+    #       options: [
+    #             {
+    #              option: Partido1,
+    #              number: 1,
+    #              votes: 5,
+    #        
+    #             } {
+    #              option: Partido2,
+    #              number: 2,
+    #              votes: 3,
+    #              }.
+    #               .
 
     def hondt(self, options, nSeats):
         parties = [] # Partidos politicos - option
         points = [] #Puntos de cada partido - votes
-        seats = [] #Salida - se almacena en dicha lista el valor calculado de los escaños
-        out = []
+        seats = [] #Escaños por partidos
+        out = [] #Salida
 
+        #Calcular el número de escaño que voy a tener según el número de partidos, inicializamos a 0
         for i in options:
             esc = 0
             seats.append(esc)
 
+
         for opt in options:
-            parties.append(opt['votes']) #Copia 
-            #Concatenar el número de votos con la opción
+            parties.append(opt['votes']) #Copia de los votos de cada partido
+            #Concatenar la parametros de Opt con seats para mostrarlo en la salida
             out.append({
                 **opt,
                 'seats': 0,
-                });
-        #Número de escaños totales
+                })
         points = parties
         seatsToDistribution = nSeats 
         
+        #Submétodo para asignar los escaños
+        # En cada iteración se calcula los cocientes para cada partido y se asigna un escaño al partido con cociente mayor. Para la siguiente iteracion se recalcula
+        #  el cociente del partido que acaba de recibir un escaño. Los demas partidos mantienen su cociente ya que no reciben escaño y se repite el proceso.
         def giveASeat():
-            biggest = max(points)
+            biggest = max(points) #Obtener el partido con mayor número de votos
             index = points.index(biggest)
-            seats[index] += 1
-            out[index]['seats'] += 1
-            points[index] = parties[index] / (seats[index]+1)
+            if biggest != 0:
+                
+                seats[index] += 1 
+                out[index]['seats'] += 1 
+                points[index] = parties[index] / (seats[index]+1) 
 
+        #Llamar al método de asignación de escaños tantas veces como número de escaños tengamos
         for i in range(0,seatsToDistribution):
             giveASeat()
             
-
+        #Ordeno los resultados de la salida por el número de escaños
         out.sort(key=lambda x: -x['seats'])
         return Response(out)
 
@@ -203,15 +233,18 @@ class PostProcView(APIView):
     #              cp: int
 
 
+    #Metodo auxiliar para extraer el top de las provincias mas pobladas
     def get_map(self):
         res = {}
-
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        f=open(dir_path+"/provincias", "r", encoding="utf-8")
-        lines = f.readlines()
-        for line in lines:
-            provincia = line.split(",")
-            res[provincia[1].rstrip().strip()]=provincia[0]
+        try:
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            f=open(dir_path+"/provincias", "r", encoding="utf-8")
+            lines = f.readlines()
+            for line in lines:
+                provincia = line.split(",")
+                res[provincia[1].rstrip().strip()]=provincia[0]
+        except:
+            print('An except ocurred reading the province list file')
         return res
 
 
@@ -219,20 +252,30 @@ class PostProcView(APIView):
         out = []
         county_votes = {}
         nomi = pgeocode.Nominatim('ES')
-
         mapping = self.get_map()
-        for opt in options:
-            print(opt)
-            votes = opt['votes'] 
-            coef = float(0.01)
-            position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
-            votes = float(votes) + float(votes)*coef*position
-            votes = int(votes)
-            out.append({
-                **opt,
-                'postproc': votes,
-            })
-        out.sort(key=lambda x: -x['postproc'])
+        try:
+            for opt in options:
+                #Comprobamos que tiene el parametro que necesitamos
+                if 'postal_code' in opt:
+                    votes = opt['votes'] 
+                    coef = float(0.01)
+                    position = float((mapping[nomi.query_postal_code(opt['postal_code'])['county_name']]))
+                    votes = float(votes) + float(votes)*coef*position
+                    votes = int(votes)
+                    out.append({
+                        **opt,
+                        'postproc': votes,
+                    })
+            out.sort(key=lambda x: -x['postproc'])
+            if len(options)==0:
+                #Controlamos que no vengan datos vacios
+                print("An exception occurred with equality province method")
+                out.append({'error': 'The Data is empty'})
+        except:
+            if len(options)>0:
+                print("An exception occurred with equality province method")
+                out.append({'error': 'An exception occurred with equality province method'})
+
         return Response(out)
 
     def post(self, request):
@@ -248,7 +291,7 @@ class PostProcView(APIView):
            ]
         """
 
-        t = request.data.get('type', 'GENDER')
+        t = request.data.get('type', 'EQUALITY_PROVINCE')
         opts = request.data.get('options', [])
 
         if t == 'IDENTITY':
@@ -269,7 +312,20 @@ class PostProcView(APIView):
         return Response({})
 
 def postProcHtml(request):
+    p = PostProcView()
     dir_path = os.path.dirname(os.path.realpath(__file__))
     with open(dir_path + "/mock.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
-    return render(request,"postProcHtml.html",{'options': data})
+        opts = json.dumps(data)
+        opts = data[0]['options']
+        result = p.voter_weight_age(opts)
+        result.accepted_renderer = JSONRenderer()
+        result.accepted_media_type = "application/json"
+        result.renderer_context = {}
+        result = result.render()
+        result = result.content.decode("utf-8")
+        result = json.loads(result)
+        r = []
+        for res in result:
+            r.append(res['postproc'])
+    return render(request,"postProcHtml.html",{'options': r})
