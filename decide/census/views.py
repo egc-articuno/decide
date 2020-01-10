@@ -155,17 +155,23 @@ def add_census_CP(request):
 
 def save_new_census_CP(request):
     voters = Voter.objects.all()
-    postal_code_introducido = request.GET.get('postal_code')
-
+    postal_code_introducido = int(request.GET.get('postal_code'))
     if request.user.is_staff:
         for v in voters:
             voter_id = v.id
-            if v.postal_code == postal_code_introducido:
-                voting_id = 100000000
-                census = Census(voting_id=voting_id, voter_id=voter_id)
-                census.save()
-           # else:
-            #    messages.add_message(request, messages.ERROR, "Not users with this postal code")
+            postal_code = v.postal_code
+            print(type(postal_code))
+            print(type(postal_code_introducido))
+            if v.postal_code != None:
+                if postal_code == postal_code_introducido:
+                    voting_id = 100000000
+                    census_id = request.GET.get('id')
+                    census = Census(voting_id=voting_id, voter_id=voter_id)
+                    census.save()
+               # else:
+                #    messages.add_message(request, messages.ERROR, "Permission denied")
+            #else:
+             #   messages.add_message(request, messages.ERROR, "Permission denied")
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
@@ -175,10 +181,5 @@ def list_census_CP(request):
 
     censusAll = Census.objects.all()
     census = sorted(censusAll, key=lambda objeto: objeto.voting_id)
-    #votings = Voting.objects.all()
-    #voters = Voter.objects.all()
 
     return render(request,"list_census_CP_main.html",{'census': census})
-
-#def export_csv_view(request):
-#    return render(request, "export_view.html")
