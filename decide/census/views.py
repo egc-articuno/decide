@@ -87,7 +87,7 @@ def save_edited_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensus')
+    return redirect('filterCensus')
 
 
 def add_census(request):
@@ -105,7 +105,7 @@ def save_new_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensus')
+    return redirect('filterCensus')
 
 def delete_census(request):
     if request.user.is_staff:
@@ -144,6 +144,18 @@ def exportCSV(request):
         w.writerow([c.id, c.voting_id, c.voter_id])
     
     return res
+
+def filter(request):
+    census = Census.objects.all()
+    conj = set()
+    for i in census:
+        id = i.voting_id
+        conj.add(id)
+
+    return render(request,"filter_census.html",{'census': census,'conj':conj})
+
+  
+
 
 #def export_csv_view(request):
 #    return render(request, "export_view.html")
