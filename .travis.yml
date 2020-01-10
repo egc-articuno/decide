@@ -12,10 +12,14 @@ python:
 - '3.6'
 install:
 - pip install -r requirements.txt
+- pip install codacy-coverage
 script:
 - cd decide
 - cp travis_local_settings.py local_settings.py
 - python ./manage.py test --keepdb
+- coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
+- coverage xml
+- python-codacy-coverage -r coverage.xml
 - rm local_settings.py
 deploy:
   provider: heroku
