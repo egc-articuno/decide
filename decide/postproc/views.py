@@ -1,6 +1,7 @@
 import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 import pgeocode
 import urllib.request, re
 from django.shortcuts import render
@@ -76,10 +77,13 @@ class PostProcView(APIView):
     def weigth_per_gender(self, options):
         out = []    # JSON esperado en la salida
         votesFinal = 0  # Acumulador donde se guardará el recuento de los votos tras la ponderación por género
-
-        for opt in options:
-            votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
-            out.append({**opt, 'postproc': votesFinal })
+        try:
+            for opt in options:
+                votesFinal = (opt['votesFemale'] * opt['pondFemale']) + (opt['votesMale'] * opt['pondMale'])
+                out.append({**opt, 'postproc': votesFinal })
+        except:
+            print("An exception occurred in the expected data in the weigth_per_gender method")
+            out.append({'error': 'An exception occurred in the expected data in the weigth_per_gender method'})
 
         return Response(out)
 
@@ -262,9 +266,13 @@ class PostProcView(APIView):
                     'postproc': votes,
                 })
             out.sort(key=lambda x: -x['postproc'])
+            if len(options)==0:
+                print("An exception occurred with equality province method")
+                out.append({'error': 'The Data is empty'})
         except:
-            print("An exception occurred with equality province method")
-            out.append({'error': 'An exception occurred with equality province method'})
+            if len(options)>0:
+                print("An exception occurred with equality province method")
+                out.append({'error': 'An exception occurred with equality province method'})
 
         return Response(out)
 
@@ -302,7 +310,20 @@ class PostProcView(APIView):
         return Response({})
 
 def postProcHtml(request):
+    p = PostProcView()
     dir_path = os.path.dirname(os.path.realpath(__file__))
     with open(dir_path + "/mock.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
-    return render(request,"postProcHtml.html",{'options': data})
+        opts = json.dumps(data)
+        opts = data[0]['options']
+        result = p.voter_weight_age(opts)
+        result.accepted_renderer = JSONRenderer()
+        result.accepted_media_type = "application/json"
+        result.renderer_context = {}
+        result = result.render()
+        result = result.content.decode("utf-8")
+        result = json.loads(result)
+        r = []
+        for res in result:
+            r.append(res['postproc'])
+    return render(request,"postProcHtml.html",{'options': r})
