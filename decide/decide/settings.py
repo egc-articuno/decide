@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-#import django_heroku
-
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,9 +72,7 @@ MODULES = [
 ]
 
 #BASEURL = 'http://localhost:8000'
-
-#Se elimina la s del https
-BASEURL = 'http://census-practica.herokuapp.com'
+BASEURL = 'https://decide-articuno.herokuapp.com/'
 
 APIS = {
     'authentication': BASEURL,
@@ -85,9 +82,11 @@ APIS = {
     'mixnet': BASEURL,
     'postproc': BASEURL,
     'store': BASEURL,
+    'gateway': BASEURL,
     'visualizer': BASEURL,
-    'voting': BASEURL
+    'voting': BASEURL,
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -176,7 +175,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 STATIC_URL = '/static/'
 
 # number of bits for the key, all auths should use the same number of bits
-KEYBITS = 256
+KEYBITS = 161
 
 # Versioning
 ALLOWED_VERSIONS = ['v1', 'v2']
@@ -197,4 +196,5 @@ if os.path.exists("config.jsonnet"):
 
 
 INSTALLED_APPS = INSTALLED_APPS + MODULES
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
+

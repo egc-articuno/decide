@@ -13,7 +13,7 @@ from base.models import Auth
 from base.tests import BaseTestCase
 from census.models import Census
 from mixnet.models import Key
-from voting.models import Question
+from voting.models import PoliticalParty, PartyCongressCandidate, PartyPresidentCandidate
 from voting.models import Voting
 
 
@@ -21,22 +21,24 @@ class StoreTextCase(BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.question = Question(desc='qwerty')
-        self.question.save()
         self.voting = Voting(pk=5001,
                              name='voting example',
-                             question=self.question,
+                             blank_vote=1,
                              start_date=timezone.now(),
-        )
+                             )
         self.voting.save()
+        self.politicalParty = PoliticalParty(name='Test Political Party', voting=self.voting)
+        self.politicalParty.save()
 
     def tearDown(self):
         super().tearDown()
 
     def gen_voting(self, pk):
-        voting = Voting(pk=pk, name='v1', question=self.question, start_date=timezone.now(),
+        voting = Voting(pk=pk, blank_vote=1, name='v1', start_date=timezone.now(),
                 end_date=timezone.now() + datetime.timedelta(days=1))
         voting.save()
+        politicalParty = PoliticalParty(name='Test Political Party', voting=voting)
+        politicalParty.save()
 
     def get_or_create_user(self, pk):
         user, _ = User.objects.get_or_create(pk=pk)
@@ -49,8 +51,6 @@ class StoreTextCase(BaseTestCase):
         votings = [random.randint(1, 5000) for i in range(10)]
         users = [random.randint(3, 5002) for i in range(50)]
         for v in votings:
-            a = random.randint(2, 500)
-            b = random.randint(2, 500)
             self.gen_voting(v)
             random_user = random.choice(users)
             user = self.get_or_create_user(random_user)
@@ -60,9 +60,14 @@ class StoreTextCase(BaseTestCase):
             data = {
                 "voting": v,
                 "voter": random_user,
-                "vote": { "a": a, "b": b }
+                "votes": []
             }
+            for i in range(random.randint(1, 5)):
+                a = random.randint(2, 500)
+                b = random.randint(2, 500)
+                data['votes'].append({'a': a, 'b': b})
             response = self.client.post('/store/', data, format='json')
+            print(data)
             self.assertEqual(response.status_code, 200)
 
         self.logout()
@@ -79,15 +84,14 @@ class StoreTextCase(BaseTestCase):
 
     def test_store_vote(self):
         VOTING_PK = 345
-        CTE_A = 96
-        CTE_B = 184
+        CTE = [{'a': 96, 'b': 184}, {'a': 33, 'b': 45}]
         census = Census(voting_id=VOTING_PK, voter_id=1)
         census.save()
         self.gen_voting(VOTING_PK)
         data = {
             "voting": VOTING_PK,
             "voter": 1,
-            "vote": { "a": CTE_A, "b": CTE_B }
+            "votes": CTE
         }
         user = self.get_or_create_user(1)
         self.login(user=user.username)
@@ -97,8 +101,10 @@ class StoreTextCase(BaseTestCase):
         self.assertEqual(Vote.objects.count(), 1)
         self.assertEqual(Vote.objects.first().voting_id, VOTING_PK)
         self.assertEqual(Vote.objects.first().voter_id, 1)
-        self.assertEqual(Vote.objects.first().a, CTE_A)
-        self.assertEqual(Vote.objects.first().b, CTE_B)
+        self.assertEqual(Vote.objects.first().ciphers.first().a, CTE[0]['a'])
+        self.assertEqual(Vote.objects.first().ciphers.first().b, CTE[0]['b'])
+        self.assertEqual(Vote.objects.first().ciphers.last().a, CTE[1]['a'])
+        self.assertEqual(Vote.objects.first().ciphers.last().b, CTE[1]['b'])
 
     def test_vote(self):
         self.gen_votes()
@@ -168,7 +174,7 @@ class StoreTextCase(BaseTestCase):
         data = {
             "voting": 5001,
             "voter": 1,
-            "vote": { "a": 30, "b": 55 }
+            "votes": [{'a': 30, 'b': 55}, {'a': 33, 'b': 45}]
         }
         census = Census(voting_id=5001, voter_id=1)
         census.save()

@@ -7,6 +7,7 @@ class Gateway(APIView):
     def get(self, request, submodule, route):
         kwargs = {'HTTP_AUTHORIZATION': request.META.get('HTTP_AUTHORIZATION', '')}
         kwargs['params'] = {k: v for k, v in request.data.items()}
+        print(f'parámetros: {kwargs}')
         resp = mods.query(submodule, route, method='get', response=True, **kwargs)
         return Response(resp.json(), status=resp.status_code)
 
