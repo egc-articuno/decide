@@ -249,12 +249,7 @@ def filter(request):
 def deleteAll(request):
     census = Census.objects.all()
     for cens in census:
-        if cens.voter_id != 0:
-            census_id = cens.voter_id
-            censo = get_object_or_404(Census,id=census_id)
-            censo.delete()
-        else:  
-            cens.delete()
+        cens.delete()
     return redirect('filterCensus')      
 
 
