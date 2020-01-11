@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/divider.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/breadcrumb.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/form.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/table.css">
+</head>
+
+<nav style="margin-bottom:5%">
+    <div class="ui breadcrumb">
+      <a href="/" class="section">Home</a>
+      <i class="right angle icon divider"></i>
+      <a href="{% url 'listCensusCP' %}" class="active section">Lista censos por CP</a>
+    </div>
+  </nav>
+
+{% for message in messages %}
+    {% if forloop.counter == 1 %}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            {{ message }}
+         </div>
+    {% endif %}
+{% endfor %}
+
+
+
+<br/>
+
+
+{% if census %}
+
+<div id="censusTableCP>">
+
+<table class="ui celled table">
+        <thead>
+          <tr>
+              <th>Voting ID - Same postal code</th>
+              <th>Voter ID</th>
+              <th>Census ID</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+
+        {% for cens in census %}
+        <tr>
+        
+        <td>{{cens.voting_id}}</td>
+        <td>{{cens.voter_id}}</td>
+        <td>{{cens.id}}</td>
+
+        </tr>
+
+        {% endfor %}
+
+          
+        </tbody>
+      </table>
+</div>
+{% else %}
+
+<h4><div id=nocensus">No census to show</div></h4>
+
+{% endif %}
+</div>
+
+<a id="listCensus" href="{% url 'listCensus' %}" class="ui button right floated" style="margin-top:20px"> List census</a>
+<a id="addCensusCP" href="{% url 'addCensusCP' %}" class="ui button right floated" style="margin-top:20px">Add census by postal code</a>

@@ -15,9 +15,12 @@ from rest_framework.status import (
 from base.perms import UserIsStaff
 from .models import Census
 from voting.models import Voting
+from authentication.models import Voter
 from census.serializer import CensusSerializer
 from django.http import HttpResponse
+from django.contrib import messages
 import csv, io
+import random
 
 
 class CensusCreate(generics.ListCreateAPIView):
@@ -62,6 +65,7 @@ def list_census(request):
 
     census = Census.objects.all()
     votings = Voting.objects.all()
+
     return render(request,"main_index.html",{'census': census, 'votings':votings})
 
 
@@ -144,6 +148,91 @@ def exportCSV(request):
         w.writerow([c.id, c.voting_id, c.voter_id])
     
     return res
+ 
+def import_csv(request):
+    if request.user.is_staff:
+        if 'file' in request.FILES:
+            file = request.FILES['file']
+            data_set =  file.read().decode('utf-8-sig')
+            arr = data_set.strip().split("\n")
+            for e in arr:
+                numbers = e.replace("\r", "").split(";")
+                census = Census(voting_id=numbers[0], voter_id=numbers[1])
+                census.save()
+                print(numbers)
+    
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+    
+    return redirect('listCensus')
+
+def import_csv_view(request):
+    if request.user.is_staff:
+        return render(request, "import_csv.html")
+
+    else:
+       messages.add_message(request, messages.ERROR, "Permission denied") 
+       return redirect('listCensus')
+
+# Introducción del código postal
+
+def add_census_CP(request):
+
+    return render(request, 'add_census_CP.html')
+
+voting_id_global= 0
+
+def save_new_census_CP(request):
+    global voting_id_global
+    voting_id_global = voting_id_global + 1
+    voters = Voter.objects.all()
+    census = Census.objects.all()
+    postal_code_introducido = int(request.GET.get('postal_code'))
+    list_postal_code_all = []
+    list_postal_code = []
+    for vo in voters:
+        list_postal_code_all.append(vo.postal_code)
+    for cens in census: 
+        voter_id_cens = cens.voter_id
+        for vot in voters:
+            if voter_id_cens == vot.id:
+                list_postal_code.append(vot.postal_code)
+
+    if postal_code_introducido in list_postal_code:
+        return redirect('error1')
+    elif not(postal_code_introducido in list_postal_code_all):
+        return redirect('error2')
+    else:
+        if request.user.is_staff:
+            for v in voters:
+                voter_id = v.id
+                postal_code = v.postal_code
+                if v.postal_code != None:
+                    if postal_code == postal_code_introducido:
+                        voting_id = voting_id_global
+                        census_id = request.GET.get('id')
+                        census = Census(voting_id=voting_id, voter_id=voter_id)
+                        census.save()
+                
+
+        else:
+            messages.add_message(request, messages.ERROR, "Permission denied")
+
+        return redirect('listCensusCP')
+
+def list_census_CP(request):
+
+    censusAll = Census.objects.all()
+    census = sorted(censusAll, key=lambda objeto: objeto.voting_id)
+
+    return render(request,"list_census_CP_main.html",{'census': census})
+
+def error_1(request):
+
+    return render(request,"error1.html")
+
+def error_2(request):
+    return render(request,"error2.html")
 
 def filter(request):
     census = Census.objects.all()
@@ -169,5 +258,3 @@ def deleteAll(request):
     return redirect('filterCensus')      
 
 
-#def export_csv_view(request):
-#    return render(request, "export_view.html")
