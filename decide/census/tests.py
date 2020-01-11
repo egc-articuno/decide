@@ -90,3 +90,21 @@ class CensusTestCase(BaseTestCase):
 
         census_after = len(Census.objects.all().values_list('voting_id', flat=True))
         self.assertTrue(census_before < census_after)
+    
+
+    def test_save_census_CP(self):
+        data = {'postal_code':11223}
+        census_1 = len(Census.objects.all().values_list('voting_id', flat=True))
+
+
+        admin = User(email='administrador@gmail.com', password='qwerty')
+        admin.is_staff = True
+        admin.save()
+
+        self.client.force_login(admin)
+
+        response = self.client.get('/census/saveNewCensusCP', {'postal_code':11223})
+
+        census_2 = len(Census.objects.all().values_list('voting_id', flat=True))
+        self.assertTrue(census_1 == census_2)
+        self.assertEqual(response.status_code, 302)
