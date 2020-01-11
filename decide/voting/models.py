@@ -128,7 +128,7 @@ class Voting(models.Model):
                     'party': pty.name
                 })
 
-        data = { 'type': 'IDENTITY', 'options': opts }
+        data = { 'type': 'EQUALITY_PROVINCE', 'options': opts }
         print(data)
         postp = mods.post('postproc', json=data)
 
