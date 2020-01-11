@@ -12,5 +12,7 @@ urlpatterns = [
     path('saveEditedCensus', views.save_edited_census, name='saveEditedCensus'),
     path('deleteCensus', views.delete_census, name='deleteCensus'),
     path('deleteSelectedCensus', views.delete_selected_census, name='deleteSelectedCensus'),
-    path('exportCensus', views.exportCSV, name='exportCensus')
+    path('exportCensus', views.exportCSV, name='exportCensus'),
+    path('importCSV', views.import_csv, name='importCSV'),
+    path('importCensusView', views.import_csv_view, name='importCensusView'),
 ]
