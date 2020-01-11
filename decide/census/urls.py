@@ -15,4 +15,14 @@ urlpatterns = [
     path('viewVoting', views.view_voting, name='viewVoting'),
     path('moveVotersView', views.move_voters_view, name='moveVotersView'),
     path('moveVoters', views.move_voters, name='moveVoters'),
+    path('exportCensus', views.exportCSV, name='exportCensus'),
+    path('filterCensus', views.filter, name='filterCensus'),
+    path('deleteAll', views.deleteAll, name='deleteAll'),
+    path('importCSV', views.import_csv, name='importCSV'),
+    path('importCensusView', views.import_csv_view, name='importCensusView'),
+    path('listCensusCP', views.list_census_CP, name='listCensusCP'),
+    path('addCensusCP', views.add_census_CP, name='addCensusCP'),
+    path('saveNewCensusCP', views.save_new_census_CP, name='saveNewCensusCP'),
+    path('error1', views.error_1, name='error1'),
+    path('error2', views.error_2, name='error2')
 ]

@@ -14,7 +14,7 @@
     <div class="ui breadcrumb">
       <a href="/" class="section">Home</a>
       <i class="right angle icon divider"></i>
-      <a href="{% url 'listCensus' %}" class="active section">Census</a>
+      <a href="{% url 'filterCensus' %}" class="active section">Census filtered</a>
     </div>
   </nav>
 
@@ -66,11 +66,12 @@
 </div>
 {% else %}
 
-<h4><div id=nocensus">No census to show</div></h4>
+<h4><div id="nocensus">No census to show</div></h4>
 
 {% endif %}
 </div>
 
-<a id="add_custom" href="{% url 'addCensus' %}" class="ui button right floated" style="margin-top:20px">Add census</a>
-
-
+<a id="addCensusCP" href="{% url 'addCensusCP' %}" class="ui button right floated" style="margin-top:20px">Add census by postal code</a>
+<a id="listCensusCP" href="{% url 'listCensusCP' %}" class="ui button right floated" style="margin-top:20px">List census order by postal code</a>
+<a id="exportCSV" href="{% url 'exportCensus' %}" class="ui button right floated" style="margin-top:20px">Export census</a>
+<a id="add_custom" href="{% url 'importCensusView' %}" class="ui button right floated" style="margin-top:20px">Import census</a>

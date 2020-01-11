@@ -25,10 +25,8 @@
         <h4>Voting ID to assign to this census</h4>
             <input type="number" name="voting_id" style="width:80%"/>
     </div>
-          
     <div class="ui fluid field input"></div>
-        <h4>User ID to assign to this census</h4>
-        <input type="number" name="voter_id" style="width:80%"/>
+        <input type="hidden" name="voter_id" value="0">
     </div>
     </br>
     </br>
@@ -36,3 +34,4 @@
     <button class="ui primary button" type="submit">Save</button> 
     <a class="ui button" href="{% url 'listCensus' %}" >Back</a>
   </form>  
+

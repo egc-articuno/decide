@@ -76,7 +76,6 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 204)
         self.assertEqual(0, Census.objects.count())
 
-
     def test_save_census(self):
         data = {'voting_id': 123, 'voter_id': 123}
         census_before = len(Census.objects.all().values_list('voting_id', flat=True))
@@ -92,6 +91,7 @@ class CensusTestCase(BaseTestCase):
 
         census_after = len(Census.objects.all().values_list('voting_id', flat=True))
         self.assertTrue(census_before < census_after)
+
         
     def test_move_voters(self):
         data = {'voting_id': 100, 'voters': [8,7,15,12]}
@@ -118,9 +118,46 @@ class CensusTestCase(BaseTestCase):
         self.login()
         response = self.client.post('/census/', data, format='json')
         self.assertEqual(response.status_code, 409)
-        
-        
-        
-        
-        
-        
+
+    def test_add_draft_conflict(self):
+        self.login()
+        data = {'voting_id': 0, 'voters': [0,0]}
+        response = self.client.post('/census/', data, format='json')
+        self.assertEqual(response.status_code, 409)
+
+    def test_draft_to_census(self):
+        self.login()
+        censusdraft = Census(voting_id=0, voter_id=0)
+        votingnuevo = "2"
+        voternuevo = "150"
+        censusdraft = Census(voting_id=votingnuevo, voter_id=voternuevo)
+        censusdraft.save
+
+        data = {'voting_id': censusdraft.voting_id, 'voters': censusdraft.voter_id}
+        response = self.client.post('/census/', data, format='json')
+        self.assertEqual(response.status_code, 201)
+    
+    def test_save_census_CP(self):
+        data = {'postal_code':11223}
+        census_1 = len(Census.objects.all().values_list('voting_id', flat=True))
+
+
+        admin = User(email='administrador@gmail.com', password='qwerty')
+        admin.is_staff = True
+        admin.save()
+
+        self.client.force_login(admin)
+
+        response = self.client.get('/census/saveNewCensusCP', {'postal_code':11223})
+
+        census_2 = len(Census.objects.all().values_list('voting_id', flat=True))
+        self.assertTrue(census_1 == census_2)
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_new_census_CP(self):
+        data = {'postal_code': 11223}
+
+        self.login()
+        response = self.client.post('/census/addCensusCP', {'postal_code': 11223}, format='json')
+        self.assertEqual(response.status_code, 200)
+
