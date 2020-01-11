@@ -120,7 +120,7 @@ def delete_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-        return redirect('filterCensus')
+        return redirect('listCensus')
 
 def delete_selected_census(request):
 
