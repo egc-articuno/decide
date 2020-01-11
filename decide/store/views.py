@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
 
-from .models import Vote
+from .models import Vote, Cipher
 from .serializers import VoteSerializer
 from base import mods
 from base.perms import UserIsStaff
@@ -41,9 +41,9 @@ class StoreView(generics.ListAPIView):
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
         uid = request.data.get('voter')
-        vote = request.data.get('vote')
+        votes = request.data.get('votes')
 
-        if not vid or not uid or not vote:
+        if not vid or not uid or not votes:
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
         # validating voter
@@ -58,15 +58,28 @@ class StoreView(generics.ListAPIView):
         if perms.status_code == 401:
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
-        a = vote.get("a")
-        b = vote.get("b")
+        # for vote in votes:
+        #     a = vote.get("a")
+        #     b = vote.get("b")
 
-        defs = { "a": a, "b": b }
-        v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid,
-                                          defaults=defs)
-        v.a = a
-        v.b = b
+        #     defs = { "a": a, "b": b }
+        #     v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid,
+        #                                     defaults=defs)
+        #     v.a = a
+        #     v.b = b
 
-        v.save()
+        #     v.save()
+
+        try:
+            v = Vote.objects.get(voting_id=vid, voter_id=uid)
+            v.ciphers.all().delete()
+        except Vote.DoesNotExist:
+            v = Vote.objects.create(voting_id=vid, voter_id=uid)
+
+        for vote in votes:
+            a = vote.get("a")
+            b = vote.get("b")
+            Cipher.objects.create(a=a, b=b, vote=v)
+
 
         return  Response({})

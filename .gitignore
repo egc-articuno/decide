@@ -117,3 +117,6 @@ node_modules/
 
 .idea/
 decide/local_settings.py
+
+# vscode
+.vscode

@@ -46,11 +46,15 @@ def query(modname, entry_point='/', method='get', baseurl=None, **kwargs):
     if params:
         url += '?{}'.format(urllib.parse.urlencode(params))
 
+    for k, v in headers.items():
+        print(f'{k} : {v}')
+
     if method == 'get':
         response = q(url, headers=headers)
     else:
         json_data = kwargs.get('json', {})
         response = q(url, json=json_data, headers=headers)
+    # print(f'{response.json()}')
 
     if kwargs.get('response', False):
         return response

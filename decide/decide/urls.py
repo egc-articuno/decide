@@ -28,7 +28,6 @@ urlpatterns = [
     path('doc/', schema_view),
     path('gateway/', include('gateway.urls')),
     path('postProcHtml/', postprocViews.postProcHtml, name='postProcHtml'),
-
 ]
 
 for module in settings.MODULES:

@@ -1,0 +1,848 @@
+{
+  "id": "14a43e2b-ae6a-422e-9d49-29eb7bcbcc19",
+  "version": "2.0",
+  "name": "test_delete_candidate_check_gender",
+  "url": "http://localhost:8000",
+  "tests": [{
+    "id": "e9a1fd6d-a31d-4f12-87d1-1ad93b39b22b",
+    "name": "test_delete_candidate_check_gender",
+    "commands": [{
+      "id": "7aacc004-e0b7-44a2-86b2-ed07a901c8dd",
+      "comment": "",
+      "command": "open",
+      "target": "/admin/login/?next=/admin/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fb21fca2-294d-436b-8ff1-874e68868428",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1293x713",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "18672783-a234-4d7d-afdb-57a5dcd8ec22",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_username",
+      "targets": [
+        ["id=id_username", "id"],
+        ["name=username", "name"],
+        ["css=#id_username", "css:finder"],
+        ["xpath=//input[@id='id_username']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f19f6c69-cc83-4f6e-8d51-81049a12567c",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_username",
+      "targets": [
+        ["id=id_username", "id"],
+        ["name=username", "name"],
+        ["css=#id_username", "css:finder"],
+        ["xpath=//input[@id='id_username']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "administrador"
+    }, {
+      "id": "f343477a-d7d0-4c07-89c4-a969a4dcbbd4",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_password",
+      "targets": [
+        ["id=id_password", "id"],
+        ["name=password", "name"],
+        ["css=#id_password", "css:finder"],
+        ["xpath=//input[@id='id_password']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1ca26257-295e-4caf-b32f-040219653061",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_password",
+      "targets": [
+        ["id=id_password", "id"],
+        ["name=password", "name"],
+        ["css=#id_password", "css:finder"],
+        ["xpath=//input[@id='id_password']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "administrador"
+    }, {
+      "id": "4d1622af-dc00-4943-b2e0-51419533e466",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=id_password",
+      "targets": [
+        ["id=id_password", "id"],
+        ["name=password", "name"],
+        ["css=#id_password", "css:finder"],
+        ["xpath=//input[@id='id_password']", "xpath:attributes"],
+        ["xpath=//form[@id='login-form']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "958cbc51-9701-46e9-ab89-934e893e4183",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Auths",
+      "targets": [
+        ["linkText=Auths", "linkText"],
+        ["css=.model-auth > th > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Auths')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/div[3]/table/tbody/tr/th/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/base/auth/')]", "xpath:href"],
+        ["xpath=//div[3]/table/tbody/tr/th/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Auths')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "432ecaaa-ff74-460a-abce-702275a2707f",
+      "comment": "",
+      "command": "click",
+      "target": "id=content",
+      "targets": [
+        ["id=content", "id"],
+        ["css=#content", "css:finder"],
+        ["xpath=//div[@id='content']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]", "xpath:idRelative"],
+        ["xpath=//div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6bcfe698-6d36-4ed8-84d0-250b8b9f2e37",
+      "comment": "",
+      "command": "click",
+      "target": "css=.addlink",
+      "targets": [
+        ["css=.addlink", "css:finder"],
+        ["xpath=//a[contains(text(),'Add auth')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/base/auth/add/')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "50ccda54-5d96-4fdd-80d4-6b03604c2cdc",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ee9c79ce-c633-4e3e-892d-f6c9990ab8c5",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Auth"
+    }, {
+      "id": "59834bef-00e3-4883-b424-1f000f3e5cbd",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_url",
+      "targets": [
+        ["id=id_url", "id"],
+        ["name=url", "name"],
+        ["css=#id_url", "css:finder"],
+        ["xpath=//input[@id='id_url']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/fieldset/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "695dcc3f-f7bf-4406-8902-9c25ce7c3af1",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_url",
+      "targets": [
+        ["id=id_url", "id"],
+        ["name=url", "name"],
+        ["css=#id_url", "css:finder"],
+        ["xpath=//input[@id='id_url']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/fieldset/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3a8ff389-de81-41f4-9ac8-f1cef2c7cf12",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "id=id_url",
+      "targets": [
+        ["id=id_url", "id"],
+        ["name=url", "name"],
+        ["css=#id_url", "css:finder"],
+        ["xpath=//input[@id='id_url']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/fieldset/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "788419c9-befe-4c54-91f0-9af18277d68b",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_url",
+      "targets": [
+        ["id=id_url", "id"],
+        ["name=url", "name"],
+        ["css=#id_url", "css:finder"],
+        ["xpath=//input[@id='id_url']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/fieldset/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "http://localhost:8000"
+    }, {
+      "id": "1efb4d65-b08a-4583-9ced-3baaf6678eb4",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='auth_form']/div/div/input", "xpath:idRelative"],
+        ["xpath=//form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "72a96bfc-9953-4673-ba26-09160bf3bb8a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Base",
+      "targets": [
+        ["linkText=Base", "linkText"],
+        ["css=.breadcrumbs > a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Base')]", "xpath:link"],
+        ["xpath=//div[@id='container']/div[2]/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/base/')]", "xpath:href"],
+        ["xpath=//body/div/div[2]/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Base')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aacd9f83-ff91-4505-bdc0-23893f75bae4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Home",
+      "targets": [
+        ["linkText=Home", "linkText"],
+        ["css=.breadcrumbs > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Home')]", "xpath:link"],
+        ["xpath=//div[@id='container']/div[2]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/admin/')])[4]", "xpath:href"],
+        ["xpath=//body/div/div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Home')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "38de13cb-b4e9-46a7-acad-0f925fd6eb33",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Votings",
+      "targets": [
+        ["linkText=Votings", "linkText"],
+        ["css=.model-voting > th > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Votings')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/div[7]/table/tbody/tr[2]/th/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/voting/')]", "xpath:href"],
+        ["xpath=//div[7]/table/tbody/tr[2]/th/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Votings')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "402520b6-9459-42b0-9e7d-7121e6c0143e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.addlink",
+      "targets": [
+        ["css=.addlink", "css:finder"],
+        ["xpath=//a[contains(text(),'Add voting')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/voting/add/')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "37d6ef2a-096a-4529-afeb-419fad4bcc96",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ea5b2ca-26ed-45e9-b775-59b61d76502b",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Elecciones 2020"
+    }, {
+      "id": "9d2ac459-7af8-4436-a660-ceeaf47d8da5",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6a253dde-c907-438f-8ba7-a8fe05254407",
+      "comment": "",
+      "command": "addSelection",
+      "target": "id=id_auths",
+      "targets": [
+        ["id=id_auths", "id"],
+        ["name=auths", "name"],
+        ["css=#id_auths", "css:finder"],
+        ["xpath=//select[@id='id_auths']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[3]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"],
+        ["xpath=//select[contains(.,'http://localhost:8000')]", "xpath:innerText"]
+      ],
+      "value": "label=http://localhost:8000"
+    }, {
+      "id": "380db6c2-58f1-4ead-9f9e-7faa2136fe44",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/div/input", "xpath:idRelative"],
+        ["xpath=//form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "19b6991a-249b-46f6-b7ca-95520835424f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Voting",
+      "targets": [
+        ["linkText=Voting", "linkText"],
+        ["css=.breadcrumbs > a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Voting')]", "xpath:link"],
+        ["xpath=//div[@id='container']/div[2]/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/')]", "xpath:href"],
+        ["xpath=//body/div/div[2]/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Voting')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cf8d0a7b-521b-4bca-a593-64d1f46a3149",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Political partys",
+      "targets": [
+        ["linkText=Political partys", "linkText"],
+        ["css=.model-politicalparty > th > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Political partys')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/div/table/tbody/tr/th/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/politicalparty/')]", "xpath:href"],
+        ["xpath=//th/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Political partys')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa708da1-8941-40ce-8ea2-7c2c606e28e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.addlink",
+      "targets": [
+        ["css=.addlink", "css:finder"],
+        ["xpath=//a[contains(text(),'Add political party')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/politicalparty/add/')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "de42267e-fcc2-49f8-9022-356f00b8bcfb",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='politicalparty_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "02392727-9f40-4bb4-b1c2-ad1d091c55a4",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='politicalparty_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "PSOE"
+    }, {
+      "id": "99944de2-a7cd-439b-84cb-4b61330a35ba",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_voting",
+      "targets": [
+        ["id=id_voting", "id"],
+        ["name=voting", "name"],
+        ["css=#id_voting", "css:finder"],
+        ["xpath=//select[@id='id_voting']", "xpath:attributes"],
+        ["xpath=//form[@id='politicalparty_form']/div/fieldset/div[2]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ddd92388-5451-4c9f-b93b-c944440c9b14",
+      "comment": "",
+      "command": "select",
+      "target": "id=id_voting",
+      "targets": [],
+      "value": "label=Elecciones 2020"
+    }, {
+      "id": "915eb381-a3bd-43a1-ab1b-93ad26f6e125",
+      "comment": "",
+      "command": "click",
+      "target": "css=#id_voting > option:nth-child(2)",
+      "targets": [
+        ["css=#id_voting > option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='8']", "xpath:attributes"],
+        ["xpath=//select[@id='id_voting']/option[2]", "xpath:idRelative"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'Elecciones 2020')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "75ab6368-9b26-4940-b68d-6dfac99137bb",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_president_candidates-0-president_candidate",
+      "targets": [
+        ["id=id_president_candidates-0-president_candidate", "id"],
+        ["name=president_candidates-0-president_candidate", "name"],
+        ["css=#id_president_candidates-0-president_candidate", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-president_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//td[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8e79c557-db5d-4e86-a808-a85d34e339a0",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_president_candidates-0-president_candidate",
+      "targets": [
+        ["id=id_president_candidates-0-president_candidate", "id"],
+        ["name=president_candidates-0-president_candidate", "name"],
+        ["css=#id_president_candidates-0-president_candidate", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-president_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//td[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "574605aa-32ac-4c31-ac81-a02d60def95c",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "id=id_president_candidates-0-president_candidate",
+      "targets": [
+        ["id=id_president_candidates-0-president_candidate", "id"],
+        ["name=president_candidates-0-president_candidate", "name"],
+        ["css=#id_president_candidates-0-president_candidate", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-president_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//td[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0e4f81f9-f224-497a-824b-7232ade1fa5b",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_president_candidates-0-president_candidate",
+      "targets": [
+        ["id=id_president_candidates-0-president_candidate", "id"],
+        ["name=president_candidates-0-president_candidate", "name"],
+        ["css=#id_president_candidates-0-president_candidate", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-president_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//td[2]/input", "xpath:position"]
+      ],
+      "value": "Pedro Sánchez"
+    }, {
+      "id": "d1e6a8c6-3d05-4d09-947f-6ce608b717f0",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_president_candidates-0-gender",
+      "targets": [
+        ["id=id_president_candidates-0-gender", "id"],
+        ["name=president_candidates-0-gender", "name"],
+        ["css=#id_president_candidates-0-gender", "css:finder"],
+        ["xpath=//select[@id='id_president_candidates-0-gender']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[3]/select", "xpath:idRelative"],
+        ["xpath=//td[3]/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7319714a-ba04-4ede-917a-d6d72da30df8",
+      "comment": "",
+      "command": "select",
+      "target": "id=id_president_candidates-0-gender",
+      "targets": [],
+      "value": "label=Hombre"
+    }, {
+      "id": "5107b79d-edbb-4e33-9110-8836088b22f3",
+      "comment": "",
+      "command": "click",
+      "target": "css=#id_president_candidates-0-gender > option:nth-child(2)",
+      "targets": [
+        ["css=#id_president_candidates-0-gender > option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='H']", "xpath:attributes"],
+        ["xpath=//select[@id='id_president_candidates-0-gender']/option[2]", "xpath:idRelative"],
+        ["xpath=//td[3]/select/option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'Hombre')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "81a390e7-c10c-42a9-8a89-217253faccd7",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_president_candidates-0-postal_code",
+      "targets": [
+        ["id=id_president_candidates-0-postal_code", "id"],
+        ["name=president_candidates-0-postal_code", "name"],
+        ["css=#id_president_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "95a65ea1-ad9a-4656-8e3f-43cbf2a1129c",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_president_candidates-0-postal_code",
+      "targets": [
+        ["id=id_president_candidates-0-postal_code", "id"],
+        ["name=president_candidates-0-postal_code", "name"],
+        ["css=#id_president_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0a748c6f-790c-424a-9e23-95a5e7c952e4",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "id=id_president_candidates-0-postal_code",
+      "targets": [
+        ["id=id_president_candidates-0-postal_code", "id"],
+        ["name=president_candidates-0-postal_code", "name"],
+        ["css=#id_president_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1423314d-4ada-492b-a34f-273844acfd85",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_president_candidates-0-postal_code",
+      "targets": [
+        ["id=id_president_candidates-0-postal_code", "id"],
+        ["name=president_candidates-0-postal_code", "name"],
+        ["css=#id_president_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_president_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='president_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//td[4]/input", "xpath:position"]
+      ],
+      "value": "41520"
+    }, {
+      "id": "69185945-b728-455d-9f73-237c67b93fdf",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_congress_candidates-0-congress_candidate",
+      "targets": [
+        ["id=id_congress_candidates-0-congress_candidate", "id"],
+        ["name=congress_candidates-0-congress_candidate", "name"],
+        ["css=#id_congress_candidates-0-congress_candidate", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-congress_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "89300050-8cad-417d-b3da-a528245c9cf0",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_congress_candidates-0-congress_candidate",
+      "targets": [
+        ["id=id_congress_candidates-0-congress_candidate", "id"],
+        ["name=congress_candidates-0-congress_candidate", "name"],
+        ["css=#id_congress_candidates-0-congress_candidate", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-congress_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "76c3dddc-8d09-40b2-9bf1-dba334c7197e",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "id=id_congress_candidates-0-congress_candidate",
+      "targets": [
+        ["id=id_congress_candidates-0-congress_candidate", "id"],
+        ["name=congress_candidates-0-congress_candidate", "name"],
+        ["css=#id_congress_candidates-0-congress_candidate", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-congress_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cf683adc-3ba8-4a36-a9d2-6672823ab664",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_congress_candidates-0-congress_candidate",
+      "targets": [
+        ["id=id_congress_candidates-0-congress_candidate", "id"],
+        ["name=congress_candidates-0-congress_candidate", "name"],
+        ["css=#id_congress_candidates-0-congress_candidate", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-congress_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[2]/input", "xpath:position"]
+      ],
+      "value": "Pa"
+    }, {
+      "id": "5a0e3c2d-a2b5-4de9-a249-672e7cf535ba",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=id_congress_candidates-0-congress_candidate",
+      "targets": [
+        ["id=id_congress_candidates-0-congress_candidate", "id"],
+        ["name=congress_candidates-0-congress_candidate", "name"],
+        ["css=#id_congress_candidates-0-congress_candidate", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-congress_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[2]/input", "xpath:position"]
+      ],
+      "value": "${KEY_DOWN}"
+    }, {
+      "id": "d4bc9bc1-7751-40dc-b22d-a7ce9b975151",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_congress_candidates-0-congress_candidate",
+      "targets": [
+        ["id=id_congress_candidates-0-congress_candidate", "id"],
+        ["name=congress_candidates-0-congress_candidate", "name"],
+        ["css=#id_congress_candidates-0-congress_candidate", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-congress_candidate']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[2]/input", "xpath:position"]
+      ],
+      "value": "Patricia de la Flor"
+    }, {
+      "id": "ae5c10da-2a5e-4d6f-80a9-6513e4079207",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_congress_candidates-0-gender",
+      "targets": [
+        ["id=id_congress_candidates-0-gender", "id"],
+        ["name=congress_candidates-0-gender", "name"],
+        ["css=#id_congress_candidates-0-gender", "css:finder"],
+        ["xpath=//select[@id='id_congress_candidates-0-gender']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[3]/select", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[3]/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e71a6d9-47a1-47cf-a23e-9ab127d9ffa1",
+      "comment": "",
+      "command": "select",
+      "target": "id=id_congress_candidates-0-gender",
+      "targets": [],
+      "value": "label=Mujer"
+    }, {
+      "id": "6225e96f-f444-4d1f-9c69-4ab5b57be70c",
+      "comment": "",
+      "command": "click",
+      "target": "css=#id_congress_candidates-0-gender > option:nth-child(3)",
+      "targets": [
+        ["css=#id_congress_candidates-0-gender > option:nth-child(3)", "css:finder"],
+        ["xpath=(//option[@value='M'])[5]", "xpath:attributes"],
+        ["xpath=//select[@id='id_congress_candidates-0-gender']/option[3]", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[3]/select/option[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bda33061-6777-4e83-bd3c-13230ae20956",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_congress_candidates-0-postal_code",
+      "targets": [
+        ["id=id_congress_candidates-0-postal_code", "id"],
+        ["name=congress_candidates-0-postal_code", "name"],
+        ["css=#id_congress_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "795a6cc3-4088-4f98-a10d-cd9e736efe3f",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_congress_candidates-0-postal_code",
+      "targets": [
+        ["id=id_congress_candidates-0-postal_code", "id"],
+        ["name=congress_candidates-0-postal_code", "name"],
+        ["css=#id_congress_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f76759c-eb6f-477c-af03-e018b60a3a25",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "id=id_congress_candidates-0-postal_code",
+      "targets": [
+        ["id=id_congress_candidates-0-postal_code", "id"],
+        ["name=congress_candidates-0-postal_code", "name"],
+        ["css=#id_congress_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "729a5ce3-27b8-4fe6-a4b0-e2f22870ba97",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_congress_candidates-0-postal_code",
+      "targets": [
+        ["id=id_congress_candidates-0-postal_code", "id"],
+        ["name=congress_candidates-0-postal_code", "name"],
+        ["css=#id_congress_candidates-0-postal_code", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-postal_code']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[4]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[4]/input", "xpath:position"]
+      ],
+      "value": "41520"
+    }, {
+      "id": "a5159db7-7ec7-4b5e-b11c-86a0a4fff839",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='politicalparty_form']/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5c45d62b-7603-4e9a-9960-bef187eeb297",
+      "comment": "",
+      "command": "click",
+      "target": "css=.field-__str__ > a",
+      "targets": [
+        ["css=.field-__str__ > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'PSOE')])[2]", "xpath:link"],
+        ["xpath=//table[@id='result_list']/tbody/tr/th/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/admin/voting/politicalparty/5/change/')])[2]", "xpath:href"],
+        ["xpath=//th/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6b3bfeca-67b8-4ef4-a905-e1188187e9e5",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_congress_candidates-0-DELETE",
+      "targets": [
+        ["id=id_congress_candidates-0-DELETE", "id"],
+        ["name=congress_candidates-0-DELETE", "name"],
+        ["css=#id_congress_candidates-0-DELETE", "css:finder"],
+        ["xpath=//input[@id='id_congress_candidates-0-DELETE']", "xpath:attributes"],
+        ["xpath=//tr[@id='congress_candidates-0']/td[5]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/fieldset/table/tbody/tr/td[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c69af5c7-1cec-43c2-8485-6b155c646b59",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='politicalparty_form']/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "d9df48d6-9505-4e5d-b48d-1a8b1dd2e5ee",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["e9a1fd6d-a31d-4f12-87d1-1ad93b39b22b"]
+  }],
+  "urls": ["http://localhost:8000/"],
+  "plugins": []
+}
