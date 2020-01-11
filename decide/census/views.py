@@ -148,11 +148,14 @@ def exportCSV(request):
 def filter(request):
     census = Census.objects.all()
     conj = set()
+    nodraft = set()
     for i in census:
         id = i.voting_id
         conj.add(id)
+        if id != 0:
+            nodraft.add(id)
 
-    return render(request,"filter_census.html",{'census': census,'conj':conj})
+    return render(request,"filter_census.html",{'census': census,'conj':conj,'nodraft':nodraft})
 
 def deleteAll(request):
     census = Census.objects.all()

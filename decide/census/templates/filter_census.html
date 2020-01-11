@@ -68,7 +68,9 @@
   <input type="hidden" name="voting_id" value="0"/>
   <input type="hidden" name="voter_id" value="0"> 
   <input type="hidden" name="id" value="{{census.id}}" />
-  <button class="ui primary button" type="submit">Create New Voter</button> 
+    {% if conj == nodraft %}
+      <button class="ui primary button" type="submit">Create New Voter</button> 
+    {% endif %}
 </form>  
 
 <form action="{% url 'deleteAll' %} " >
