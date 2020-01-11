@@ -90,3 +90,37 @@ class CensusTestCase(BaseTestCase):
 
         census_after = len(Census.objects.all().values_list('voting_id', flat=True))
         self.assertTrue(census_before < census_after)
+
+    def test_edit_census(self):
+        data = {'voting_id': 123, 'voter_id': 123}
+
+        admin = User(email='administrador@gmail.com', password='qwerty')
+        admin.is_staff = True
+        admin.save()
+
+        self.client.force_login(admin)
+        self.client.get('/census/saveNewCensus', {'voting_id': 123, 'voter_id': 123})
+        census = Census.objects.get(voting_id=123)
+
+        response = self.client.get('/census/saveEditedCensus', {'id': census.id, 'voting_id': 125, 'voter_id': 125})
+
+        census_after = Census.objects.get(id=census.id)
+        self.assertTrue(census_after.voting_id == 125)
+
+    def test_delete_census(self):
+        data = {'voting_id': 123, 'voter_id': 123}
+
+        admin = User(email='administrador@gmail.com', password='qwerty')
+        admin.is_staff = True
+        admin.save()
+
+        self.client.force_login(admin)
+
+        self.client.get('/census/saveNewCensus', {'voting_id': 123, 'voter_id': 123})
+        census_before = len(Census.objects.all().values_list('voting_id', flat=True))
+
+        census = Census.objects.get(voting_id=123)
+        response = self.client.get('/census/deleteSelectedCensus', {'id': census.id})
+        census_after = len(Census.objects.all().values_list('voting_id', flat=True))
+
+        self.assertTrue(census_before > census_after)
