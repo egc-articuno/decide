@@ -116,7 +116,7 @@ def delete_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-        return redirect('listCensus')
+        return redirect('filterCensus')
 
 def delete_selected_census(request):
 
@@ -128,7 +128,7 @@ def delete_selected_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensus')
+    return redirect('filterCensus')
 
 def exportCSV(request):
     res = HttpResponse(content_type='text/csv')
