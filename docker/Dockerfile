@@ -1,4 +1,4 @@
-from python:alpine
+from python:alpine3.6.5
 
 RUN apk add --no-cache git postgresql-dev gcc libc-dev
 RUN apk add --no-cache gcc g++ make libffi-dev python3-dev build-base

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/divider.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/breadcrumb.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/form.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/table.css">
+</head>
+
+<nav style="margin-bottom:5%">
+    <div class="ui breadcrumb">
+      <a href="/" class="section">Home</a>
+      <i class="right angle icon divider"></i>
+      <a href="{% url 'listCensus' %}" class="active section">Census</a>
+    </div>
+  </nav>
+
+<br/>
+
+{% if census %}
+  {% for i in conj %}
+
+  
+
+  <div id="censusTable>" >
+
+    <table class="ui celled table" style="border:0px">
+            <thead>
+              <tr>
+                {% if i == 0 %}
+                  <th style="background-color: rgba(255, 239, 8, 0.596); padding: 8px;">This census is a draft.  You must introduce a voting_id to added it in a census</th>
+                {% else %}
+                  <th style="background-color: rgba(20, 125, 211, 0.45); padding: 8px;">Census with voting_id: {{i}} </th>
+                {% endif %}  
+              </tr>
+            </thead>
+            <tbody>
+            {% for cens in census %}            
+              {% if cens.voting_id == i %}
+              <tr>
+              <td style="width: 40%;">{{cens.voter_id}}</td>
+              <td style="border-top:0px; display: inline-block;border-left: 0px;"><i style="width: 15%; background-color: rgb(250, 171, 0); border-radius:30px; padding: 5px; font-style:normal; font-weight: bold; "><a href="{% url 'editCensus' %}?id={{ cens.id }}" style="text-decoration: none; color: white;">Edit census</a></i></td>
+              
+
+              
+
+              {% endif %}
+            {% endfor %}
+              
+            </tbody>
+          </table>
+    </div>  
+  {% endfor %}  
+
+
+{% else %}
+
+<h4><div id="nocensus">No census to show</div></h4>
+
+{% endif %}
+</div>
+<br>
+<br>
+
+<form action="{% url 'saveNewCensus' %}" method="get" class="ui form container" style="display: inline-block;">
+  <input type="hidden" name="voting_id" value="0"/>
+  <input type="hidden" name="voter_id" value="0"> 
+  <input type="hidden" name="id" value="{{census.id}}" />
+    {% if conj == nodraft %}
+      <button class="ui primary button" type="submit" >Create New Voter</button> 
+    {% endif %}
+</form>  
+
+<form action="{% url 'deleteAll' %} " style="display: inline-block;">
+  <button class="positive ui button" type="submit">Delete All Census</button>
+</form>
+
+<a id="exportCSV" href="{% url 'exportCensus' %}" class="ui button right floated" style="display: inline-block">Export census</a>
