@@ -15,5 +15,8 @@ urlpatterns = [
     path('exportCensus', views.exportCSV, name='exportCensus'), 
     path('listCensusCP', views.list_census_CP, name='listCensusCP'),
     path('addCensusCP', views.add_census_CP, name='addCensusCP'),
-    path('saveNewCensusCP', views.save_new_census_CP, name='saveNewCensusCP')
+    path('saveNewCensusCP', views.save_new_census_CP, name='saveNewCensusCP'),
+    path('error1', views.error_1, name='error1'),
+    path('error2', views.error_2, name='error2')
+    
 ]

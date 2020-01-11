@@ -174,9 +174,9 @@ def save_new_census_CP(request):
                 list_postal_code.append(vot.postal_code)
 
     if postal_code_introducido in list_postal_code:
-        print("The census with this postal code alredy exists")
+        return redirect('error1')
     elif not(postal_code_introducido in list_postal_code_all):
-        print("Not users with this postal code")
+        return redirect('error2')
     else:
         if request.user.is_staff:
             for v in voters:
@@ -193,7 +193,7 @@ def save_new_census_CP(request):
         else:
             messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensusCP')
+        return redirect('listCensusCP')
 
 def list_census_CP(request):
 
@@ -201,3 +201,11 @@ def list_census_CP(request):
     census = sorted(censusAll, key=lambda objeto: objeto.voting_id)
 
     return render(request,"list_census_CP_main.html",{'census': census})
+
+def error_1(request):
+
+    return render(request,"error1.html")
+
+def error_2(request):
+
+    return render(request,"error2.html")
