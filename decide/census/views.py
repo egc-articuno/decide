@@ -131,6 +131,7 @@ def delete_selected_census(request):
 
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
+    return redirect('listCensus')
     
     
 def view_voting(request):
@@ -212,13 +213,17 @@ def import_csv(request):
         if 'file' in request.FILES:
             file = request.FILES['file']
             data_set =  file.read().decode('utf-8-sig')
-            arr = data_set.strip().split("\n")
+            arr = data_set.strip().split("\n") 
+            contador = 0
             for e in arr:
-                numbers = e.replace("\r", "").split(";")
-                census = Census(voting_id=numbers[0], voter_id=numbers[1])
-                census.save()
-                print(numbers)
-    
+                if contador == 0:
+                    contador = contador + 1
+                else:
+                    numbers = e.replace("\r", "").split(",")
+                    census = Census(voting_id=numbers[1], voter_id=numbers[2])
+                    census.save()
+                    print(numbers)
+                    contador = contador + 1
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
     
