@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
@@ -15,6 +16,7 @@ from rest_framework.status import (
 from base.perms import UserIsStaff
 from .models import Census
 from voting.models import Voting
+from authentication.models import User
 from census.serializer import CensusSerializer
 from django.http import HttpResponse
 import csv, io
@@ -92,7 +94,9 @@ def save_edited_census(request):
 
 def add_census(request):
 
-    return render(request, 'add_census.html')
+    voters = User.objects.all()
+    votings = Voting.objects.all()
+    return render(request, 'add_census.html', {'voters': voters, 'votings': votings})
 
 def save_new_census(request):
     if request.user.is_staff:
