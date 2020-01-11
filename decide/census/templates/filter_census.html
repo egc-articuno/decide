@@ -25,26 +25,28 @@
 
   
 
-  <div id="censusTable>">
+  <div id="censusTable>" >
 
-    <table class="ui celled table">
+    <table class="ui celled table" style="border:0px">
             <thead>
               <tr>
                 {% if i == 0 %}
-                  <th>This census is a draft.  You must introduce a voting_id to added it in a census</th>
+                  <th style="background-color: rgba(255, 239, 8, 0.596); padding: 8px;">This census is a draft.  You must introduce a voting_id to added it in a census</th>
                 {% else %}
-                  <th>Census with voting_id: {{i}} </th>
+                  <th style="background-color: rgba(20, 125, 211, 0.45); padding: 8px;">Census with voting_id: {{i}} </th>
                 {% endif %}  
               </tr>
             </thead>
             <tbody>
             {% for cens in census %}            
               {% if cens.voting_id == i %}
-              <tr></tr>
-              <td>{{cens.voter_id}}</td>
-              <td><a href="{% url 'editCensus' %}?id={{ cens.id }}" class="waves-effect waves-light btn">Edit census</a></td>
+              <tr>
+              <td style="width: 40%;">{{cens.voter_id}}</td>
+              <td style="border-top:0px; display: inline-block;border-left: 0px;"><i style="width: 15%; background-color: rgb(250, 171, 0); border-radius:30px; padding: 5px; font-style:normal; font-weight: bold; "><a href="{% url 'editCensus' %}?id={{ cens.id }}" style="text-decoration: none; color: white;">Edit census</a></i></td>
+              <td style="border-top:0px; display: inline-block; border-left: 0px;"><i style="width: 15%; background-color: #21BA45; border-radius:30px; padding: 5px; font-style:normal; font-weight: bold;"><a href="{% url 'deleteCensus' %}?id={{ cens.id }}" style="text-decoration: none; color: white;">Delete census</a></i></td>
+              
 
-              </tr>
+              
 
               {% endif %}
             {% endfor %}
@@ -64,17 +66,17 @@
 <br>
 <br>
 
-<form action="{% url 'saveNewCensus' %}" method="get" class="ui form container">
+<form action="{% url 'saveNewCensus' %}" method="get" class="ui form container" style="display: inline-block;">
   <input type="hidden" name="voting_id" value="0"/>
   <input type="hidden" name="voter_id" value="0"> 
   <input type="hidden" name="id" value="{{census.id}}" />
     {% if conj == nodraft %}
-      <button class="ui primary button" type="submit">Create New Voter</button> 
+      <button class="ui primary button" type="submit" >Create New Voter</button> 
     {% endif %}
 </form>  
 
-<form action="{% url 'deleteAll' %} " >
+<form action="{% url 'deleteAll' %} " style="display: inline-block;">
   <button class="positive ui button" type="submit">Delete All Census</button>
 </form>
 
-<a id="exportCSV" href="{% url 'exportCensus' %}" class="ui button right floated" style="margin-top:20px">Export census</a>
+<a id="exportCSV" href="{% url 'exportCensus' %}" class="ui button right floated" style="display: inline-block">Export census</a>
