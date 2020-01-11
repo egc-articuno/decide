@@ -91,7 +91,7 @@ def save_edited_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensus')
+    return redirect('filterCensus')
 
 
 def add_census(request):
@@ -109,7 +109,7 @@ def save_new_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensus')
+    return redirect('filterCensus')
 
 def delete_census(request):
     if request.user.is_staff:
@@ -120,7 +120,7 @@ def delete_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-        return redirect('listCensus')
+        return redirect('filterCensus')
 
 def delete_selected_census(request):
 
@@ -132,7 +132,7 @@ def delete_selected_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-    return redirect('listCensus')
+    return redirect('filterCensus')
 
 def exportCSV(request):
     res = HttpResponse(content_type='text/csv')
@@ -232,5 +232,29 @@ def error_1(request):
     return render(request,"error1.html")
 
 def error_2(request):
-
     return render(request,"error2.html")
+
+def filter(request):
+    census = Census.objects.all()
+    conj = set()
+    nodraft = set()
+    for i in census:
+        id = i.voting_id
+        conj.add(id)
+        if id != 0:
+            nodraft.add(id)
+
+    return render(request,"filter_census.html",{'census': census,'conj':conj,'nodraft':nodraft})
+
+def deleteAll(request):
+    census = Census.objects.all()
+    for cens in census:
+        if cens.voter_id != 0:
+            census_id = cens.voter_id
+            censo = get_object_or_404(Census,id=census_id)
+            censo.delete()
+        else:  
+            cens.delete()
+    return redirect('filterCensus')      
+
+
