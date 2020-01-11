@@ -148,6 +148,31 @@ def exportCSV(request):
         w.writerow([c.id, c.voting_id, c.voter_id])
     
     return res
+ 
+def import_csv(request):
+    if request.user.is_staff:
+        if 'file' in request.FILES:
+            file = request.FILES['file']
+            data_set =  file.read().decode('utf-8-sig')
+            arr = data_set.strip().split("\n")
+            for e in arr:
+                numbers = e.replace("\r", "").split(";")
+                census = Census(voting_id=numbers[0], voter_id=numbers[1])
+                census.save()
+                print(numbers)
+    
+    else:
+        messages.add_message(request, messages.ERROR, "Permission denied")
+    
+    return redirect('listCensus')
+
+def import_csv_view(request):
+    if request.user.is_staff:
+        return render(request, "import_csv.html")
+
+    else:
+       messages.add_message(request, messages.ERROR, "Permission denied") 
+       return redirect('listCensus')
 
 # Introducción del código postal
 
