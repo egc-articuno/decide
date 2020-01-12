@@ -4,8 +4,10 @@ services:
 addons:
   postgresql: '9.4'
 before_script:
+- cd decide
+- cp local_settings.travis.py local_settings.py
 - psql -U postgres -c "create user decide password 'decide'"
-- psql -U postgres -c "create database test_decide owner decide"
+- psql -U postgres -c "create database decide owner decide"
 - psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
@@ -13,14 +15,5 @@ python:
 install:
 - pip install -r requirements.txt
 script:
-- cd decide
-- cp travis_local_settings.py local_settings.py
 - python ./manage.py test --keepdb
-- rm local_settings.py
-deploy:
-  provider: heroku
-  app: decide-articuno
-  strategy: git
-  on: develop
-  api_key:
-    secure: ZHRsbO2+ZWlp3zEQQI2JpvfC7pogXz+flgkkrNTbYQuVFKdjUflQJx4k7KJvCeSWa8DWNEX5Ip7QBi9BhzWXJIjs2Y4/l1QAPHNtq4wFZCMO2zBtCMCKYS9phutge6Xox+Kg0HYIFAdlYfugu3n3P0wyxTPyPshJcXB4y3e/uOPR0k+P5CQRcHhR9oA62D4eMEALaqtG05p+Gn/UmHByEJph0CO7/xlta5d1ZYGmT/e/xhMj0K6ZAnvyahVf/6xGnxftHfhAnDBnXIC826MlMzY5riUBNmIstryw+aPmrEyonKbF95Nz7eEMCR2u0ya0uIpD0V8GU/+f02KCVSamKDdbmL0KtnQ4Pc1IJLxpsji181PXldmN8ByZXdLP3s2aBWGIZghTw1EZNj/k5DnRB85golH+ghhMI5oQ/jX4tHY6jePiG7efvZT7ZL0hb61gtqxnT9ty7Oim5Fzunc53N+r8bDLEUwfQthU7ABrAalFyfKRdE3HLnoxbbgA/xIFQniUznOOdqVPjBa1cUijWu9gJDIkN8nvK3sW8L8pxHavuBKj6ffQYSr0zNs4DlOrb/eXcRDtj2i6MAfpZm19WB+GBTmDChU3vShit5L0Mar/Ty4mael4bCJ78cIwuEOrg4dV62WuR3dZYZqHHuPr7Gt7Grvbu9G7Bn5ZzRwUPAG8=
+

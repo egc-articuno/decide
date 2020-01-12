@@ -72,7 +72,19 @@ MODULES = [
 ]
 
 #BASEURL = 'http://localhost:8000'
-BASEURL = 'https://articuno-census-heroku.herokuapp.com'
+BASEURL = 'https://articuno-census-heroku5.herokuapp.com'
+
+APIS = {
+    'authentication': 'BASEURL',
+    'base': 'BASEURL',
+    'booth': 'BASEURL',
+    'census': 'BASEURL',
+    'mixnet': 'BASEURL',
+    'postproc': 'BASEURL',
+    'store': 'BASEURL',
+    'visualizer': 'BASEURL',
+    'voting': 'BASEURL',
+}
 
 
 MIDDLEWARE = [
