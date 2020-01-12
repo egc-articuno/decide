@@ -285,7 +285,7 @@ class PostProcView(APIView):
            ]
         """
 
-        t = request.data.get('type', 'EQUALITY_PROVINCE')
+        t = request.data.get('type', 'PARITY')
         opts = request.data.get('options', [])
 
         if t == 'IDENTITY':
@@ -309,4 +309,34 @@ def postProcHtml(request):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     with open(dir_path + "/mock.json", "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
-    return render(request,"postProcHtml.html",{'options': data})
+        opts = json.dumps(data)
+        opts = data[0]['options']
+        t = data[0]['type']
+        if t == 'IDENTITY':
+            result = p.identity(opts)
+        elif t == 'PARITY':
+            result = p.parity(opts)
+        elif t == 'GENDER':
+            result = p.weigth_per_gender(opts)
+        elif t == 'AGERANGE':
+            result = p.voter_weight_age(opts)
+        elif t == 'COUNTY_EQUALITY':
+            result =  p.county(opts)
+        elif t == "EQUALITY_PROVINCE":
+            result = p.equalityProvince(opts)
+        elif t == 'HONDT':
+            result = p.hondt(opts,request.data.get('nSeats'))
+
+        result.accepted_renderer = JSONRenderer()
+        result.accepted_media_type = "application/json"
+        result.renderer_context = {}
+        result = result.render()
+        result = result.content.decode("utf-8")
+        result = json.loads(result)
+        r = []
+        for res in result:
+            if t=="PARITY":
+                r.append(res['votes'])
+            else:
+                r.append(res['postproc'])
+    return render(request,"postProcHtml.html",{'options': r})
