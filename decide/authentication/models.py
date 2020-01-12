@@ -14,5 +14,4 @@ def validate_postal_code(value):
 
 class Voter(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # postal_code = models.IntegerField(validators=[validate_postal_code])
-    postal_code = models.IntegerField()
+    postal_code = models.IntegerField(validators=[validate_postal_code])

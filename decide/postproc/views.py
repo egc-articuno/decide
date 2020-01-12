@@ -301,9 +301,8 @@ class PostProcView(APIView):
            ]
         """
 
-        t = request.data.get('type', 'EQUALITY_PROVINCE')
+        t = request.data.get('type', 'IDENTITY')
         opts = request.data.get('options', [])
-
         if t == 'IDENTITY':
             return self.identity(opts)
         elif t == 'PARITY':

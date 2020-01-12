@@ -56,7 +56,6 @@ class Voting(models.Model):
         '''
 
         votes = self.get_votes(token)
-
         auth = self.auths.first()
         shuffle_url = "/shuffle/{}/".format(self.id)
         decrypt_url = "/decrypt/{}/".format(self.id)
@@ -128,7 +127,7 @@ class Voting(models.Model):
                     'party': pty.name
                 })
 
-        data = { 'type': 'EQUALITY_PROVINCE', 'options': opts }
+        data = { 'type': 'IDENTITY', 'options': opts }
         postp = mods.post('postproc', json=data)
 
         self.postproc = postp
