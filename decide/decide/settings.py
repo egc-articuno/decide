@@ -160,16 +160,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # List of supported languages
-LANGUAGES = (
-    ('en', ugettext_lazy('English')),
-    ('es', ugettext_lazy('Spanish')),
-    ('ca', ugettext_lazy('Catalan')),
-    ('eu', ugettext_lazy('Basque')),
-    ('gl', ugettext_lazy('Galician'))
-)
 
-# Default language: Spanish (Spain)
-LANGUAGE_CODE = 'es-ES'
+LANGUAGE_CODE = 'en-us'
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
