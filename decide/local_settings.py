@@ -13,27 +13,28 @@ MODULES = [
     'voting',
 ]
 
+BASEURL = 'https://articuno-census-heroku.herokuapp.com'
+
 APIS = {
-    'authentication': 'http://localhost:8000',
-    'base': 'http://localhost:8000',
-    'booth': 'http://localhost:8000',
-    'census': 'http://localhost:8000',
-    'mixnet': 'http://localhost:8000',
-    'postproc': 'http://localhost:8000',
-    'store': 'http://localhost:8000',
-    'visualizer': 'http://localhost:8000',
-    'voting': 'http://localhost:8000',
+    'authentication': 'https://articuno-census-heroku.herokuapp.com',
+    'base': 'https://articuno-census-heroku.herokuapp.com',
+    'booth': 'https://articuno-census-heroku.herokuapp.com',
+    'census': 'https://articuno-census-heroku.herokuapp.com',
+    'mixnet': 'https://articuno-census-heroku.herokuapp.com',
+    'postproc': 'https://articuno-census-heroku.herokuapp.com',
+    'store': 'https://articuno-census-heroku.herokuapp.com',
+    'visualizer': 'https://articuno-census-heroku.herokuapp.com',
+    'voting': 'https://articuno-census-heroku.herokuapp.com',
 }
 
-BASEURL = 'http://localhost:8000'
+
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'decide',
-        'HOST': '127.0.0.1',
-	    'PASSWORD': 'decide',
+        'USER': 'postgres',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
