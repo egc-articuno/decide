@@ -25,7 +25,7 @@ class Test():
     if len(wh_now) > len(wh_then):
       return set(wh_now).difference(set(wh_then)).pop()
   
-  def test_01configuration(self):
+  def test_01_configuration(self):
     self.driver = webdriver.Chrome()
     self.vars = {}
     self.driver.get("http://localhost:8000/admin/login/")
@@ -111,10 +111,58 @@ class Test():
     self.driver.find_element(By.LINK_TEXT, "Inicio").click()
     self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
   
-  def test_02vote(self):
+  def test_02_vote(self):
     self.driver = webdriver.Chrome()
     self.vars = {}
     self.driver.get("http://127.0.0.1:8000/booth/1/")
+    self.driver.set_window_size(1387, 789)
+    self.driver.find_element(By.ID, "username").click()
+    self.driver.find_element(By.ID, "username").send_keys("user1")
+    self.driver.find_element(By.ID, "password").send_keys("useruser")
+    self.driver.find_element(By.ID, "password").send_keys(Keys.ENTER)
+    self.driver.implicitly_wait(0.5)
+    self.driver.find_element(By.CSS_SELECTOR, "#\\__BVID__10 .custom-control-label").click()
+    self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+    self.driver.find_element(By.LINK_TEXT, "logout").click()
+
+  def test_03_newvotingwithoutcensus(self):
+    self.driver = webdriver.Chrome()
+    self.vars = {}
+    self.driver.get("http://127.0.0.1:8000/admin/login/")
+    self.driver.set_window_size(1387, 789)
+    self.driver.find_element(By.ID, "id_username").send_keys("admin")
+    self.driver.find_element(By.ID, "id_password").send_keys("adminadmin")
+    self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+    self.driver.find_element(By.CSS_SELECTOR, ".model-voting .addlink").click()
+    self.driver.find_element(By.ID, "id_name").send_keys("Test2")
+    self.driver.find_element(By.ID, "id_desc").send_keys("Test2")
+    self.driver.find_element(By.ID, "id_question").click()
+    dropdown = self.driver.find_element(By.ID, "id_question")
+    dropdown.find_element(By.XPATH, "//option[. = 'Test']").click()
+    self.driver.find_element(By.ID, "id_question").click()
+    dropdown = self.driver.find_element(By.ID, "id_auths")
+    dropdown.find_element(By.XPATH, "//option[. = 'http://localhost:8000']").click()
+    self.driver.find_element(By.NAME, "_save").click()
+    self.driver.find_element(By.NAME, "_selected_action").click()
+    dropdown = self.driver.find_element(By.NAME, "action")
+    dropdown.find_element(By.XPATH, "//option[. = 'Start']").click()
+    element = self.driver.find_element(By.NAME, "action")
+    actions = ActionChains(self.driver)
+    actions.move_to_element(element).click_and_hold().perform()
+    element = self.driver.find_element(By.NAME, "action")
+    actions = ActionChains(self.driver)
+    actions.move_to_element(element).perform()
+    element = self.driver.find_element(By.NAME, "action")
+    actions = ActionChains(self.driver)
+    actions.move_to_element(element).release().perform()
+    self.driver.find_element(By.NAME, "action").click()
+    self.driver.find_element(By.NAME, "index").click()
+    self.driver.find_element(By.CSS_SELECTOR, "a:nth-child(4)").click()
+
+  def test_04_votewithoutcensus(self):
+    self.driver = webdriver.Chrome()
+    self.vars = {}
+    self.driver.get("http://127.0.0.1:8000/booth/2/")
     self.driver.set_window_size(1387, 789)
     self.driver.find_element(By.ID, "username").click()
     self.driver.find_element(By.ID, "username").send_keys("user1")
