@@ -19,7 +19,7 @@ script:
 - rm local_settings.py
 deploy:
   provider: heroku
-  app: decide-articuno-census
+  app: egc-articuno-census
   strategy: git
   on: articuno-census-deploy
   api_key:
