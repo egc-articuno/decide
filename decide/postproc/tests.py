@@ -732,7 +732,8 @@ class PostProcTestCase(APITestCase):
 
     def test_equalityProvince_not_data(self):
         data = {
-
+            'type': 'EQUALITY_PROVINCE',
+            'options':[]
         }
 
         expected_result = [{'error': 'The Data is empty'}]
