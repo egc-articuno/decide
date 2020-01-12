@@ -6,7 +6,7 @@ addons:
 before_script:
 - cp decide/local_settings.travis.py decide/local_settings.py
 - psql -U postgres -c "create user decide password 'decide'"
-- psql -U postgres -c "create database test_decide owner decide"
+- psql -U postgres -c "create database decide owner decide"
 - psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
@@ -15,7 +15,7 @@ install:
 - pip install -r requirements.txt
 script:
 - cd decide
-- cp travis_local_settings.py local_settings.py
+- cp local_settings.travis.py local_settings.py
 - python ./manage.py test --keepdb
 deploy:
   provider: heroku

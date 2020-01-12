@@ -14,18 +14,18 @@ MODULES = [
 ]
 
 APIS = {
-    'authentication': 'http://localhost:8000',
-    'base': 'http://localhost:8000',
-    'booth': 'http://localhost:8000',
-    'census': 'http://localhost:8000',
-    'mixnet': 'http://localhost:8000',
-    'postproc': 'http://localhost:8000',
-    'store': 'http://localhost:8000',
-    'visualizer': 'http://localhost:8000',
-    'voting': 'http://localhost:8000',
+    'authentication': 'http://articuno-census-heroku1.herokuapp.com/',
+    'base': 'http://articuno-census-heroku1.herokuapp.com/',
+    'booth': 'http://articuno-census-heroku1.herokuapp.com/',
+    'census': 'http://articuno-census-heroku1.herokuapp.com/',
+    'mixnet': 'http://articuno-census-heroku1.herokuapp.com/',
+    'postproc': 'http://articuno-census-heroku1.herokuapp.com/',
+    'store': 'http://articuno-census-heroku1.herokuapp.com/',
+    'visualizer': 'http://articuno-census-heroku1.herokuapp.com/',
+    'voting': 'http://articuno-census-heroku1.herokuapp.com/',
 }
 
-BASEURL = 'http://localhost:8000/'
+BASEURL = 'http://articuno-census-heroku1.herokuapp.com/'
 
 DATABASES = {
     'default': {
