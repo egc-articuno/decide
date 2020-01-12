@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from django.utils.translation import ugettext_lazy # for booth i18n
+
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -88,6 +90,7 @@ APIS = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware', # for booth i18n
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -153,7 +156,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# List of supported languages
+LANGUAGES = (
+    ('en', ugettext_lazy('English')),
+    ('es', ugettext_lazy('Spanish')),
+    ('ca', ugettext_lazy('Catalan')),
+    ('eu', ugettext_lazy('Basque')),
+    ('gl', ugettext_lazy('Galician'))
+)
+
+# Default language: Spanish (Spain)
+LANGUAGE_CODE = 'es-ES'
+
+# Location of directory that contains translation files
+LOCALE_PATHS = (
+    'locale',
+)
 
 TIME_ZONE = 'UTC'
 
