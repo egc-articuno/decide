@@ -14,18 +14,18 @@ MODULES = [
 ]
 
 APIS = {
-    'authentication': 'https://egc-articuno-census.herokuapp.com/',
-    'base': 'https://egc-articuno-census.herokuapp.com/',
-    'booth': 'https://egc-articuno-census.herokuapp.com/',
-    'census': 'https://egc-articuno-census.herokuapp.com/',
-    'mixnet': 'https://egc-articuno-census.herokuapp.com/',
-    'postproc': 'https://egc-articuno-census.herokuapp.com/',
-    'store': 'https://egc-articuno-census.herokuapp.com/',
-    'visualizer': 'https://egc-articuno-census.herokuapp.com/',
-    'voting': 'https://egc-articuno-census.herokuapp.com/',
+    'authentication': 'http://localhost:8000',
+    'base': 'http://localhost:8000',
+    'booth': 'http://localhost:8000',
+    'census': 'http://localhost:8000',
+    'mixnet': 'http://localhost:8000',
+    'postproc': 'http://localhost:8000',
+    'store': 'http://localhost:8000',
+    'visualizer': 'http://localhost:8000',
+    'voting': 'http://localhost:8000',
 }
 
-BASEURL = 'https://articuno-census-heroku1.herokuapp.com/'
+BASEURL = 'http://localhost:8000'
 
 DATABASES = {
     'default': {
