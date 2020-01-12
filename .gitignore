@@ -104,7 +104,7 @@ decideEnv/
 .vagrant
 .gitmessage.txt
 
-/local_settings.py
+#/local_settings.py
 
 #Readme
 README.md
@@ -116,7 +116,7 @@ README.md
 node_modules/
 
 .idea/
-decide/local_settings.py
+#decide/local_settings.py
 
 # vscode
 .vscode
