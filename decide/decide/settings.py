@@ -127,8 +127,7 @@ DATABASES = {
         'NAME': 'decide',
         'USER': 'decide',
         'PASSWORD': 'decide',
-        #'HOST': 'localhost',
-	'HOST': 'articuno-census-heroku1.herokuapp.com'
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
