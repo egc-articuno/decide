@@ -25,7 +25,7 @@ APIS = {
     'voting': 'http://localhost:8000',
 }
 
-BASEURL = 'https://articuno-census-heroku1.herokuapp.com/'
+BASEURL = 'http://localhost:8000/'
 
 DATABASES = {
     'default': {
