@@ -5,6 +5,8 @@ from django.http import Http404
 
 from base import mods
 
+import pgeocode
+
 
 # TODO: check permissions and census
 class BoothView(TemplateView):
@@ -27,5 +29,13 @@ class BoothView(TemplateView):
             raise Http404
 
         context['KEYBITS'] = settings.KEYBITS
+
+        #The voter json is supposed to come from the authentication module
+        voter_json = '{"username": "MariaLopez", "postal_code": "11368"}'
+        voter = json.loads(voter_json)
+
+        nomi = pgeocode.Nominatim('es')
+
+        context['province'] = nomi.query_postal_code(voter['postal_code'])['county_name']
 
         return context
