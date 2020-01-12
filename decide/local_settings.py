@@ -25,7 +25,7 @@ APIS = {
     'voting': 'http://localhost:8000',
 }
 
-BASEURL = 'http://localhost:8000'
+BASEURL = 'https://articuno-census-heroku1.herokuapp.com/'
 
 DATABASES = {
     'default': {
@@ -33,7 +33,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'decide',
         'HOST': '127.0.0.1',
-	    'PASSWORD': 'decide',
+	'PASSWORD': 'decide',
         'PORT': '5432',
     }
 }
