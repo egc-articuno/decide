@@ -27,22 +27,13 @@ APIS = {
 
 BASEURL = 'http://localhost:8000/'
 
-#DATABASES = {
- #   'default': {
-  #      'ENGINE': 'django.db.backends.postgresql',
-   #     'NAME': 'postgres',
-    #    'USER': 'decide',
-     #   'HOST': '127.0.0.1',
-	#'PASSWORD': 'decide',
-       # 'PORT': '5432',
-    #}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
+        'USER': 'decide',
+        'HOST': '127.0.0.1',
+	'PASSWORD': 'decide',
         'PORT': '5432',
     }
 }
