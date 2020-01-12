@@ -1,0 +1,212 @@
+{
+  "id": "26c5ba4c-d004-4031-95f5-33c594a06894",
+  "version": "2.0",
+  "name": "Create voting",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "f401f153-2539-4de6-81eb-7759f081f1d4",
+    "name": "Create and update voting",
+    "commands": [{
+      "id": "0c936517-8be3-41df-9ed0-052a6146dd66",
+      "comment": "",
+      "command": "open",
+      "target": "/admin/voting/voting/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "95ea8f12-a668-4636-81d8-9682af39c894",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "876x704",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6d2d3834-64dc-45cf-8961-b79f36bd2080",
+      "comment": "",
+      "command": "click",
+      "target": "id=changelist",
+      "targets": [
+        ["id=changelist", "id"],
+        ["css=#changelist", "css:finder"],
+        ["xpath=//div[@id='changelist']", "xpath:attributes"],
+        ["xpath=//div[@id='content-main']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5f9a5f5d-3c90-4851-8842-670bef492873",
+      "comment": "",
+      "command": "click",
+      "target": "css=.addlink",
+      "targets": [
+        ["css=.addlink", "css:finder"],
+        ["xpath=//a[contains(text(),'Add voting')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/voting/add/')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2837fe5-f277-4660-b24e-dbe2756363ee",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "8c795043-9732-4110-9d12-17c4b4735b5f",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "911e318b-0f8d-4da4-94ed-c95ae304d0ca",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "ff014be9-c013-4eaa-b175-a70b336af8d3",
+      "comment": "",
+      "command": "addSelection",
+      "target": "id=id_auths",
+      "targets": [
+        ["id=id_auths", "id"],
+        ["name=auths", "name"],
+        ["css=#id_auths", "css:finder"],
+        ["xpath=//select[@id='id_auths']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[3]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=http://localhost:8000"
+    }, {
+      "id": "abfcba43-9536-4782-85fc-f688266cc8ce",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/div/input", "xpath:idRelative"],
+        ["xpath=//form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "de101b68-f6ae-4ac7-bc17-147bb68eed4d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.field-name > a",
+      "targets": [
+        ["css=.field-name > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'test')])[2]", "xpath:link"],
+        ["xpath=//table[@id='result_list']/tbody/tr/th/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/admin/voting/voting/16/change/')])[2]", "xpath:href"],
+        ["xpath=//th/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7b824b8-2d1e-4117-a9a8-caf7db71256c",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4d23fbc7-aa43-4140-b261-dee80a4b226b",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "test1"
+    }, {
+      "id": "05dfc79e-db4d-4cd3-b468-979ac9f6d34b",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0bc1c21-dcd7-4dac-8371-d0b516966f24",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "test1"
+    }, {
+      "id": "e10f4a76-b199-48e0-a3e3-93205a708f26",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/div/input", "xpath:idRelative"],
+        ["xpath=//form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "507de223-f857-421f-aab2-678c41611a4a",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["f401f153-2539-4de6-81eb-7759f081f1d4"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}

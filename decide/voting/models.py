@@ -2,36 +2,18 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 from base import mods
 from base.models import Auth, Key
 
-
-class Question(models.Model):
-    desc = models.TextField()
-
-    def __str__(self):
-        return self.desc
-
-
-class QuestionOption(models.Model):
-    question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
-    number = models.PositiveIntegerField(blank=True, null=True)
-    option = models.TextField()
-
-    def save(self):
-        if not self.number:
-            self.number = self.question.options.count() + 2
-        return super().save()
-
-    def __str__(self):
-        return '{} ({})'.format(self.option, self.number)
-
+# ----------- NEW MODELS -------------------------------------------------
 
 class Voting(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField(blank=True, null=True)
-    question = models.ForeignKey(Question, related_name='voting', on_delete=models.CASCADE)
+    blank_vote = models.PositiveIntegerField(default = 1)
 
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
@@ -61,7 +43,12 @@ class Voting(models.Model):
         # gettings votes from store
         votes = mods.get('store', params={'voting_id': self.id}, HTTP_AUTHORIZATION='Token ' + token)
         # anon votes
-        return [[i['a'], i['b']] for i in votes]
+        print(votes)
+        res = []
+        for vote in votes:
+            for cipher in vote["ciphers"]:
+                res.append([cipher["a"], cipher["b"]])
+        return res
 
     def tally_votes(self, token=''):
         '''
@@ -99,21 +86,50 @@ class Voting(models.Model):
 
     def do_postproc(self):
         tally = self.tally
-        options = self.question.options.all()
-
+        parties = self.parties.all()
+        
         opts = []
-        for opt in options:
-            if isinstance(tally, list):
-                votes = tally.count(opt.number)
-            else:
-                votes = 0
-            opts.append({
-                'option': opt.option,
-                'number': opt.number,
-                'votes': votes
-            })
+        if isinstance(tally, list):
+            votes = tally.count(self.blank_vote)
+        else:
+            votes = 0
+        opts.append({
+            'option': 'Blank vote',
+            'number': self.blank_vote,
+            'votes': votes
+        })
+        for pty in parties:
+            for p in pty.president_candidates.all():
+                if isinstance(tally, list):
+                    votes = tally.count(p.number)
+                else:
+                    votes = 0
+                opts.append({
+                    'option': p.president_candidate,
+                    'number': p.number,
+                    'votes': votes,
+                    'gender': p.gender,
+                    'postal_code': p.postal_code,
+                    'candidate_type': 'president',
+                    'party': pty.name
+                })
+            for c in pty.congress_candidates.all():
+                if isinstance(tally, list):
+                    votes = tally.count(c.number)
+                else:
+                    votes = 0
+                opts.append({
+                    'option': c.congress_candidate,
+                    'number': c.number,
+                    'votes': votes,
+                    'gender': c.gender,
+                    'postal_code': c.postal_code,
+                    'candidate_type': 'congress',
+                    'party': pty.name
+                })
 
-        data = { 'type': 'IDENTITY', 'options': opts }
+        data = { 'type': 'EQUALITY_PROVINCE', 'options': opts }
+        print(data)
         postp = mods.post('postproc', json=data)
 
         self.postproc = postp
@@ -121,3 +137,235 @@ class Voting(models.Model):
 
     def __str__(self):
         return self.name
+
+class PoliticalParty(models.Model):
+    name = models.CharField(max_length=100)
+    voting = models.ForeignKey(Voting, related_name='parties', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class PartyPresidentCandidate(models.Model):
+    politicalParty = models.ForeignKey(PoliticalParty, related_name='president_candidates', on_delete=models.CASCADE)
+    number = models.PositiveIntegerField(blank=True, null=True)
+    president_candidate = models.CharField(max_length=100)
+    choices = (
+        ('H', 'Hombre'),
+        ('M', 'Mujer')
+    )
+    
+    def valid(self):
+        postal_code_2 = int(self[0:2])
+        if not 1 <= postal_code_2 <= 51:
+            raise ValidationError(('Invalid postal code'))
+
+    gender = models.CharField(max_length=1, choices=choices)
+    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
+
+    
+    def save(self):
+        if not self.number:
+            number = 1
+            president = PartyPresidentCandidate.objects.filter().order_by('-number')
+            candidate = PartyCongressCandidate.objects.filter().order_by('-number')
+
+            if len(president) > 0 and len(candidate) == 0:
+                presidentBiggerNumber = president[0]
+                number = presidentBiggerNumber.number
+           
+            elif len(candidate) > 0 and len(president) == 0:
+                candidateBiggerNumber = candidate[0]
+                number = candidateBiggerNumber.number
+            
+            elif len(candidate) > 0 and len(president) > 0:
+                candidateBiggerNumber = candidate[0]
+                presidentBiggerNumber = president[0]
+                numberCandidate = candidateBiggerNumber.number
+                numberPresident = presidentBiggerNumber.number
+                bigger = numberPresident > numberCandidate
+                if bigger:
+                    number = numberPresident
+                else:
+                    number = numberCandidate
+
+            else :
+                number = number
+       
+            self.number = number + 1
+        return super().save()
+
+    def __str__(self):
+        return '{} ({})'.format(self.president_candidate, self.number)
+
+class PartyCongressCandidate(models.Model):
+    politicalParty = models.ForeignKey(PoliticalParty, related_name='congress_candidates', on_delete=models.CASCADE)
+    number = models.PositiveIntegerField(blank=True, null=True)
+    congress_candidate = models.CharField(max_length=100)
+    choices = (
+        ('H', 'Hombre'),
+        ('M', 'Mujer')
+    )
+
+    def valid(self):
+        postal_code_2 = int(self[0:2])
+        if not 1 <= postal_code_2 <= 51:
+            raise ValidationError(('Invalid postal code'))
+
+    gender = models.CharField(max_length=1, choices=choices)
+    postal_code = models.CharField(max_length=5, validators=[RegexValidator(r'^[0-9]{5}$'),valid])
+    
+    def save(self):
+        if not self.number:
+            number = 1
+            president = PartyPresidentCandidate.objects.filter().order_by('-number')
+            candidate = PartyCongressCandidate.objects.filter().order_by('-number')
+
+            if len(president) > 0 and len(candidate) == 0:
+                presidentBiggerNumber = president[0]
+                number = presidentBiggerNumber.number
+           
+            elif len(candidate) > 0 and len(president) == 0:
+                candidateBiggerNumber = candidate[0]
+                number = candidateBiggerNumber.number
+            
+            elif len(candidate) > 0 and len(president) > 0:
+                candidateBiggerNumber = candidate[0]
+                presidentBiggerNumber = president[0]
+                numberCandidate = candidateBiggerNumber.number
+                numberPresident = presidentBiggerNumber.number
+                bigger = numberPresident > numberCandidate
+                if bigger:
+                    number = numberPresident
+                else:
+                    number = numberCandidate
+
+            else :
+                number = number
+       
+            self.number = number + 1
+        return super().save()
+
+    def __str__(self):
+        return '{} ({})'.format(self.congress_candidate, self.number)
+
+# -------------------------------------------------------------------------
+
+
+
+# ---------- OLD MODELS -------------------------------------
+
+# class Question(models.Model):
+#     desc = models.TextField()
+
+#     def __str__(self):
+#         return self.desc
+
+
+# class QuestionOption(models.Model):
+#     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)
+#     number = models.PositiveIntegerField(blank=True, null=True)
+#     option = models.TextField()
+
+#     def save(self):
+#         if not self.number:
+#             self.number = self.question.options.count() + 2
+#         return super().save()
+
+#     def __str__(self):
+#         return '{} ({})'.format(self.option, self.number)
+
+# class Voting(models.Model):
+#     name = models.CharField(max_length=200)
+#     desc = models.TextField(blank=True, null=True)
+#     question = models.ForeignKey(Question, related_name='voting', on_delete=models.CASCADE)
+
+#     start_date = models.DateTimeField(blank=True, null=True)
+#     end_date = models.DateTimeField(blank=True, null=True)
+
+#     pub_key = models.OneToOneField(Key, related_name='voting', blank=True, null=True, on_delete=models.SET_NULL)
+#     auths = models.ManyToManyField(Auth, related_name='votings')
+
+#     tally = JSONField(blank=True, null=True)
+#     postproc = JSONField(blank=True, null=True)
+
+#     def create_pubkey(self):
+#         if self.pub_key or not self.auths.count():
+#             return
+
+#         auth = self.auths.first()
+#         data = {
+#             "voting": self.id,
+#             "auths": [ {"name": a.name, "url": a.url} for a in self.auths.all() ],
+#         }
+#         key = mods.post('mixnet', baseurl=auth.url, json=data)
+#         pk = Key(p=key["p"], g=key["g"], y=key["y"])
+#         pk.save()
+#         self.pub_key = pk
+#         self.save()
+
+#     def get_votes(self, token=''):
+#         # gettings votes from store
+#         votes = mods.get('store', params={'voting_id': self.id}, HTTP_AUTHORIZATION='Token ' + token)
+#         # anon votes
+#         return [[i['a'], i['b']] for i in votes]
+
+#     def tally_votes(self, token=''):
+#         '''
+#         The tally is a shuffle and then a decrypt
+#         '''
+
+#         votes = self.get_votes(token)
+
+#         auth = self.auths.first()
+#         shuffle_url = "/shuffle/{}/".format(self.id)
+#         decrypt_url = "/decrypt/{}/".format(self.id)
+#         auths = [{"name": a.name, "url": a.url} for a in self.auths.all()]
+
+#         # first, we do the shuffle
+#         data = { "msgs": votes }
+#         response = mods.post('mixnet', entry_point=shuffle_url, baseurl=auth.url, json=data,
+#                 response=True)
+#         if response.status_code != 200:
+#             # TODO: manage error
+#             pass
+
+#         # then, we can decrypt that
+#         data = {"msgs": response.json()}
+#         response = mods.post('mixnet', entry_point=decrypt_url, baseurl=auth.url, json=data,
+#                 response=True)
+
+#         if response.status_code != 200:
+#             # TODO: manage error
+#             pass
+
+#         self.tally = response.json()
+#         self.save()
+
+#         self.do_postproc()
+
+#     def do_postproc(self):
+#         tally = self.tally
+#         options = self.question.options.all()
+
+#         opts = []
+#         for opt in options:
+#             if isinstance(tally, list):
+#                 votes = tally.count(opt.number)
+#             else:
+#                 votes = 0
+#             opts.append({
+#                 'option': opt.option,
+#                 'number': opt.number,
+#                 'votes': votes
+#             })
+
+#         data = { 'type': 'IDENTITY', 'options': opts }
+#         postp = mods.post('postproc', json=data)
+
+#         self.postproc = postp
+#         self.save()
+
+#     def __str__(self):
+#         return self.name
+
+# -----------------------------------------------------------

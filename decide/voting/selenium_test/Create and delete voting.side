@@ -1,0 +1,202 @@
+{
+  "id": "26c5ba4c-d004-4031-95f5-33c594a06894",
+  "version": "2.0",
+  "name": "Create voting",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "f401f153-2539-4de6-81eb-7759f081f1d4",
+    "name": "Create and delete voting",
+    "commands": [{
+      "id": "0c936517-8be3-41df-9ed0-052a6146dd66",
+      "comment": "",
+      "command": "open",
+      "target": "/admin/voting/voting/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "95ea8f12-a668-4636-81d8-9682af39c894",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "876x704",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6d2d3834-64dc-45cf-8961-b79f36bd2080",
+      "comment": "",
+      "command": "click",
+      "target": "id=changelist",
+      "targets": [
+        ["id=changelist", "id"],
+        ["css=#changelist", "css:finder"],
+        ["xpath=//div[@id='changelist']", "xpath:attributes"],
+        ["xpath=//div[@id='content-main']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5f9a5f5d-3c90-4851-8842-670bef492873",
+      "comment": "",
+      "command": "click",
+      "target": "css=.addlink",
+      "targets": [
+        ["css=.addlink", "css:finder"],
+        ["xpath=//a[contains(text(),'Add voting')]", "xpath:link"],
+        ["xpath=//div[@id='content-main']/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/admin/voting/voting/add/')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2837fe5-f277-4660-b24e-dbe2756363ee",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_name",
+      "targets": [
+        ["id=id_name", "id"],
+        ["name=name", "name"],
+        ["css=#id_name", "css:finder"],
+        ["xpath=//input[@id='id_name']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "8c795043-9732-4110-9d12-17c4b4735b5f",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "911e318b-0f8d-4da4-94ed-c95ae304d0ca",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_desc",
+      "targets": [
+        ["id=id_desc", "id"],
+        ["name=desc", "name"],
+        ["css=#id_desc", "css:finder"],
+        ["xpath=//textarea[@id='id_desc']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[2]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "ff014be9-c013-4eaa-b175-a70b336af8d3",
+      "comment": "",
+      "command": "addSelection",
+      "target": "id=id_auths",
+      "targets": [
+        ["id=id_auths", "id"],
+        ["name=auths", "name"],
+        ["css=#id_auths", "css:finder"],
+        ["xpath=//select[@id='id_auths']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/fieldset/div[3]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=http://localhost:8000"
+    }, {
+      "id": "abfcba43-9536-4782-85fc-f688266cc8ce",
+      "comment": "",
+      "command": "click",
+      "target": "name=_save",
+      "targets": [
+        ["name=_save", "name"],
+        ["css=.default", "css:finder"],
+        ["xpath=//input[@name='_save']", "xpath:attributes"],
+        ["xpath=//form[@id='voting_form']/div/div/input", "xpath:idRelative"],
+        ["xpath=//form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e50a2f2-6eed-4dff-9dd7-91c643592115",
+      "comment": "",
+      "command": "click",
+      "target": "name=_selected_action",
+      "targets": [
+        ["name=_selected_action", "name"],
+        ["css=.action-select", "css:finder"],
+        ["xpath=//input[@name='_selected_action']", "xpath:attributes"],
+        ["xpath=//table[@id='result_list']/tbody/tr/td/input", "xpath:idRelative"],
+        ["xpath=//td/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3cd69f1a-b0e1-4f15-ad83-fe23578306fe",
+      "comment": "",
+      "command": "click",
+      "target": "name=action",
+      "targets": [
+        ["name=action", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='action']", "xpath:attributes"],
+        ["xpath=//form[@id='changelist-form']/div/label/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b6a4e0a-2a81-44e9-aa69-ccff8991f972",
+      "comment": "",
+      "command": "select",
+      "target": "name=action",
+      "targets": [],
+      "value": "label=Delete selected votings"
+    }, {
+      "id": "436408bc-bd81-4d0d-a38c-c62ef4ebd742",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='delete_selected']", "xpath:attributes"],
+        ["xpath=//form[@id='changelist-form']/div/label/select/option[2]", "xpath:idRelative"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'Delete selected votings')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4794cf5-9334-4822-8370-5076d1c3835c",
+      "comment": "",
+      "command": "click",
+      "target": "name=index",
+      "targets": [
+        ["name=index", "name"],
+        ["css=.button", "css:finder"],
+        ["xpath=//button[@name='index']", "xpath:attributes"],
+        ["xpath=//form[@id='changelist-form']/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Go')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f5ff0fc-4e88-4df5-b92b-ca182f032c1e",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(4)",
+      "targets": [
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@value=\"Yes, I'm sure\"]", "xpath:attributes"],
+        ["xpath=//div[@id='content']/form/div/input[4]", "xpath:idRelative"],
+        ["xpath=//input[4]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "507de223-f857-421f-aab2-678c41611a4a",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["f401f153-2539-4de6-81eb-7759f081f1d4"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}
