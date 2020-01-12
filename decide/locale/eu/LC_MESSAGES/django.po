@@ -1,0 +1,76 @@
+# Translation of the decide booth web interface to Basque.
+# Copyright (C) 2019 decide-articuno
+# This file is distributed under the same license as decide.
+# Miguel Macarro Klepsch <migmackle@alum.us.es>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-09 22:57+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Miguel Macarro Klepsch <migmackle@alum.us.es>\n"
+"Language-Team: Basque <migmackle@alum.us.es>\n"
+"Language: Basque\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: booth/templates/booth/booth.html:32
+msgid "Change"
+msgstr "Aldaketaren"
+
+#: booth/templates/booth/booth.html:39
+msgid "logout"
+msgstr "Irteera"
+
+#: booth/templates/booth/booth.html:53
+msgid "Username"
+msgstr "Erabiltzaile"
+
+#: booth/templates/booth/booth.html:61
+msgid "Password"
+msgstr "Pasahitza"
+
+#: booth/templates/booth/booth.html:69
+msgid "Login"
+msgstr "Sartzeko"
+
+#: booth/templates/booth/booth.html:75
+msgid "Voting in the province of"
+msgstr "Botoa ematen duzun probintzia:"
+
+#: booth/templates/booth/booth.html:85
+msgid "Vote"
+msgstr "Boto"
+
+#: booth/templates/booth/booth.html:188 booth/templates/booth/booth.html:198
+#: booth/templates/booth/booth.html:229
+msgid "Error: "
+msgstr "Error: "
+
+#: booth/templates/booth/booth.html:226
+msgid "Congratulations. Your vote has been sent"
+msgstr "Zorionak. Zure botoa bidali da"
+
+#: decide/settings.py:164
+msgid "English"
+msgstr "Ingelesez"
+
+#: decide/settings.py:165
+msgid "Spanish"
+msgstr ""
+
+#: decide/settings.py:166
+msgid "Catalan"
+msgstr "Gaztelako"
+
+#: decide/settings.py:167
+msgid "Basque"
+msgstr "Euskal"
+
+#: decide/settings.py:168
+msgid "Galician"
+msgstr "Galiziako"
