@@ -72,37 +72,21 @@
             <!-- Voting -->
             <div v-if="!signup">
                 <h2>[[ voting.desc ]]</h2>
-                <ul id='political_parties'>
-                    <b-form-group id="blank_vote" v-if="voting.blank_vote != null">
-                        <b-form-radio v-model="selected"
-                                        :id="blank_vote"
-                                        name="candidate"
-                                        :value="blank_vote">
-                            Blank vote
-                        </b-form-radio>
-                    </b-form-group>
-                    <li v-for="party in voting.parties">
-                    <h3>[[ party.name ]]</h3>
-                    <h4>President candidates</h4>
-                    <b-form-checkbox-group id="president_form" v-for="president in party.president_candidates" :key="president.number">
-                        <b-form-checkbox v-model="selected"
-                                      :id="'p' + party.name + president.number"
-                                      name="candidate"
-                                      :value="'p' + party.name + president.number">
-                            [[ president.president_candidate ]]
-                        </b-form-checkbox>
+                <b-form-group v-for="party in voting.parties">
+                    <h3>[[party.name]]</h3>
+                    <h5>President candidates</h5>
+                    <b-form-checkbox-group v-model="selected">
+                        <b-form-group v-for="p_candidate in party.president_candidates" :key="p_candidate.number">
+                                <b-form-checkbox name="candidate" :value="p_candidate.number">[[ p_candidate.president_candidate ]]</b-form-checkbox>
+                        </b-form-group>
                     </b-form-checkbox-group>
-                    <h4>Congress candidates</h4>
-                    <b-form-checkbox-group id="congress_form" v-for="congress in party.congress_candidates" :key="congress.number">
-                        <b-form-checkbox v-model="selected"
-                                      :id="'c' + party.name + congress.number"
-                                      name="candidate"
-                                      :value="'c' + party.name + congress.number">
-                            [[ congress.congress_candidate ]]
-                        </b-form-checkbox>
+                    <h5>Congress candidates</h5>
+                    <b-form-checkbox-group v-model="selected">
+                        <b-form-group v-for="c_candidate in party.congress_candidates" :key="c_candidate.number">
+                                <b-form-checkbox name="candidate" :value="c_candidate.number">[[ c_candidate.congress_candidate ]]</b-form-checkbox>
+                        </b-form-group>
                     </b-form-checkbox-group>
-                    </li>
-                </ul>
+                </b-form-group>
                 <b-button type="button" variant="primary" v-on:click="decideSend">
                     {% trans "Vote" %}
                 </b-button>
@@ -239,7 +223,6 @@
                 },
                 decideSend(evt) {
                     evt.preventDefault();
-                    // var v = this.decideEncrypt();
                     var v = this.decideEncrypt();
                     var votes_dict = [];
                     v.forEach(element => {
