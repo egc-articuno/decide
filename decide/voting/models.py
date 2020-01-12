@@ -129,7 +129,6 @@ class Voting(models.Model):
                 })
 
         data = { 'type': 'EQUALITY_PROVINCE', 'options': opts }
-        print(data)
         postp = mods.post('postproc', json=data)
 
         self.postproc = postp

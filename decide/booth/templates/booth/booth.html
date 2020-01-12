@@ -73,14 +73,15 @@
             <div v-if="!signup">
                 <h2>[[ voting.desc ]]</h2>
                 <ul id='political_parties'>
-                    <b-form-group id="blank_vote" v-if="voting.blank_vote != null">
-                        <b-form-radio v-model="selected"
-                                        :id="blank_vote"
+                    <b-form-group id="blank_vote_form">
+                        <b-form-checkbox v-model="selected"
+                                        :id="'b' + voting.blank_vote"
                                         name="candidate"
-                                        :value="blank_vote">
+                                        :value="voting.blank_vote">
                             Blank vote
-                        </b-form-radio>
+                        </b-form-checkbox>
                     </b-form-group>
+
                     <li v-for="party in voting.parties">
                     <h3>[[ party.name ]]</h3>
                     <h4>President candidates</h4>
@@ -242,6 +243,7 @@
                     // var v = this.decideEncrypt();
                     var v = this.decideEncrypt();
                     var votes_dict = [];
+                    console.log(votes_dict);
                     v.forEach(element => {
                         votes_dict.push({a: element.alpha.toString(), b: element.beta.toString()})
                     });

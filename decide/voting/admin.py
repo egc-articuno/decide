@@ -97,7 +97,6 @@ class PartyAdmin(admin.ModelAdmin):
                             number_candidates += 1
                         if delete:
                             number_candidates -= 1
-
             valid_number_candidates_congress = True
             if number_candidates > 350 or number_candidates <= 0:
                 valid_number_candidates_congress = False
