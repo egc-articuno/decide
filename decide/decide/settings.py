@@ -82,6 +82,7 @@ APIS = {
     'mixnet': BASEURL,
     'postproc': BASEURL,
     'store': BASEURL,
+    'gateway': BASEURL,
     'visualizer': BASEURL,
     'voting': BASEURL,
 }
@@ -126,8 +127,9 @@ WSGI_APPLICATION = 'decide.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
+        'NAME': 'decide',
+        'USER': 'decide',
+        'PASSWORD': 'decide',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -156,11 +158,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-from django.utils.translation import ugettext_lazy as gettext
-LANGUAGE_CODE = 'es'
+
+# List of supported languages
 LANGUAGES = (
-    ('es',  gettext('Español')),
-    ('en',  gettext('English')),
+    ('en', ugettext_lazy('English')),
+    ('es', ugettext_lazy('Spanish')),
+    ('ca', ugettext_lazy('Catalan')),
+    ('eu', ugettext_lazy('Basque')),
+    ('gl', ugettext_lazy('Galician'))
+)
+
+# Default language: Spanish (Spain)
+LANGUAGE_CODE = 'es-ES'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
 )
 
 TIME_ZONE = 'UTC'
@@ -171,10 +183,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, "locale"),
-)
-
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
@@ -184,7 +192,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 STATIC_URL = '/static/'
 
 # number of bits for the key, all auths should use the same number of bits
-KEYBITS = 256
+KEYBITS = 161
 
 # Versioning
 ALLOWED_VERSIONS = ['v1', 'v2']
