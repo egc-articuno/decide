@@ -248,6 +248,10 @@ class PostProcView(APIView):
         nomi = pgeocode.Nominatim('ES')
         mapping = self.get_map()
         try:
+            if len(options)==0:
+                #Controlamos que no vengan datos vacios
+                print("An exception occurred with equality province method")
+                out.append({'error': 'The Data is empty'})
             for opt in options:
                 #Comprobamos que tiene el parametro que necesitamos
                 if 'postal_code' in opt:
@@ -261,10 +265,7 @@ class PostProcView(APIView):
                         'postproc': votes,
                     })
             out.sort(key=lambda x: -x['postproc'])
-            if len(options)==0:
-                #Controlamos que no vengan datos vacios
-                print("An exception occurred with equality province method")
-                out.append({'error': 'The Data is empty'})
+
         except:
             if len(options)>0:
                 print("An exception occurred with equality province method")
