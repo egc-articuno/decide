@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/divider.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/breadcrumb.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/form.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/header.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/table.css">
+</head>
+
+<nav style="margin-bottom:5%">
+    <div class="ui breadcrumb">
+      <a href="/" class="section">Home</a>
+      <i class="right angle icon divider"></i>
+      <a href="{% url 'listCensus' %}" class="active section">Census</a>
+	  <i class="right angle icon diver"></i>
+	  <a href="" class="active section">View Voting</a>
+    </div>
+</nav>
+
+<h3 class="ui center aligned header">View Voting</h3>
+
+<table class="ui celled table">
+	<thead>
+		<tr>
+			<th>Voting ID</th>
+			<th>Voters</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{voting_id}}
+			<td>{{voters}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<div>
+<br>
+<br>
+<a class="ui button" href="{% url 'listCensus' %}" >Back</a>
+<a class="ui button" href="{% url 'moveVotersView' %}?id={{ census.id }}" >Move voters</a>
+</div>

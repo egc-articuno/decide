@@ -120,7 +120,7 @@ def delete_census(request):
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
 
-        return redirect('filterCensus')
+        return redirect('listCensus')
 
 def delete_selected_census(request):
 
@@ -131,8 +131,67 @@ def delete_selected_census(request):
 
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
+    return redirect('listCensus')
+    
+    
+def view_voting(request):
+    if request.user.is_staff:
+        n_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=n_id)
+        voters = []
+        
+        voters = get_voters_by_voting_id(voting_id=census.voting_id)
 
-    return redirect('filterCensus')
+        return render(request, 'view_voting.html',{'census': census ,'voting_id': census.voting_id, 'voters': voters})
+    
+def get_voters_by_voting_id(voting_id):
+    allCensus = Census.objects.all()
+    votingSelected_id = voting_id
+    voters = []
+    
+    for cens in allCensus:
+        if cens.voting_id == votingSelected_id:
+            voters.append(cens.voter_id)
+    
+    return voters
+    
+def move_voters_view(request):
+    if request.user.is_staff:
+        census_id = request.GET.get('id')
+        census = get_object_or_404(Census,id=census_id)
+        voters = []
+        voters = get_voters_by_voting_id(voting_id=census.voting_id)
+        votings = []
+        for cens in Census.objects.all():
+            if cens.voting_id not in votings:
+                votings.append(cens.voting_id)
+        
+        return render(request, 'move_voters.html',{'census': census, 'voting_id': census.voting_id, 'voters': voters, 'votings': votings})     
+
+def move_voters(request):
+    census_id = request.GET.get('id')
+    votings = request.GET.get('votings')
+    voting_id = request.GET.get('voting_id')
+    
+    allCensus = Census.objects.all()
+    census = get_object_or_404(Census,id=census_id)
+    if voting_id == '' or int(voting_id) == census.voting_id:
+        return redirect('listCensus')
+    voters = []
+    voters = get_voters_by_voting_id(voting_id=int(voting_id))
+    votersToMove = []
+    votersToMove = get_voters_by_voting_id(voting_id=census.voting_id)
+    
+    for voter in votersToMove:
+        if voting_id in votings:
+            if voter not in voters:
+                newCensus = Census(voting_id= voting_id, voter_id=voter)
+                newCensus.save()
+        else:
+                newCensus = Census(voting_id= voting_id, voter_id= voter)
+                newCensus.save()
+    return redirect('listCensus')    
+        
 
 def exportCSV(request):
     res = HttpResponse(content_type='text/csv')
@@ -154,13 +213,17 @@ def import_csv(request):
         if 'file' in request.FILES:
             file = request.FILES['file']
             data_set =  file.read().decode('utf-8-sig')
-            arr = data_set.strip().split("\n")
+            arr = data_set.strip().split("\n") 
+            contador = 0
             for e in arr:
-                numbers = e.replace("\r", "").split(";")
-                census = Census(voting_id=numbers[0], voter_id=numbers[1])
-                census.save()
-                print(numbers)
-    
+                if contador == 0:
+                    contador = contador + 1
+                else:
+                    numbers = e.replace("\r", "").split(",")
+                    census = Census(voting_id=numbers[1], voter_id=numbers[2])
+                    census.save()
+                    print(numbers)
+                    contador = contador + 1
     else:
         messages.add_message(request, messages.ERROR, "Permission denied")
     
@@ -250,6 +313,4 @@ def deleteAll(request):
     census = Census.objects.all()
     for cens in census:
         cens.delete()
-    return redirect('filterCensus')      
-
-
+    return redirect('filterCensus')
