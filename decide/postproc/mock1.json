@@ -1,0 +1,79 @@
+[{
+    "type":"EQUALITY_PROVINCE",
+    "options":[
+        {
+            "option": "Mayte",
+            "number": 1,
+            "votes": 100,
+            "gender": "F",
+            "postal_code": "41001",
+            "votesFemale": 40,
+            "pondFemale": 2,
+            "votesMale": 60,
+            "pondMale": 1,
+            "ageRange": {
+                "18to27": 10,
+                "28to37": 20,
+                "38to47": 10,
+                "48to57": 10,
+                "58to67": 10,
+                "68to77": 0,
+                "78to87": 20,
+                "88to97": 10
+            },
+            "community": null,
+            "cp": "41059",
+            "age": 40
+        },
+        {
+            "option": "Rafael",
+            "number": 2,
+            "votes":  10,
+            "gender": "M",
+            "postal_code": "41002",
+            "votesFemale": 5,
+            "pondFemale": 2,
+            "votesMale": 5,
+            "pondMale": 1,
+             "ageRange": {
+                "18to27": 1,
+                "28to37": 3,
+                "38to47": 1,
+                "48to57": 2,
+                "58to67": 0,
+                "68to77": 2,
+                "78to87": 1,
+                "88to97": 0
+            },
+            "community": null,
+            "cp": "41059",
+            "age": 45
+        },
+        {
+            "option": "Pablo",
+            "number": 3,
+            "votes": 1,
+            "postal_code": "06005",
+            "gender": "M",
+            "votesFemale": 0,
+            "pondFemale": 2,
+            "votesMale": 1,
+            "pondMale": 1,
+             "ageRange": {
+                "18to27": 1,
+                "28to37": 0,
+                "38to47": 0,
+                "48to57": 0,
+                "58to67": 0,
+                "68to77": 0,
+                "78to87": 0,
+                "88to97": 0
+            },
+            "community": null,
+            "cp": "41059",
+            "age": 23
+        }
+    ]
+
+}]
+
