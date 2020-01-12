@@ -71,8 +71,7 @@ MODULES = [
     'voting',
 ]
 
-#BASEURL = 'http://localhost:8000'
-BASEURL = 'https://decide-articuno.herokuapp.com/'
+BASEURL = 'https://articuno-census1.herokuapp.com/'
 
 APIS = {
     'authentication': BASEURL,
