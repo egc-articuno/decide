@@ -13,11 +13,11 @@ python:
 install:
 - pip install -r requirements.txt
 script:
-- cd decide/decide
-- cp travis_local_settings.py settings.py
+- cd decide
+- cp travis_local_settings.py local_settings.py
 - python ./manage.py compilemessages
 - python ./manage.py test --keepdb
-- rm settings.py
+- rm local_settings.py
 deploy:
   provider: heroku
   app: decide-articuno
