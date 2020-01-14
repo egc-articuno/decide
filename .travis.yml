@@ -19,6 +19,7 @@ script:
 - python ./manage.py test --keepdb
 - rm local_settings.py
 deploy:
+  skip_cleanup: true
   provider: heroku
   app: decide-articuno
   strategy: git
